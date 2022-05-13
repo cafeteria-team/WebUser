@@ -30,9 +30,11 @@ const SlideMenu = ({ OnMenu }) => {
   return OnMenu ? (
     <SlideMenuContainer>
       <SlideMenuWrap>
+        {/* close btn */}
         <SlideIconWrap>
           <CloseCircle color="#637381" />
         </SlideIconWrap>
+        {/* survey */}
         <SlideSurveyWrap>
           <Title color="#ff9030">
             좋구내는 <br />
@@ -40,19 +42,21 @@ const SlideMenu = ({ OnMenu }) => {
           </Title>
           <Edit color="#ff9030" />
         </SlideSurveyWrap>
+        {/* link lists */}
         <SlideMenuListWrap>
-          {MenuLists.map((item) => (
+          {MenuLists.map((item, index, arr) => (
             <SideLink
               pathName={`/${item.path}`}
               key={uuid()}
-              padding="0 0 20px 0"
-              border="1px solid #ECEFF1"
+              padding={arr.length - 1 === index ? "20px 0 0" : "20px 0"}
+              border={arr.length - 1 === index ? "unset" : "1px solid #ECEFF1"}
             >
               {item.name}
             </SideLink>
           ))}
         </SlideMenuListWrap>
       </SlideMenuWrap>
+      {/* bg */}
       <SlideMenuBg />
     </SlideMenuContainer>
   ) : null;

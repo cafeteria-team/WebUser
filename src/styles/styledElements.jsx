@@ -88,14 +88,22 @@ export const SlideMenuContainer = styled.div`
 export const SlideMenuWrap = styled.div`
   width: 100%;
   max-width: 400px;
+  min-width: 400px;
   height: 100%;
   padding: ${({ theme }) => `${theme.space.large}`};
   background: #fff;
+
+  @media screen and ${({ theme }) => theme.mobile} {
+    min-width: unset;
+  }
 `;
 export const SlideMenuBg = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
+  @media screen and ${({ theme }) => theme.mobile} {
+    display: none;
+  }
 `;
 export const SlideIconWrap = styled.div`
   display: flex;
@@ -116,7 +124,7 @@ export const SlideSurveyWrap = styled.div`
 export const SlideMenuListWrap = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: ${({ theme }) => `${theme.space.xlargeg}`};
+  margin-top: 6px;
 `;
 
 // main page //

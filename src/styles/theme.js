@@ -30,6 +30,9 @@ const shadow = {
     "0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)",
   button: "rgb(249 217 189) 0px 8px 16px 0px",
 };
+const size = {
+  mobile: "400px",
+};
 
 const theme = {
   //   breakpoints: [32, 48, 64],
@@ -52,6 +55,7 @@ const theme = {
   },
   shadow,
   radii,
+  mobile: `(max-width:${size.mobile})`,
 };
 
 export default theme;
