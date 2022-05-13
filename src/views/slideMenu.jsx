@@ -9,12 +9,22 @@ import {
 } from "../styles/styledElements";
 import { CloseCircle, Edit } from "../assets/icons";
 import { Title, SideLink } from "../components";
+import uuid from "react-uuid";
 
 const SlideMenu = ({ OnMenu }) => {
   const [MenuLists, SetMenuLists] = useState([
-    "관심식당 목록",
-    "공지사항",
-    "고객센터",
+    {
+      path: "/like",
+      name: "관심식당 목록",
+    },
+    {
+      path: "/notice",
+      name: "공지사항",
+    },
+    {
+      path: "/service",
+      name: "고객센터",
+    },
   ]);
 
   return OnMenu ? (
@@ -31,9 +41,16 @@ const SlideMenu = ({ OnMenu }) => {
           <Edit color="#ff9030" />
         </SlideSurveyWrap>
         <SlideMenuListWrap>
-          <SideLink pathName="/like">관심식당 목록</SideLink>
-          <SideLink pathName="/like">공지사항</SideLink>
-          <SideLink pathName="/like">고객센터</SideLink>
+          {MenuLists.map((item) => (
+            <SideLink
+              pathName={`/${item.path}`}
+              key={uuid()}
+              padding="0 0 20px 0"
+              border="1px solid #ECEFF1"
+            >
+              {item.name}
+            </SideLink>
+          ))}
         </SlideMenuListWrap>
       </SlideMenuWrap>
       <SlideMenuBg />
