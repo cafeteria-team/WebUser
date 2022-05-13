@@ -36,7 +36,8 @@ body{
     font-family : "Pretendard";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color:${({ theme }) => theme.colors.text}
+    color:${({ theme }) => theme.colors.text};
+    letter-spacing:-0.25px;
   }
   h1{
     font-size: ${({ theme }) => theme.fontSizes.title};
@@ -115,7 +116,7 @@ export const SlideSurveyWrap = styled.div`
 export const SlideMenuListWrap = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: ${({ theme }) => `${theme.space.xlarge}`};
+  margin-top: ${({ theme }) => `${theme.space.xlargeg}`};
 `;
 
 // main page //
