@@ -76,6 +76,48 @@ export const StyledHeaderWrap = styled.header`
   padding: ${({ theme }) => `0 ${theme.space.large}`};
 `;
 
+//slide menu
+export const SlideMenuContainer = styled.div`
+  position: fixed;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+`;
+export const SlideMenuWrap = styled.div`
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  padding: ${({ theme }) => `${theme.space.large}`};
+  background: #fff;
+`;
+export const SlideMenuBg = styled.div`
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+`;
+export const SlideIconWrap = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: ${({ theme }) => `${theme.space.large}`};
+`;
+export const SlideSurveyWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 94px;
+  background: ${({ theme }) => theme.colors.mainOpacity};
+  border-radius: ${({ theme }) => theme.radii.button};
+  padding: ${({ theme }) => `${theme.space.large}`};
+`;
+export const SlideMenuListWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: ${({ theme }) => `${theme.space.xlarge}`};
+`;
+
 // main page //
 
 // card components

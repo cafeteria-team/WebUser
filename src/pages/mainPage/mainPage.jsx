@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Wrap,
@@ -17,12 +17,19 @@ import {
   CardMenuListsWrap,
   CardMenuLists,
 } from "../../styles/styledElements";
-import Header from "../../views/Header";
+import { Header, SlideMenu } from "../../views";
 
 const MainPage = () => {
+  const [OnMenu, SetOnMenu] = useState(false);
+
+  const onClickMenu = () => {
+    SetOnMenu((prev) => !prev);
+  };
+
   return (
     <>
-      <Header />
+      <SlideMenu OnMenu={OnMenu} />
+      <Header onClickMenu={onClickMenu} />
       <Container>
         <Wrap>
           <CardContainer>

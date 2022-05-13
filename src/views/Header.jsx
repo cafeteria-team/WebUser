@@ -5,11 +5,11 @@ import {
 } from "../styles/styledElements";
 import { Menu, Location, Logo } from "../assets/icons";
 
-const Header = () => {
+const Header = ({ onClickMenu }) => {
   return (
     <StyledHeaderContainer>
       <StyledHeaderWrap>
-        <Menu color="#212B36" />
+        <Menu color="#212B36" onClickMenu={onClickMenu} />
         <Logo />
         <Location color="#212B36" />
       </StyledHeaderWrap>
