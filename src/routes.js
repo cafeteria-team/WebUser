@@ -1,5 +1,6 @@
 import { Navigate, useRoutes } from "react-router-dom";
 import {
+  MainContainer,
   MainPage,
   StorePage,
   LikePage,
@@ -13,9 +14,9 @@ const Router = () => {
   return useRoutes([
     {
       path: "/",
-      element: <MainPage />,
+      element: <MainContainer />,
       children: [
-        { path: "/", element: <Navigate to="/main" /> },
+        { path: "/", element: <MainPage /> },
         { path: "detail", element: <StorePage /> },
         { path: "like", element: <LikePage /> },
         { path: "notice", element: <NoticeListPage /> },

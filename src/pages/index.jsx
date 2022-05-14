@@ -1,3 +1,4 @@
+import MainContainer from "./mainContainer/mainContainer";
 import MainPage from "./mainPage/mainPage";
 import StorePage from "./storePage/storePage";
 import NoticeListPage from "./noticePage/noticeListPage";
@@ -7,6 +8,7 @@ import LikePage from "./likePage/likePage";
 import NotFoundPage from "./notFoundPage/notFoundPage";
 
 export {
+  MainContainer,
   MainPage,
   StorePage,
   NoticeDetail,

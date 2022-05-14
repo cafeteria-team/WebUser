@@ -11,7 +11,7 @@ import { CloseCircle, Edit } from "../assets/icons";
 import { Title, SideLink } from "../components";
 import uuid from "react-uuid";
 
-const SlideMenu = ({ OnMenu }) => {
+const SlideMenu = ({ OnMenu, onClickMenu }) => {
   const [MenuLists, SetMenuLists] = useState([
     {
       path: "/like",
@@ -27,12 +27,12 @@ const SlideMenu = ({ OnMenu }) => {
     },
   ]);
 
-  return OnMenu ? (
-    <SlideMenuContainer>
-      <SlideMenuWrap>
+  return (
+    <SlideMenuContainer OnMenu={OnMenu}>
+      <SlideMenuWrap OnMenu={OnMenu}>
         {/* close btn */}
         <SlideIconWrap>
-          <CloseCircle color="#637381" />
+          <CloseCircle color="#637381" onClickMenu={onClickMenu} />
         </SlideIconWrap>
         {/* survey */}
         <SlideSurveyWrap>
@@ -57,9 +57,9 @@ const SlideMenu = ({ OnMenu }) => {
         </SlideMenuListWrap>
       </SlideMenuWrap>
       {/* bg */}
-      <SlideMenuBg />
+      <SlideMenuBg OnMenu={OnMenu} />
     </SlideMenuContainer>
-  ) : null;
+  );
 };
 
 export default SlideMenu;

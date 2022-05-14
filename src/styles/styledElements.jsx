@@ -2,6 +2,7 @@ import styled, { css, keyframes, createGlobalStyle } from "styled-components";
 import Pretendard from "../assets/fonts/PretendardVariable.woff2";
 import Changwon from "../assets/fonts/Changwon.otf";
 import theme from "./theme";
+import { memo } from "react";
 
 export const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -49,6 +50,9 @@ body{
 `;
 
 // common //
+export const RootStyle = styled.div`
+  width: 100%;
+`;
 
 //container
 export const Container = styled.main`
@@ -81,6 +85,8 @@ export const StyledHeaderWrap = styled.header`
 export const SlideMenuContainer = styled.div`
   position: fixed;
   display: flex;
+  visibility: ${(props) => (props.OnMenu ? "visible" : "hidden")};
+  pointer-events: ${(props) => (props.OnMenu ? "all" : "none")};
   width: 100%;
   height: 100%;
   z-index: 2;
@@ -92,15 +98,25 @@ export const SlideMenuWrap = styled.div`
   height: 100%;
   padding: ${({ theme }) => `${theme.space.large}`};
   background: #fff;
+  z-index: 2;
+
+  transition: all 0.5s ease-in;
+  transform: ${(props) =>
+    props.OnMenu ? "translateX(0%)" : "translateX(-100%)"};
 
   @media screen and ${({ theme }) => theme.mobile} {
     min-width: unset;
   }
 `;
 export const SlideMenuBg = styled.div`
+  position: fixed;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
+
+  transition: opacity 0.5s ease-in;
+  opacity: ${(props) => (props.OnMenu ? "1" : "0")};
+
   @media screen and ${({ theme }) => theme.mobile} {
     display: none;
   }
@@ -111,7 +127,7 @@ export const SlideIconWrap = styled.div`
   width: 100%;
   margin-bottom: ${({ theme }) => `${theme.space.large}`};
 `;
-export const SlideSurveyWrap = styled.div`
+export const SlideSurveyWrap = memo(styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -120,12 +136,13 @@ export const SlideSurveyWrap = styled.div`
   background: ${({ theme }) => theme.colors.mainOpacity};
   border-radius: ${({ theme }) => theme.radii.button};
   padding: ${({ theme }) => `${theme.space.large}`};
-`;
-export const SlideMenuListWrap = styled.div`
+`);
+
+export const SlideMenuListWrap = memo(styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 6px;
-`;
+`);
 
 // main page //
 

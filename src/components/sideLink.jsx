@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
@@ -18,4 +18,4 @@ const SideLink = ({ children, pathName, ...props }) => {
   );
 };
 
-export default SideLink;
+export default memo(SideLink);
