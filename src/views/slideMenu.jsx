@@ -32,7 +32,7 @@ const SlideMenu = ({ OnMenu, onClickMenu }) => {
       <SlideMenuWrap OnMenu={OnMenu}>
         {/* close btn */}
         <SlideIconWrap>
-          <CloseCircle color="#637381" onClickMenu={onClickMenu} />
+          <CloseCircle color="#637381" onClick={onClickMenu} />
         </SlideIconWrap>
         {/* survey */}
         <SlideSurveyWrap>

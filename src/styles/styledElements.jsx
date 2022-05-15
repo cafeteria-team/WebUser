@@ -31,7 +31,11 @@ export const GlobalStyle = createGlobalStyle`
     margin:0;
     box-sizing: border-box;
 }
+html{
+  height:100%;
+}
 body{
+  height:100%;
     padding:0;
     margin:0;
     font-family : "Pretendard";
@@ -39,6 +43,7 @@ body{
     -moz-osx-font-smoothing: grayscale;
     color:${({ theme }) => theme.colors.text};
     letter-spacing:-0.25px;
+    background:${({ theme }) => theme.colors.background}
   }
   h1{
     font-size: ${({ theme }) => theme.fontSizes.title};
@@ -49,7 +54,7 @@ body{
 
 `;
 
-// common //
+///////////// common /////////////
 export const RootStyle = styled.div`
   width: 100%;
 `;
@@ -65,11 +70,17 @@ export const Wrap = styled.article`
   padding: ${({ theme }) => `0 ${theme.space.large}`};
 `;
 
+//body paragraph content
+export const Paragraph = styled.p`
+  margin: ${(props) => props.margin || ""};
+`;
+
 // header
 export const StyledHeaderContainer = styled.article`
   width: 100%;
   height: 60px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  background: #fff;
 `;
 export const StyledHeaderWrap = styled.header`
   display: flex;
@@ -86,6 +97,9 @@ export const LocationContentWrap = styled.div`
   width: 100%;
   height: 120px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  transition: all 0.4s ease-in-out;
+  overflow: hidden;
+  max-height: ${({ OnAddress }) => (OnAddress ? "120px" : "0")};
 `;
 export const LocationContent = styled.div`
   display: flex;
@@ -150,7 +164,7 @@ export const SlideIconWrap = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  margin-bottom: ${({ theme }) => `${theme.space.large}`};
+  margin-bottom: ${(props) => props.margin || `${props.theme.space.large}`};
 `;
 export const SlideSurveyWrap = memo(styled.div`
   display: flex;
@@ -169,7 +183,7 @@ export const SlideMenuListWrap = memo(styled.div`
   margin-top: 6px;
 `);
 
-// main page //
+///////////// main page /////////////
 
 // card components
 export const CardContainer = styled.div`
@@ -180,7 +194,8 @@ export const CardContainer = styled.div`
   background: #fff;
   box-shadow: ${({ theme }) => theme.shadow.content}};
   border-radius:${({ theme }) => theme.radii.rounded};
-  padding:${({ theme }) => theme.space.large}
+  padding:${({ theme }) => theme.space.large};
+  margin-top:${({ theme }) => theme.space.large};
 `;
 
 // imgBox
