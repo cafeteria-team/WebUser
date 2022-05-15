@@ -10,9 +10,9 @@ const StyledLink = styled(NavLink)`
   padding: ${(props) => props.padding || ""};
 `;
 
-const SideLink = ({ children, pathName, ...props }) => {
+const SideLink = ({ children, pathName, onClickMenu, ...props }) => {
   return (
-    <StyledLink {...props} to={`${pathName}`}>
+    <StyledLink {...props} to={`${pathName}`} onClick={onClickMenu}>
       {children}
     </StyledLink>
   );

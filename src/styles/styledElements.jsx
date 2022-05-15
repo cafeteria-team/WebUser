@@ -69,6 +69,7 @@ export const Wrap = styled.article`
 export const StyledHeaderContainer = styled.article`
   width: 100%;
   height: 60px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 export const StyledHeaderWrap = styled.header`
   display: flex;
@@ -79,6 +80,30 @@ export const StyledHeaderWrap = styled.header`
   max-width: 640px;
   margin: 0 auto;
   padding: ${({ theme }) => `0 ${theme.space.large}`};
+`;
+// header - my location content
+export const LocationContentWrap = styled.div`
+  width: 100%;
+  height: 120px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+`;
+export const LocationContent = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 640px;
+  height: 100%;
+  margin: 0 auto;
+  padding: ${({ theme }) => `0 ${theme.space.large}`};
+`;
+export const MyLocationWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+export const MyLocation = styled.div`
+  font-weight: bold;
+  margin-right: ${({ theme }) => theme.space.large};
 `;
 
 //slide menu

@@ -46,10 +46,11 @@ const SlideMenu = ({ OnMenu, onClickMenu }) => {
         <SlideMenuListWrap>
           {MenuLists.map((item, index, arr) => (
             <SideLink
-              pathName={`/${item.path}`}
+              pathName={`${item.path}`}
               key={uuid()}
               padding={arr.length - 1 === index ? "20px 0 0" : "20px 0"}
               border={arr.length - 1 === index ? "unset" : "1px solid #ECEFF1"}
+              onClickMenu={onClickMenu}
             >
               {item.name}
             </SideLink>
