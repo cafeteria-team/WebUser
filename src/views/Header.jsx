@@ -9,10 +9,14 @@ import {
 } from "../styles/styledElements";
 import { Menu, Location, Logo } from "../assets/icons";
 import { Title, MoreBtn } from "../components";
+import Modal from "react-modal";
 
 const Header = ({ onClickMenu }) => {
   //address content
   const [OnAddress, SetOnAddress] = useState(false);
+
+  //address modal
+  const []
 
   const OnClickLocation = () => {
     SetOnAddress((prev) => !prev);
