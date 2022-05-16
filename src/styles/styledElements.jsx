@@ -1,31 +1,30 @@
 import styled, { css, keyframes, createGlobalStyle } from "styled-components";
 import Pretendard from "../assets/fonts/PretendardVariable.woff2";
-import Changwon from "../assets/fonts/Changwon.otf";
-import theme from "./theme";
+import Changwon from "../assets/fonts/Changwon.ttf";
 import { memo } from "react";
 
 export const GlobalStyle = createGlobalStyle`
 @font-face {
-    font-family: 'Pretendard';
-    src: url(${Pretendard}) format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: auto;
-  }
+  font-family: 'Pretendard';
+  src: url(${Pretendard}) format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: auto;
+}
 @font-face {
-    font-family: 'PretendardBold';
-    src: url(${Pretendard}) format('woff2');
-    font-weight: 600;
-    font-style: bold;
-    font-display: auto;
-  }
-  @font-face {
-    font-family: 'Changwon';
-    src: url(${Changwon}) format('otf');
-    font-weight: 600;
-    font-style: bold;
-    font-display: auto;
-  }
+  font-family: 'PretendardBold';
+  src: url(${Pretendard}) format('woff2');
+  font-weight: 600;
+  font-style: bold;
+  font-display: auto;
+}
+@font-face {
+  font-family: 'Changwon';
+  src: url(${Changwon}) format('truetype');
+  font-weight: 600;
+  font-style: bold;
+  font-display: auto;
+}
 *{
     padding:0;
     margin:0;
@@ -74,6 +73,15 @@ export const Wrap = styled.article`
 export const Paragraph = styled.p`
   margin: ${(props) => props.margin || ""};
   font-weight: ${(props) => props.fontWeight || "regular"};
+  color: ${(props) => props.color || props.theme.colors.title};
+`;
+
+export const ChangwonTitle = styled.h1`
+  margin: ${(props) => props.margin || ""};
+  font-weight: ${(props) => props.fontWeight || "regular"};
+  line-height: ${(props) => props.lineHegiht || props.theme.lineHeights.title};
+  color: ${(props) => props.color || props.theme.colors.title};
+  font-family: Changwon;
 `;
 
 // header
@@ -304,4 +312,19 @@ export const AddressButton = styled.button`
   width: 100%;
   height: 56px;
   margin: ${(props) => props.margin || ""};
+`;
+
+///////// notice page /////////
+// export const NoticeTitle = styled.div`
+//     background : ${({theme})=> }
+// `;
+
+/////// not found ///////
+export const NotFoundContainer = styled.div`
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 50%;
+  transform: translateY(-50%);
 `;
