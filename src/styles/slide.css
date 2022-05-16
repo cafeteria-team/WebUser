@@ -1,18 +1,12 @@
 .flicking-pagination-scroll {
-  left: 50%;
   overflow: hidden;
-  transform: translate(-50%);
   white-space: nowrap;
 }
-
 .flicking-pagination {
-  bottom: 10px;
-  position: absolute;
-  text-align: center;
   width: 100%;
+  margin: 10px auto 0;
   z-index: 2;
 }
-
 .flicking-pagination-scroll .flicking-pagination-slider {
   transition: transform 0.2s;
 }
@@ -31,8 +25,13 @@
   margin: 0 4px;
   width: 8px;
 }
+.flicking-pagination-scroll .flicking-pagination-bullet-next,
 .flicking-pagination-scroll .flicking-pagination-bullet-prev {
   transform: scale(0.66);
+}
+.flicking-pagination-scroll .flicking-pagination-bullet-next2,
+.flicking-pagination-scroll .flicking-pagination-bullet-prev2 {
+  transform: scale(0.33);
 }
 .flicking-pagination-scroll .flicking-pagination-bullet-active {
   background-color: #ff9030;
@@ -63,5 +62,5 @@
 .hero.is-warning .tabs.is-toggle a:hover,
 .hero.is-white .tabs.is-boxed a:hover,
 .hero.is-white .tabs.is-toggle a:hover {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: hsla(0, 0%, 4%, 0.1);
 }

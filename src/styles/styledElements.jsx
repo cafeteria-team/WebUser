@@ -73,6 +73,7 @@ export const Wrap = styled.article`
 //body paragraph content
 export const Paragraph = styled.p`
   margin: ${(props) => props.margin || ""};
+  font-weight: ${(props) => props.fontWeight || "regular"};
 `;
 
 // header
@@ -202,6 +203,37 @@ export const CardContainer = styled.div`
 export const CardImageContainer = styled.div`
   width: 100%;
 `;
+export const CardImageWrap = styled.div`
+  position: relative;
+  padding-top: 75%;
+  overflow: hidden;
+  display: block;
+  border-radius: 16px;
+  background: #fff;
+  text-align: center;
+  width: 100%;
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    // background: rgba(0, 0, 0, 0.1);
+  }
+`;
+
+export const CardImage = styled.img`
+  top: -100%;
+  bottom: -100%;
+  margin: auto;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  width: auto;
+  height: 100%;
+`;
 
 // title
 export const CardTitleContainer = styled.div`
@@ -209,7 +241,7 @@ export const CardTitleContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-top: ${({ theme }) => theme.space.large};
+  margin: ${({ theme }) => theme.space.large} 0;
 `;
 export const CardStorePriceContainer = styled.div`
   display: flex;
@@ -233,7 +265,7 @@ export const CardMenuContainer = styled.div`
   transition: all 0.6s ease-in;
   background: ${({ theme }) => theme.colors.background};
   border-radius: ${({ theme }) => theme.radii.button};
-  padding: ${({ theme }) => `0 ${theme.space.large}`};
+  padding: ${({ theme }) => theme.space.large};
 `;
 export const CardMenuTitleContainer = styled.div`
   display: flex;
@@ -247,21 +279,23 @@ export const CardMenuTitleWrap = styled.div`
   align-items: center;
   color: ${({ theme }) => theme.colors.subTitle};
 `;
-export const CardMenuButton = styled.button`
-  font-size: ${({ theme }) => theme.fontSizes.detail};
-`;
 export const CardMenuListsWrap = styled.ul`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
+  max-height: ${(props) => props.maxHeight || "0"};
+  overflow: hidden;
+  transition: all 0.6s ease;
+  margin-top: ${(props) => props.marginTop || "0"};
 `;
 export const CardMenuLists = styled.li`
   display: flex;
   align-items: center;
-  border-botton: ${(props) =>
+  border-bottom: ${(props) =>
     props.border ? "" : `1px solid ${props.theme.colors.border}`};
+  padding: ${(props) => props.padding || "10px 0"};
 `;
-
 export const AddressButton = styled.button`
   padding: 16px;
   border-radius: ${({ theme }) => theme.radii.button};

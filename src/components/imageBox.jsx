@@ -6,24 +6,7 @@ import "@egjs/react-flicking/dist/flicking-inline.css";
 import Panel from "./panel";
 import { Parallax, Pagination } from "@egjs/flicking-plugins";
 import styled from "styled-components";
-import "./slide.css";
-
-export const CardImageWrap = styled.div`
-  position: relative;
-  padding-top: 75%;
-  overflow: hidden;
-`;
-
-export const CardImage = styled.img`
-  top: -100%;
-  bottom: -100%;
-  margin: auto;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
-  width: auto;
-  height: 100%;
-`;
+import "../styles/slide.css";
 
 export const CardSlideWrap = styled(Flicking)`
   width: 100%;
@@ -41,9 +24,6 @@ const ImageBox = () => {
     <CardSlideWrap
       gap={10}
       circular={true}
-      onMoveEnd={(e) => {
-        console.log(e);
-      }}
       plugins={plugins}
       resizeOnContentsReady={true}
     >
