@@ -202,20 +202,6 @@ export const CardContainer = styled.div`
 export const CardImageContainer = styled.div`
   width: 100%;
 `;
-export const CardImageWrap = styled.div`
-  position: relative;
-  padding-top: 75%;
-  overflow: hidden;
-`;
-export const CardImage = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  max-width: 100%;
-  height: auto;
-`;
 
 // title
 export const CardTitleContainer = styled.div`
@@ -223,6 +209,7 @@ export const CardTitleContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-top: ${({ theme }) => theme.space.large};
 `;
 export const CardStorePriceContainer = styled.div`
   display: flex;

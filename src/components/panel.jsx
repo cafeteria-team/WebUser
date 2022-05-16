@@ -18,7 +18,7 @@ export const CardImageWrap = styled.div`
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.1);
+    // background: rgba(0, 0, 0, 0.1);
   }
 `;
 

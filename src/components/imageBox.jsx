@@ -1,12 +1,12 @@
 import React from "react";
-import Flicking from "@egjs/react-flicking";
+import Flicking, { ViewportSlot } from "@egjs/react-flicking";
 import "@egjs/react-flicking/dist/flicking.css";
 // Or, if you have to support IE9
 import "@egjs/react-flicking/dist/flicking-inline.css";
 import Panel from "./panel";
-import { Parallax } from "@egjs/flicking-plugins";
-import "../styles/slide.css";
+import { Parallax, Pagination } from "@egjs/flicking-plugins";
 import styled from "styled-components";
+import "./slide.css";
 
 export const CardImageWrap = styled.div`
   position: relative;
@@ -35,7 +35,7 @@ export const CardSlideWrap = styled(Flicking)`
 `;
 
 const ImageBox = () => {
-  const plugins = [new Parallax("img", 4)];
+  const plugins = [new Parallax("img", 4), new Pagination({ type: "scroll" })];
 
   return (
     <CardSlideWrap
@@ -45,19 +45,14 @@ const ImageBox = () => {
         console.log(e);
       }}
       plugins={plugins}
+      resizeOnContentsReady={true}
     >
-      <Panel
-        index={1}
-        src="https://naver.github.io/egjs-flicking/images/bg01.jpg"
-      />
-      <Panel
-        index={2}
-        src="https://naver.github.io/egjs-flicking/images/bg02.jpg"
-      />
-      <Panel
-        index={3}
-        src="https://naver.github.io/egjs-flicking/images/bg03.jpg"
-      />
+      <Panel index={1} src={require("../assets/images/mock_img1.jpg")} />
+      <Panel index={2} src={require("../assets/images/mock_img2.jpg")} />
+      <Panel index={3} src={require("../assets/images/mock_img3.jpg")} />
+      <ViewportSlot>
+        <div className="flicking-pagination"></div>
+      </ViewportSlot>
     </CardSlideWrap>
   );
 };
