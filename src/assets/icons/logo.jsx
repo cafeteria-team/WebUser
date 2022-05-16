@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const Logo = () => {
   return (
-    <NavLink to="/detail">
+    <NavLink to="/">
       <svg
         version="1.1"
         id="레이어_1"

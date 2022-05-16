@@ -1,8 +1,9 @@
 import React from "react";
-import { CardImageWrap, CardImage } from "../styles/styledElements";
+import { CardImageWrap } from "../styles/styledElements";
+import Image from "./image";
 
 export default React.forwardRef(({ index, src }, ref) => (
   <CardImageWrap ref={ref}>
-    <CardImage src={src} alt="store_img" />
+    <Image src={src} alt="store_img" />
   </CardImageWrap>
 ));

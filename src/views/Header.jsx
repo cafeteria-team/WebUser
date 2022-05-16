@@ -59,6 +59,7 @@ const Header = ({ onClickMenu }) => {
 
   return (
     <>
+      {/* modal */}
       <Modal
         isOpen={OnModal}
         contentLabel="phone check"
@@ -70,6 +71,7 @@ const Header = ({ onClickMenu }) => {
       >
         <ModalAddress OnClickModal={OnClickModal} />
       </Modal>
+      {/* header */}
       <StyledHeaderContainer>
         <StyledHeaderWrap>
           <Menu color="#212B36" onClickMenu={onClickMenu} />
@@ -77,6 +79,7 @@ const Header = ({ onClickMenu }) => {
           <Location color="#212B36" OnClickLocation={OnClickLocation} />
         </StyledHeaderWrap>
       </StyledHeaderContainer>
+      {/* location content */}
       <LocationContentWrap OnAddress={OnAddress}>
         <LocationContent>
           <Title margin="0 0 16px 0">내주변</Title>
