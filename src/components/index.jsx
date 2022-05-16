@@ -6,6 +6,7 @@ import Button from "./button";
 import ImageBox from "./imageBox";
 import Panel from "./panel";
 import Image from "./image";
+import ImageLoadingContainer from "./imageLoadingContainer";
 
 export {
   Title,
@@ -16,4 +17,5 @@ export {
   ImageBox,
   Panel,
   Image,
+  ImageLoadingContainer,
 };

@@ -8,8 +8,6 @@ import { Parallax, Pagination } from "@egjs/flicking-plugins";
 import styled from "styled-components";
 import "../styles/slide.css";
 
-import LazyLoad from "react-lazyload";
-
 export const CardSlideWrap = styled(Flicking)`
   width: 100%;
   height: 100%;

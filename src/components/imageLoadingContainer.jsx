@@ -12,7 +12,7 @@ const lottieOptions = {
   },
 };
 
-const Placeholder = () => {
+const ImageLoadingContainer = () => {
   return (
     <Lottie
       options={lottieOptions}
@@ -22,4 +22,4 @@ const Placeholder = () => {
   );
 };
 
-export default Placeholder;
+export default ImageLoadingContainer;

@@ -74,6 +74,7 @@ export const Paragraph = styled.p`
   margin: ${(props) => props.margin || ""};
   font-weight: ${(props) => props.fontWeight || "regular"};
   color: ${(props) => props.color || props.theme.colors.title};
+  font-size: ${(props) => props.fontSize || "16px"};
 `;
 
 export const ChangwonTitle = styled.h1`
@@ -82,6 +83,7 @@ export const ChangwonTitle = styled.h1`
   line-height: ${(props) => props.lineHegiht || props.theme.lineHeights.title};
   color: ${(props) => props.color || props.theme.colors.title};
   font-family: Changwon;
+  letter-spacing: 0px;
 `;
 
 // header
@@ -315,9 +317,63 @@ export const AddressButton = styled.button`
 `;
 
 ///////// notice page /////////
-// export const NoticeTitle = styled.div`
-//     background : ${({theme})=> }
-// `;
+export const NoticeTitle = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 94px;
+  background: ${({ theme }) => theme.colors.main};
+  border-radius: ${({ theme }) => theme.radii.button};
+  padding: ${({ theme }) => theme.space.large};
+  margin: ${({ theme }) => `${theme.space.large} 0`};
+  font-family: Changwon;
+  color: #fff;
+  font-size: 20px;
+  letter-spacing: 0px;
+`;
+export const NoticeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: ${({ theme }) => theme.radii.rounded};
+  padding: ${({ theme }) => `0 ${theme.space.large}`};
+  background: #fff;
+  box-shadow: ${({ theme }) => theme.shadow.content};
+`;
+export const NoticeTitleWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+/////// notice detail///////
+
+export const NoticeContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-radius: ${({ theme }) => theme.radii.rounded};
+  background: #fff;
+  box-shadow: ${({ theme }) => theme.shadow.content};
+  padding: 0 ${({ theme }) => theme.space.large};
+  margin-top: ${({ theme }) => theme.space.large};
+`;
+
+export const NoticeContentTitleWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: ${({ theme }) => theme.space.xxlarge} 0;
+  border-bottom: ${(props) => `1px solid ${props.theme.colors.border}`};
+`;
+
+export const NoticeBody = styled.div`
+  font-size: ${({ theme }) => theme.fontSizes.detail};
+  line-height: ${({ theme }) => theme.lineHeights.paragraph};
+  padding: ${({ theme }) => `${theme.space.large} 0 ${theme.space.xxlarge}`};
+`;
 
 /////// not found ///////
 export const NotFoundContainer = styled.div`

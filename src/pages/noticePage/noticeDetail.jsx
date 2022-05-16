@@ -1,10 +1,11 @@
 import React from "react";
+import { NoticeContent } from "../../views";
 
 const NoticeDetail = () => {
   return (
-    <div>
-      <div>ss</div>
-    </div>
+    <>
+      <NoticeContent />
+    </>
   );
 };
 
