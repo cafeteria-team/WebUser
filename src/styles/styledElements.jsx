@@ -241,7 +241,7 @@ export const CardTitleContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: ${({ theme }) => theme.space.large} 0;
+  margin: ${({ theme }) => `${theme.space.medium} 0 ${theme.space.large}`};
 `;
 export const CardStorePriceContainer = styled.div`
   display: flex;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import {
   CardContainer,
   CardImageContainer,
@@ -16,15 +16,15 @@ import {
 import { ImageBox, Title, MoreBtn } from "../components";
 import { MenuItem } from "../assets/icons";
 
-const ImagePart = () => {
+const ImagePart = memo(() => {
   return (
     <CardImageContainer>
       <ImageBox />
     </CardImageContainer>
   );
-};
+});
 
-const TitlePart = () => {
+const TitlePart = memo(() => {
   return (
     <CardTitleContainer>
       <Title>행복식당</Title>
@@ -34,7 +34,7 @@ const TitlePart = () => {
       </CardStorePriceContainer>
     </CardTitleContainer>
   );
-};
+});
 
 const MenuPart = ({ OnMenu, onClickMenu }) => {
   return (
