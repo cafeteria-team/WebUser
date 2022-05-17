@@ -1,6 +1,5 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useRef } from "react";
 import {
-  CardContainer,
   CardImageIconWrap,
   CardImageContainer,
   CardTitleContainer,
@@ -16,6 +15,22 @@ import {
 } from "../styles/styledElements";
 import { ImageBox, Title, MoreBtn } from "../components";
 import { MenuItem, Heart } from "../assets/icons";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+
+const CardContainer = styled(NavLink)`
+display: flex;
+flex-direction: column;
+max-width: 600px;
+width: 100%;
+background: #fff;
+box-shadow: ${({ theme }) => theme.shadow.content}};
+border-radius:${({ theme }) => theme.radii.rounded};
+padding:${({ theme }) => theme.space.large};
+margin-top:${({ theme }) => theme.space.large};
+text-decoration:unset;
+color:${({ theme }) => theme.colors.text}};
+`;
 
 const ImagePart = memo(({ Liked, onClickLike }) => {
   return (
@@ -40,9 +55,9 @@ const TitlePart = memo(() => {
   );
 });
 
-const MenuPart = ({ OnMenu, onClickMenu }) => {
+const MenuPart = ({ OnMenu, onClickMenu, scrollRef }) => {
   return (
-    <CardMenuContainer height={OnMenu ? "100%" : null}>
+    <CardMenuContainer height={OnMenu ? "100%" : null} ref={scrollRef}>
       <CardMenuTitleContainer>
         <CardMenuTitleWrap>
           <MenuItem color="#637381" />
@@ -68,14 +83,28 @@ const MenuPart = ({ OnMenu, onClickMenu }) => {
   );
 };
 
-const CardMenu = () => {
+const CardMenu = ({ storeId }) => {
+  // scroll ref
+  const scrollRef = useRef();
+
   // menu lists state
   const [OnMenu, SetOnMenu] = useState(false);
   // like state
   const [Liked, SetLiked] = useState(false);
 
+  const scrollToBottom = () => {
+    scrollRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "nearest",
+    });
+  };
+
   const onClickMenu = () => {
     SetOnMenu((prev) => !prev);
+    if (!OnMenu) {
+      scrollToBottom();
+    }
   };
 
   const onClickLike = () => {
@@ -83,13 +112,17 @@ const CardMenu = () => {
   };
 
   return (
-    <CardContainer>
+    <CardContainer to={`${storeId}`}>
       {/* image */}
       <ImagePart onClickLike={onClickLike} Liked={Liked} />
       {/* title */}
       <TitlePart />
       {/* menu */}
-      <MenuPart onClickMenu={onClickMenu} OnMenu={OnMenu} />
+      <MenuPart
+        onClickMenu={onClickMenu}
+        OnMenu={OnMenu}
+        scrollRef={scrollRef}
+      />
     </CardContainer>
   );
 };

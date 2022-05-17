@@ -17,8 +17,9 @@ const Router = () => {
       element: <MainContainer />,
       children: [
         { path: "/", element: <MainPage /> },
-        { path: "detail", element: <StorePage /> },
+        { path: ":storeId", element: <StorePage /> },
         { path: "like", element: <LikePage /> },
+        { path: "like/:storeId", element: <StorePage /> },
         { path: "notice", element: <NoticeListPage /> },
         { path: "notice/:id", element: <NoticeDetail /> },
         { path: "service", element: <ServicePage /> },

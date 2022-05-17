@@ -1,7 +1,12 @@
 import React from "react";
+import { CardDetail } from "../../views";
 
 const StorePage = () => {
-  return <div></div>;
+  return (
+    <>
+      <CardDetail />
+    </>
+  );
 };
 
 export default StorePage;

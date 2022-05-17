@@ -5,6 +5,7 @@ import NoticeList from "./noticeList";
 import NoticeContent from "./noticeContent";
 import ServiceList from "./serviceList";
 import CardLike from "./cardLike";
+import CardDetail from "./cardDetail";
 
 export {
   Header,
@@ -14,4 +15,5 @@ export {
   NoticeContent,
   ServiceList,
   CardLike,
+  CardDetail,
 };

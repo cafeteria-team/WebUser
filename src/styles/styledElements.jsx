@@ -108,6 +108,7 @@ export const StyledHeaderWrap = styled.header`
 export const LocationContentWrap = styled.div`
   width: 100%;
   height: 120px;
+  background: #fff;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   transition: all 0.4s ease-in-out;
   overflow: hidden;
@@ -325,6 +326,36 @@ export const AddressButton = styled.button`
   width: 100%;
   height: 56px;
   margin: ${(props) => props.margin || ""};
+`;
+
+////detail page//////
+export const CardAddressWrap = styled.div`
+  display: flex;
+  align-items: center;
+  margin: ${(props) => props.margin || ""};
+`;
+
+export const CardWrap = styled.div`
+  display: flex;
+  flex-direction: ${(props) => props.flexDirection || ""};
+  align-items: ${(props) => props.align || ""};
+  justify-content: ${(props) => props.just || ""};
+  margin: ${(props) => props.margin || ""};
+  padding: ${(props) => props.padding || ""};
+  background: ${(props) => props.background || ""};
+  border-bottom: ${(props) =>
+    props.border ? `1px solid ${props.theme.colors.border}` : `unset`};
+`;
+
+export const FacilityIconWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: #f9fafb;
+  border-radius: ${({ theme }) => theme.radii.button};
 `;
 
 ///////// notice page /////////

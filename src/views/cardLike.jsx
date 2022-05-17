@@ -1,6 +1,5 @@
 import React, { useState, memo } from "react";
 import {
-  CardContainer,
   CardImageContainer,
   CardImageIconWrap,
   CardTitleContainer,
@@ -10,6 +9,22 @@ import {
 } from "../styles/styledElements";
 import { ImageBox, Title } from "../components";
 import { Heart } from "../assets/icons";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+
+const CardContainer = styled(NavLink)`
+display: flex;
+flex-direction: column;
+max-width: 600px;
+width: 100%;
+background: #fff;
+box-shadow: ${({ theme }) => theme.shadow.content}};
+border-radius:${({ theme }) => theme.radii.rounded};
+padding:${({ theme }) => theme.space.large};
+margin-top:${({ theme }) => theme.space.large};
+text-decoration:unset;
+color:${({ theme }) => theme.colors.text}};
+`;
 
 const ImagePart = memo(({ Liked, onClickLike }) => {
   return (
@@ -34,7 +49,7 @@ const TitlePart = memo(() => {
   );
 });
 
-const CardLike = () => {
+const CardLike = ({ storeId }) => {
   // like state
   const [Liked, SetLiked] = useState(true);
 
@@ -43,7 +58,7 @@ const CardLike = () => {
   };
 
   return (
-    <CardContainer>
+    <CardContainer to={`${storeId}`}>
       {/* image */}
       <ImagePart onClickLike={onClickLike} Liked={Liked} />
       {/* title */}
