@@ -30,7 +30,10 @@ const ImagePart = memo(({ Liked, onClickLike }) => {
   return (
     <CardImageContainer>
       <CardImageIconWrap>
-        <Heart color={Liked ? "#FF4842" : "#fff"} onClcik={onClickLike} />
+        <Heart
+          color={Liked ? "#FF4842" : "#fff"}
+          onClcik={(e) => onClickLike(e)}
+        />
       </CardImageIconWrap>
       <ImageBox />
     </CardImageContainer>
@@ -53,7 +56,8 @@ const CardLike = ({ storeId }) => {
   // like state
   const [Liked, SetLiked] = useState(true);
 
-  const onClickLike = () => {
+  const onClickLike = (e) => {
+    e.preventDefault();
     SetLiked((prev) => !prev);
   };
 

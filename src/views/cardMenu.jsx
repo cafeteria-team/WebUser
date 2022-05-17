@@ -36,7 +36,10 @@ const ImagePart = memo(({ Liked, onClickLike }) => {
   return (
     <CardImageContainer>
       <CardImageIconWrap>
-        <Heart color={Liked ? "#FF4842" : "#fff"} onClcik={onClickLike} />
+        <Heart
+          color={Liked ? "#FF4842" : "#fff"}
+          onClcik={(e) => onClickLike(e)}
+        />
       </CardImageIconWrap>
       <ImageBox />
     </CardImageContainer>
@@ -65,7 +68,11 @@ const MenuPart = ({ OnMenu, onClickMenu, scrollRef }) => {
             오늘의 메뉴
           </Paragraph>
         </CardMenuTitleWrap>
-        <MoreBtn background="unset" color="#637381" onClick={onClickMenu}>
+        <MoreBtn
+          background="unset"
+          color="#637381"
+          onClick={(e) => onClickMenu(e)}
+        >
           더보기
         </MoreBtn>
       </CardMenuTitleContainer>
@@ -100,14 +107,16 @@ const CardMenu = ({ storeId }) => {
     });
   };
 
-  const onClickMenu = () => {
+  const onClickMenu = (e) => {
+    e.preventDefault();
     SetOnMenu((prev) => !prev);
     if (!OnMenu) {
       scrollToBottom();
     }
   };
 
-  const onClickLike = () => {
+  const onClickLike = (e) => {
+    e.preventDefault();
     SetLiked((prev) => !prev);
   };
 

@@ -188,6 +188,7 @@ export const SlideSurveyWrap = memo(styled.div`
   background: ${({ theme }) => theme.colors.mainOpacity};
   border-radius: ${({ theme }) => theme.radii.button};
   padding: ${({ theme }) => `${theme.space.large}`};
+  cursor: pointer;
 `);
 
 export const SlideMenuListWrap = memo(styled.div`

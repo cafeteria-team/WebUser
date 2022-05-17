@@ -14,6 +14,10 @@ import uuid from "react-uuid";
 const SlideMenu = ({ OnMenu, onClickMenu }) => {
   const [MenuLists, SetMenuLists] = useState([
     {
+      path: "/",
+      name: "메인 홈",
+    },
+    {
       path: "/like",
       name: "관심식당 목록",
     },
@@ -27,6 +31,10 @@ const SlideMenu = ({ OnMenu, onClickMenu }) => {
     },
   ]);
 
+  const OnClickSurvey = () => {
+    alert("설문조사 준비중입니다.");
+  };
+
   return (
     <SlideMenuContainer OnMenu={OnMenu}>
       <SlideMenuWrap OnMenu={OnMenu}>
@@ -35,7 +43,7 @@ const SlideMenu = ({ OnMenu, onClickMenu }) => {
           <CloseCircle color="#637381" onClick={onClickMenu} />
         </SlideIconWrap>
         {/* survey */}
-        <SlideSurveyWrap>
+        <SlideSurveyWrap onClick={OnClickSurvey}>
           <Title color="#ff9030">
             좋구내는 <br />
             여러분의 이야기가 필요해요!
