@@ -1,7 +1,13 @@
 import React from "react";
+import { CardLike } from "../../views";
 
 const LikePage = () => {
-  return <div></div>;
+  return (
+    <>
+      <CardLike />
+      <CardLike />
+    </>
+  );
 };
 
 export default LikePage;

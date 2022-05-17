@@ -56,6 +56,7 @@ body{
 ///////////// common /////////////
 export const RootStyle = styled.div`
   width: 100%;
+  padding-bottom: ${({ theme }) => `${theme.space.large}`};
 `;
 
 //container
@@ -212,6 +213,13 @@ export const CardContainer = styled.div`
 // imgBox
 export const CardImageContainer = styled.div`
   width: 100%;
+  position: relative;
+`;
+export const CardImageIconWrap = styled.div`
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 9999;
 `;
 export const CardImageWrap = styled.div`
   position: relative;
@@ -251,7 +259,10 @@ export const CardTitleContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: ${({ theme }) => `${theme.space.medium} 0 ${theme.space.large}`};
+  margin: ${(props) =>
+    props.margin
+      ? props.margin
+      : `${props.theme.space.medium} 0 ${props.theme.space.large}`};
 `;
 export const CardStorePriceContainer = styled.div`
   display: flex;
@@ -373,6 +384,25 @@ export const NoticeBody = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.detail};
   line-height: ${({ theme }) => theme.lineHeights.paragraph};
   padding: ${({ theme }) => `${theme.space.large} 0 ${theme.space.xxlarge}`};
+`;
+
+/////// service page'////////
+export const ServiceWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: ${({ theme }) => `${theme.space.large} 0`};
+`;
+
+export const ServiceTitleWrap = styled.div`
+  padding-bottom: ${({ theme }) => `${theme.space.large}`};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+`;
+
+export const ServiceBodyWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-top: ${({ theme }) => theme.space.large};
 `;
 
 /////// not found ///////

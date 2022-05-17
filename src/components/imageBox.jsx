@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Flicking, { ViewportSlot } from "@egjs/react-flicking";
 import "@egjs/react-flicking/dist/flicking.css";
 // Or, if you have to support IE9
@@ -37,4 +37,4 @@ const ImageBox = () => {
   );
 };
 
-export default ImageBox;
+export default memo(ImageBox);

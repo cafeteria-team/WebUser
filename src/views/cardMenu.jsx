@@ -1,6 +1,7 @@
 import React, { useState, memo } from "react";
 import {
   CardContainer,
+  CardImageIconWrap,
   CardImageContainer,
   CardTitleContainer,
   CardStorePriceContainer,
@@ -14,11 +15,14 @@ import {
   Paragraph,
 } from "../styles/styledElements";
 import { ImageBox, Title, MoreBtn } from "../components";
-import { MenuItem } from "../assets/icons";
+import { MenuItem, Heart } from "../assets/icons";
 
-const ImagePart = memo(() => {
+const ImagePart = memo(({ Liked, onClickLike }) => {
   return (
     <CardImageContainer>
+      <CardImageIconWrap>
+        <Heart color={Liked ? "#FF4842" : "#fff"} onClcik={onClickLike} />
+      </CardImageIconWrap>
       <ImageBox />
     </CardImageContainer>
   );
@@ -65,16 +69,23 @@ const MenuPart = ({ OnMenu, onClickMenu }) => {
 };
 
 const CardMenu = () => {
+  // menu lists state
   const [OnMenu, SetOnMenu] = useState(false);
+  // like state
+  const [Liked, SetLiked] = useState(false);
 
   const onClickMenu = () => {
     SetOnMenu((prev) => !prev);
   };
 
+  const onClickLike = () => {
+    SetLiked((prev) => !prev);
+  };
+
   return (
     <CardContainer>
       {/* image */}
-      <ImagePart />
+      <ImagePart onClickLike={onClickLike} Liked={Liked} />
       {/* title */}
       <TitlePart />
       {/* menu */}

@@ -13,6 +13,7 @@ import Modal from "react-modal";
 import "../styles/modal.css";
 
 // modal style
+
 const ModalStyle = {
   content: {
     position: "absolute",

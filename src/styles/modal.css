@@ -38,3 +38,9 @@
 .ReactModal__Overlay--before-close {
   opacity: 0;
 }
+
+@media screen and (max-width: 600px) {
+  .ReactModal__Content {
+    width: calc(100% - 40px) !important;
+  }
+}
