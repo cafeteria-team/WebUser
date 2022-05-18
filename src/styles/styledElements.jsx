@@ -68,6 +68,10 @@ export const Container = styled.main`
 export const Wrap = styled.article`
   width: 100%;
   padding: ${({ theme }) => `0 ${theme.space.large}`};
+
+  @media screen and ${({ theme }) => theme.mobile} {
+    padding: ${({ theme }) => `0 ${theme.space.medium}`};
+  }
 `;
 
 //body paragraph content
@@ -141,7 +145,7 @@ export const SlideMenuContainer = styled.div`
   pointer-events: ${(props) => (props.OnMenu ? "all" : "none")};
   width: 100%;
   height: 100%;
-  z-index: 2;
+  z-index: 999;
 `;
 export const SlideMenuWrap = styled.div`
   width: 100%;
@@ -150,13 +154,13 @@ export const SlideMenuWrap = styled.div`
   height: 100%;
   padding: ${({ theme }) => `${theme.space.large}`};
   background: #fff;
-  z-index: 2;
+  z-index: 999;
 
   transition: all 0.5s ease-in;
   transform: ${(props) =>
     props.OnMenu ? "translateX(0%)" : "translateX(-100%)"};
 
-  @media screen and ${({ theme }) => theme.mobile} {
+  @media screen and ${({ theme }) => theme.mobileS} {
     min-width: unset;
   }
 `;
@@ -169,7 +173,7 @@ export const SlideMenuBg = styled.div`
   transition: opacity 0.5s ease-in;
   opacity: ${(props) => (props.OnMenu ? "1" : "0")};
 
-  @media screen and ${({ theme }) => theme.mobile} {
+  @media screen and ${({ theme }) => theme.mobileS} {
     display: none;
   }
 `;
@@ -221,7 +225,7 @@ export const CardImageIconWrap = styled.div`
   position: absolute;
   right: 20px;
   top: 20px;
-  z-index: 9999;
+  z-index: 2;
 `;
 export const CardImageWrap = styled.div`
   position: relative;

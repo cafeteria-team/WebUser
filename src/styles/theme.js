@@ -31,7 +31,8 @@ const shadow = {
   button: "rgb(249 217 189) 0px 8px 16px 0px",
 };
 const size = {
-  mobile: "400px",
+  mobileS: "400px",
+  mobile: "600px",
 };
 
 const theme = {
@@ -55,6 +56,7 @@ const theme = {
   },
   shadow,
   radii,
+  mobileS: `(max-width:${size.mobileS})`,
   mobile: `(max-width:${size.mobile})`,
 };
 
