@@ -6,7 +6,7 @@ import NoticeContent from "./noticeContent";
 import ServiceList from "./serviceList";
 import CardLike from "./cardLike";
 import CardDetail from "./cardDetail";
-import Map from "./map";
+import MapView from "./mapView";
 
 export {
   Header,
@@ -17,5 +17,5 @@ export {
   ServiceList,
   CardLike,
   CardDetail,
-  Map,
+  MapView,
 };

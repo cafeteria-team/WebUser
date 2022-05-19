@@ -592,3 +592,19 @@ export const NotFoundContainer = styled.div`
   top: 50%;
   transform: translateY(-50%);
 `;
+
+////// map container/////
+export const StyledMapContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
+
+export const StyledMapWrap = styled.form`
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+`;
