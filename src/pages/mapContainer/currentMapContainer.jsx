@@ -16,6 +16,8 @@ import { setCurrentLocation } from "../../_modules/location";
 // redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
+const { kakao } = window;
+
 const ModalStyle = {
   content: {
     position: "absolute",
@@ -58,8 +60,11 @@ const ModalContainer = styled.div`
   background: ${(props) => props.background || "#fff"};
 `;
 
-const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
-  const [Location, SetLocation] = useState({
+const CurrentMapContainer = ({ onClickCurrentLocation }) => {
+  // useDispatch : call dispatch in store
+  const dispatch = useDispatch();
+
+  const [coordinate, setCoordinate] = useState({
     // 지도의 초기 위치
     center: { lat: 37.49676871972202, lng: 127.02474726969814 },
     // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
@@ -67,11 +72,11 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
   });
 
   //failed modal
-  const [OnModal, SetOnModal] = useState(false);
+  const [onModal, setOnModal] = useState(false);
 
   // address modal show up
-  const OnClickModal = () => {
-    SetOnModal((prev) => !prev);
+  const onClickModal = () => {
+    setOnModal((prev) => !prev);
   };
 
   //   find current location
@@ -84,7 +89,7 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
 
   //   if find location,
   const locationLoadSuccess = (pos) => {
-    SetLocation((prev) => ({
+    setCoordinate((prev) => ({
       ...prev,
       center: { lat: pos.coords.latitude, lng: pos.coords.longitude },
     }));
@@ -92,7 +97,34 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
 
   //   if failed to find location
   const locationLoadError = (pos) => {
-    SetOnModal(true);
+    setOnModal(true);
+  };
+
+  // find region
+  const searchAddressFromCode = () => {
+    const geocoder = new kakao.maps.services.Geocoder();
+
+    let callback = function (result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        const newSearch = result[0];
+        _setLocation(
+          `${newSearch.region_2depth_name} ${newSearch.region_3depth_name}`
+        );
+        onClickCurrentLocation();
+      } else {
+        alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
+      }
+    };
+    geocoder.coord2RegionCode(
+      coordinate.center.lng,
+      coordinate.center.lat,
+      callback
+    );
+  };
+
+  // save region to session storage
+  const _setLocation = (region) => {
+    dispatch(setCurrentLocation(region));
   };
 
   //   on rendering this component, find location
@@ -100,25 +132,18 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
     getCurrentPos();
 
     return () => {
-      SetOnModal(false);
+      setOnModal(false);
     };
   }, []);
 
   const location = useSelector((state) => state.location, shallowEqual);
 
-  // useDispatch : call dispatch in store
-  const dispatch = useDispatch();
-
-  const _setLocation = (location) => {
-    dispatch(setCurrentLocation(location));
-  };
-
   return (
     <ModalContainer>
       <Modal
-        isOpen={OnModal}
+        isOpen={onModal}
         contentLabel="phone check"
-        onRequestClose={OnClickModal}
+        onRequestClose={onClickModal}
         style={ModalStyle}
         className="Modal"
         overlayClassName="Overlay"
@@ -138,20 +163,20 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
           color="#fff"
           width="100%"
           height="56px"
-          onClick={OnClickModal}
+          onClick={onClickModal}
         >
           확인
         </Button>
       </Modal>
       <SlideIconWrap margin="0">
-        <CloseCircle color="#637381" onClick={OnClickCurrentLocation} />
+        <CloseCircle color="#637381" onClick={onClickCurrentLocation} />
       </SlideIconWrap>
       <Title width="100%" margin="0 0 20px 0">
         현재위치로 위치선정
       </Title>
       <StyledMapContainer>
         <MapView // 지도를 표시할 Container
-          location={Location}
+          location={coordinate}
         ></MapView>
         <StyledButtonMapWrap>
           <Button
@@ -162,7 +187,7 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
             color="#fff"
             radii="8px"
             shadow
-            onClick={() => _setLocation(Location)}
+            onClick={searchAddressFromCode}
           >
             설정완료
           </Button>

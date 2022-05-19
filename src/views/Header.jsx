@@ -11,7 +11,7 @@ import { Menu, Location, Logo } from "../assets/icons";
 import { Title, MoreBtn, ModalAddress } from "../components";
 import { MapContainer, CurrentMapContainer } from "../pages";
 import Modal from "react-modal";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 
 // modal style
 
@@ -74,41 +74,41 @@ const FindModalStyle = {
 
 const Header = ({ onClickMenu }) => {
   //address content
-  const [OnAddress, SetOnAddress] = useState(false);
+  const [onArea, setOnArea] = useState(false);
 
   //address modal
-  const [OnModal, SetOnModal] = useState(false);
+  const [onModal, setOnModal] = useState(false);
 
   // Open map
-  const [CurrentMap, SetCurrentMap] = useState(false);
-  const [FindLocation, SetFindLocation] = useState(false);
+  const [currentMap, setCurrentMap] = useState(false);
+  const [findLocation, setFindLocation] = useState(false);
 
   // header address content show up
-  const OnClickLocation = () => {
-    SetOnAddress((prev) => !prev);
+  const onClickLocation = () => {
+    setOnArea((prev) => !prev);
   };
 
   // address modal show up
-  const OnClickModal = () => {
-    SetOnModal((prev) => !prev);
+  const onClickModal = () => {
+    setOnModal((prev) => !prev);
   };
 
   // clicked address btn
-  const OpenCurrentLocation = () => {
-    SetOnModal(false);
-    OnClickCurrentLocation();
+  const openCurrentLocation = () => {
+    setOnModal(false);
+    onClickCurrentLocation();
   };
-  const OpenFindLocation = () => {
-    SetOnModal(false);
-    OnClickFindLocation();
+  const openFindLocation = () => {
+    setOnModal(false);
+    onClickFindLocation();
   };
 
   // find location show up
-  const OnClickCurrentLocation = () => {
-    SetCurrentMap((prev) => !prev);
+  const onClickCurrentLocation = () => {
+    setCurrentMap((prev) => !prev);
   };
-  const OnClickFindLocation = () => {
-    SetFindLocation((prev) => !prev);
+  const onClickFindLocation = () => {
+    setFindLocation((prev) => !prev);
   };
 
   const location = useSelector((state) => state.setLocation, shallowEqual);
@@ -117,45 +117,45 @@ const Header = ({ onClickMenu }) => {
     <>
       {/* modal */}
       <Modal
-        isOpen={OnModal}
+        isOpen={onModal}
         contentLabel="phone check"
-        onRequestClose={OnClickModal}
+        onRequestClose={onClickModal}
         style={ModalStyle}
         className="Modal"
         overlayClassName="Overlay"
         ariaHideApp={false}
       >
         <ModalAddress
-          OnClickModal={OnClickModal}
-          OpenFindLocation={OpenFindLocation}
-          OpenCurrentLocation={OpenCurrentLocation}
+          onClickModal={onClickModal}
+          openFindLocation={openFindLocation}
+          openCurrentLocation={openCurrentLocation}
         />
       </Modal>
 
       {/* Cureent map modal */}
       <Modal
-        isOpen={CurrentMap}
+        isOpen={currentMap}
         contentLabel="phone check"
-        onRequestClose={OnClickCurrentLocation}
+        onRequestClose={onClickCurrentLocation}
         style={FindModalStyle}
         className="Modal"
         overlayClassName="Overlay"
         ariaHideApp={false}
       >
-        <CurrentMapContainer OnClickCurrentLocation={OnClickCurrentLocation} />
+        <CurrentMapContainer OnClickCurrentLocation={onClickCurrentLocation} />
       </Modal>
 
       {/* map modal */}
       <Modal
-        isOpen={FindLocation}
+        isOpen={findLocation}
         contentLabel="phone check"
-        onRequestClose={OnClickFindLocation}
+        onRequestClose={onClickFindLocation}
         style={FindModalStyle}
         className="Modal"
         overlayClassName="Overlay"
         ariaHideApp={false}
       >
-        <MapContainer OnClickFindLocation={OnClickFindLocation} />
+        <MapContainer onClickFindLocation={onClickFindLocation} />
       </Modal>
 
       {/* header */}
@@ -163,11 +163,11 @@ const Header = ({ onClickMenu }) => {
         <StyledHeaderWrap>
           <Menu color="#212B36" onClickMenu={onClickMenu} />
           <Logo />
-          <Location color="#212B36" OnClickLocation={OnClickLocation} />
+          <Location color="#212B36" OnClickLocation={onClickLocation} />
         </StyledHeaderWrap>
       </StyledHeaderContainer>
       {/* location content */}
-      <LocationContentWrap OnAddress={OnAddress}>
+      <LocationContentWrap onArea={onArea}>
         <LocationContent>
           <Title margin="0 0 16px 0">내주변</Title>
           <MyLocationWrap>
@@ -179,7 +179,7 @@ const Header = ({ onClickMenu }) => {
               background="#F9FAFB"
               radii="8px"
               color="#637381"
-              onClick={OnClickModal}
+              onClick={onClickModal}
             >
               위치 재설정
             </MoreBtn>

@@ -11,7 +11,7 @@ import { CloseCircle } from "../../assets/icons";
 import styled from "styled-components";
 import { Title } from "../../components";
 // redux
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCurrentLocation } from "../../_modules/location";
 
 const { kakao } = window;
@@ -26,7 +26,7 @@ const ModalContainer = styled.div`
   background: ${(props) => props.background || "#fff"};
 `;
 
-const MapContainer = ({ OnClickFindLocation }) => {
+const MapContainer = ({ onClickFindLocation }) => {
   // set dispatch
   const dispatch = useDispatch();
 
@@ -38,7 +38,7 @@ const MapContainer = ({ OnClickFindLocation }) => {
     isPanto: true,
   });
 
-  const OnChange = (e) => {
+  const onChange = (e) => {
     setInputText(e.target.value);
   };
 
@@ -47,13 +47,13 @@ const MapContainer = ({ OnClickFindLocation }) => {
     if (inputText === "") {
       alert("주소를 입력해주세요.");
     } else {
-      SearchMap();
+      searchMap();
       setInputText("");
     }
   };
 
   // 주소 입력후 검색 클릭 시 원하는 주소로 이동
-  const SearchMap = () => {
+  const searchMap = () => {
     const geocoder = new kakao.maps.services.Geocoder();
 
     let callback = function (result, status) {
@@ -70,7 +70,7 @@ const MapContainer = ({ OnClickFindLocation }) => {
   };
 
   // find region
-  const SearchAddressFromCode = () => {
+  const searchAddressFromCode = () => {
     const geocoder = new kakao.maps.services.Geocoder();
 
     let callback = function (result, status) {
@@ -79,6 +79,7 @@ const MapContainer = ({ OnClickFindLocation }) => {
         _setLocation(
           `${newSearch.region_2depth_name} ${newSearch.region_3depth_name}`
         );
+        onClickFindLocation();
       } else {
         alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
       }
@@ -97,19 +98,22 @@ const MapContainer = ({ OnClickFindLocation }) => {
 
   return (
     <ModalContainer>
+      {/* close btn */}
       <SlideIconWrap margin="0">
-        <CloseCircle color="#637381" onClick={OnClickFindLocation} />
+        <CloseCircle color="#637381" onClick={onClickFindLocation} />
       </SlideIconWrap>
+      {/* title */}
       <Title width="100%" margin="0 0 20px 0">
         지도주소로 위치선정
       </Title>
+      {/* map */}
       <StyledMapContainer>
         <StyledMapWrap onSubmit={handleSubmit}>
           <Input
             placeholder="정확한 주소를 입력해주세요. 예) 강남구, 은평구, 갈현동"
             value={inputText}
             type="text"
-            onChange={(e) => OnChange(e)}
+            onChange={(e) => onChange(e)}
             width="100%"
             height="56px"
             radii="8px 0 0 0"
@@ -137,7 +141,7 @@ const MapContainer = ({ OnClickFindLocation }) => {
             color="#fff"
             radii="8px"
             shadow
-            onClick={SearchAddressFromCode}
+            onClick={searchAddressFromCode}
           >
             설정완료
           </Button>
