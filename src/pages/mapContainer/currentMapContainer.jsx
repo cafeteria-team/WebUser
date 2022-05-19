@@ -12,6 +12,8 @@ import { CloseCircle } from "../../assets/icons";
 import styled from "styled-components";
 import { Title } from "../../components";
 import Modal from "react-modal";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { setCurrentLocation } from "../../_modules/location";
 
 const ModalStyle = {
   content: {
@@ -71,6 +73,7 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
     SetOnModal((prev) => !prev);
   };
 
+  //   find current location
   const getCurrentPos = () => {
     navigator.geolocation.getCurrentPosition(
       locationLoadSuccess,
@@ -78,6 +81,7 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
     );
   };
 
+  //   if find location,
   const locationLoadSuccess = (pos) => {
     SetLocation((prev) => ({
       ...prev,
@@ -85,10 +89,12 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
     }));
   };
 
+  //   if failed to find location
   const locationLoadError = (pos) => {
     SetOnModal(true);
   };
 
+  //   on rendering this component, find location
   useEffect(() => {
     getCurrentPos();
 
@@ -96,6 +102,23 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
       SetOnModal(false);
     };
   }, []);
+
+  // redux
+  // useSelector는 : check store's state
+  // state === store.getState()
+  //   const { location } = useSelector((state) => ({
+  //     location: state.setLocation.location,
+  //   }));
+  const location = useSelector((state) => state.location, shallowEqual);
+
+  console.log(location);
+
+  // useDispatch : call dispatch in store
+  const dispatch = useDispatch();
+
+  const _setLocation = (location) => {
+    dispatch(setCurrentLocation(location));
+  };
 
   return (
     <ModalContainer>
@@ -146,6 +169,7 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
             color="#fff"
             radii="8px"
             shadow
+            onClick={() => _setLocation(Location)}
           >
             설정완료
           </Button>
