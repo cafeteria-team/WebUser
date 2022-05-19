@@ -1,11 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Input, Button } from "../../components";
-import { StyledMapContainer, StyledMapWrap } from "../../styles/styledElements";
+import {
+  StyledMapContainer,
+  StyledMapWrap,
+  SlideIconWrap,
+  StyledButtonMapWrap,
+} from "../../styles/styledElements";
 import { MapView } from "../../views";
+import { CloseCircle } from "../../assets/icons";
+import styled from "styled-components";
+import { Title } from "../../components";
 
 const { kakao } = window;
 
-const MapContainer = () => {
+const ModalContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justyfi-content: center;
+  flex-direction: column;
+  width: 100%;
+  border-radius: ${(props) => props.radii || props.theme.radii.rounded};
+  background: ${(props) => props.background || "#fff"};
+`;
+
+const MapContainer = ({ OnClickFindLocation }) => {
   const [InputText, SetInputText] = useState("");
   const [Location, SetLocation] = useState({
     // 지도의 초기 위치
@@ -46,33 +64,53 @@ const MapContainer = () => {
   };
 
   return (
-    <StyledMapContainer>
-      <StyledMapWrap onSubmit={handleSubmit}>
-        <Input
-          placeholder="정확한 주소를 입력해주세요. 예) 강남구, 은평구, 갈현동"
-          value={InputText}
-          type="text"
-          onChange={(e) => OnChange(e)}
-          width="100%"
-          height="56px"
-          radii="8px 0 0 0"
-        />
-        <Button
-          type="submit"
-          width="100px"
-          height="56px"
-          background="#ff9030"
-          color="#fff"
-          radii="0 8px 0 0"
-        >
-          검색
-        </Button>
-      </StyledMapWrap>
-
-      <MapView // 지도를 표시할 Container
-        location={Location}
-      ></MapView>
-    </StyledMapContainer>
+    <ModalContainer>
+      <SlideIconWrap margin="0">
+        <CloseCircle color="#637381" onClick={OnClickFindLocation} />
+      </SlideIconWrap>
+      <Title width="100%" margin="0 0 20px 0">
+        지도주소로 위치선정
+      </Title>
+      <StyledMapContainer>
+        <StyledMapWrap onSubmit={handleSubmit}>
+          <Input
+            placeholder="정확한 주소를 입력해주세요. 예) 강남구, 은평구, 갈현동"
+            value={InputText}
+            type="text"
+            onChange={(e) => OnChange(e)}
+            width="100%"
+            height="56px"
+            radii="8px 0 0 0"
+          />
+          <Button
+            type="submit"
+            width="100px"
+            height="56px"
+            background="#637381"
+            color="#fff"
+            radii="0 8px 0 0"
+          >
+            검색
+          </Button>
+        </StyledMapWrap>
+        <MapView // 지도를 표시할 Container
+          location={Location}
+        ></MapView>
+        <StyledButtonMapWrap>
+          <Button
+            type="submit"
+            width="100px"
+            height="56px"
+            background="#ff9030"
+            color="#fff"
+            radii="8px"
+            shadow
+          >
+            설정완료
+          </Button>
+        </StyledButtonMapWrap>
+      </StyledMapContainer>
+    </ModalContainer>
   );
 };
 

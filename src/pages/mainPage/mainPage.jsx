@@ -7,7 +7,6 @@ const MainPage = () => {
     <>
       <CardMenu />
       <CardMenu />
-      <MapContainer />
     </>
   );
 };

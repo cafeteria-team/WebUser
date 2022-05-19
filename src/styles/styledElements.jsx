@@ -608,3 +608,12 @@ export const StyledMapWrap = styled.form`
   z-index: 2;
   display: flex;
 `;
+
+export const StyledButtonMapWrap = styled.div`
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+`;

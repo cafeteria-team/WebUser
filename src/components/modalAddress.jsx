@@ -22,7 +22,13 @@ const ModalWrap = styled.div`
   max-width: 454px;
 `;
 
-const ModalAddress = ({ children, onClick, OnClickModal, ...props }) => {
+const ModalAddress = ({
+  children,
+  onClick,
+  OnClickModal,
+  OpenFindLocation,
+  ...props
+}) => {
   return (
     <ModalContainer {...props}>
       <SlideIconWrap margin="0">
@@ -37,7 +43,7 @@ const ModalAddress = ({ children, onClick, OnClickModal, ...props }) => {
           <LeftSquare color="#ff9030" />
           <Paragraph margin="0 0 0 6px">현재 위치로 재검색</Paragraph>
         </Button>
-        <Button background="#F9FAFB" height="56px">
+        <Button background="#F9FAFB" height="56px" onClick={OpenFindLocation}>
           <Location color="#ff9030" />
           <Paragraph margin="0 0 0 6px">지도 주소로 위치 설정</Paragraph>
         </Button>

@@ -15,6 +15,7 @@ const StyledButton = styled.button`
   margin: ${(props) => props.margin || ""};
   color: ${(props) => props.color || props.theme.colors.text};
   type: ${(props) => props.type || ""};
+  box-shadow: ${(props) => (props.shadow ? props.theme.shadow.button : "")};
 `;
 
 const Button = ({ onClick, children, ...props }) => {
