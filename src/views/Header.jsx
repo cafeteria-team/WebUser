@@ -9,7 +9,7 @@ import {
 } from "../styles/styledElements";
 import { Menu, Location, Logo } from "../assets/icons";
 import { Title, MoreBtn, ModalAddress } from "../components";
-import { MapContainer } from "../pages";
+import { MapContainer, CurrentMapContainer } from "../pages";
 import Modal from "react-modal";
 
 // modal style
@@ -42,7 +42,6 @@ const ModalStyle = {
     zIndex: "999",
   },
 };
-
 const FindModalStyle = {
   content: {
     position: "absolute",
@@ -80,6 +79,7 @@ const Header = ({ onClickMenu }) => {
   const [OnModal, SetOnModal] = useState(false);
 
   // Open map
+  const [CurrentMap, SetCurrentMap] = useState(false);
   const [FindLocation, SetFindLocation] = useState(false);
 
   // header address content show up
@@ -93,12 +93,19 @@ const Header = ({ onClickMenu }) => {
   };
 
   // clicked address btn
+  const OpenCurrentLocation = () => {
+    SetOnModal(false);
+    OnClickCurrentLocation();
+  };
   const OpenFindLocation = () => {
     SetOnModal(false);
     OnClickFindLocation();
   };
 
   // find location show up
+  const OnClickCurrentLocation = () => {
+    SetCurrentMap((prev) => !prev);
+  };
   const OnClickFindLocation = () => {
     SetFindLocation((prev) => !prev);
   };
@@ -118,7 +125,21 @@ const Header = ({ onClickMenu }) => {
         <ModalAddress
           OnClickModal={OnClickModal}
           OpenFindLocation={OpenFindLocation}
+          OpenCurrentLocation={OpenCurrentLocation}
         />
+      </Modal>
+
+      {/* Cureent map modal */}
+      <Modal
+        isOpen={CurrentMap}
+        contentLabel="phone check"
+        onRequestClose={OnClickCurrentLocation}
+        style={FindModalStyle}
+        className="Modal"
+        overlayClassName="Overlay"
+        ariaHideApp={false}
+      >
+        <CurrentMapContainer OnClickCurrentLocation={OnClickCurrentLocation} />
       </Modal>
 
       {/* map modal */}

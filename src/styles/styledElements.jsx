@@ -55,11 +55,6 @@ body{
   // carousel
   .flicking-viewport{
     touch-action:pan-x !important;
-    // -webkit-user-select:contain !important; 
-    // -moz-user-select:contain !important; 
-    // -ms-user-select:contain !important; 
-    // user-select:contain !important;
-    -webkit-user-drag: element !important;
   }
   .flicking-pagination-scroll {
     overflow: hidden;
@@ -286,7 +281,7 @@ export const SlideMenuWrap = styled.div`
   background: #fff;
   z-index: 999;
 
-  transition: all 0.5s linear;
+  transition: transform 0.4s linear;
   transform: ${(props) =>
     props.OnMenu ? "translateX(0%)" : "translateX(-100%)"};
 

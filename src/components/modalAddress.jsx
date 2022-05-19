@@ -27,6 +27,7 @@ const ModalAddress = ({
   onClick,
   OnClickModal,
   OpenFindLocation,
+  OpenCurrentLocation,
   ...props
 }) => {
   return (
@@ -39,7 +40,12 @@ const ModalAddress = ({
         <Paragraph margin="0 0 26px 0">
           현재 위치 재검색 또는 지도로 위치설정이 가능합니다.
         </Paragraph>
-        <Button background="#F9FAFB" height="56px" margin="0 0 20px 0">
+        <Button
+          background="#F9FAFB"
+          height="56px"
+          margin="0 0 20px 0"
+          onClick={OpenCurrentLocation}
+        >
           <LeftSquare color="#ff9030" />
           <Paragraph margin="0 0 0 6px">현재 위치로 재검색</Paragraph>
         </Button>
