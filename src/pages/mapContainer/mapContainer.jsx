@@ -10,6 +10,9 @@ import { MapView } from "../../views";
 import { CloseCircle } from "../../assets/icons";
 import styled from "styled-components";
 import { Title } from "../../components";
+// redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { setCurrentLocation } from "../../_modules/location";
 
 const { kakao } = window;
 
@@ -24,8 +27,11 @@ const ModalContainer = styled.div`
 `;
 
 const MapContainer = ({ OnClickFindLocation }) => {
-  const [InputText, SetInputText] = useState("");
-  const [Location, SetLocation] = useState({
+  // set dispatch
+  const dispatch = useDispatch();
+
+  const [inputText, setInputText] = useState("");
+  const [coordinate, setCoordinate] = useState({
     // 지도의 초기 위치
     center: { lat: 37.49676871972202, lng: 127.02474726969814 },
     // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
@@ -33,16 +39,16 @@ const MapContainer = ({ OnClickFindLocation }) => {
   });
 
   const OnChange = (e) => {
-    SetInputText(e.target.value);
+    setInputText(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (InputText === "") {
+    if (inputText === "") {
       alert("주소를 입력해주세요.");
     } else {
       SearchMap();
-      SetInputText("");
+      setInputText("");
     }
   };
 
@@ -53,14 +59,14 @@ const MapContainer = ({ OnClickFindLocation }) => {
     let callback = function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
         const newSearch = result[0];
-        SetLocation({
+        setCoordinate({
           center: { lat: newSearch.y, lng: newSearch.x },
         });
       } else {
         alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
       }
     };
-    geocoder.addressSearch(`${InputText}`, callback);
+    geocoder.addressSearch(`${inputText}`, callback);
   };
 
   // find region
@@ -70,16 +76,23 @@ const MapContainer = ({ OnClickFindLocation }) => {
     let callback = function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
         const newSearch = result[0];
-        console.log(newSearch);
+        _setLocation(
+          `${newSearch.region_2depth_name} ${newSearch.region_3depth_name}`
+        );
       } else {
         alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
       }
     };
     geocoder.coord2RegionCode(
-      Location.center.lng,
-      Location.center.lat,
+      coordinate.center.lng,
+      coordinate.center.lat,
       callback
     );
+  };
+
+  // save region to session storage
+  const _setLocation = (region) => {
+    dispatch(setCurrentLocation(region));
   };
 
   return (
@@ -94,7 +107,7 @@ const MapContainer = ({ OnClickFindLocation }) => {
         <StyledMapWrap onSubmit={handleSubmit}>
           <Input
             placeholder="정확한 주소를 입력해주세요. 예) 강남구, 은평구, 갈현동"
-            value={InputText}
+            value={inputText}
             type="text"
             onChange={(e) => OnChange(e)}
             width="100%"
@@ -113,7 +126,7 @@ const MapContainer = ({ OnClickFindLocation }) => {
           </Button>
         </StyledMapWrap>
         <MapView // 지도를 표시할 Container
-          location={Location}
+          location={coordinate}
         ></MapView>
         <StyledButtonMapWrap>
           <Button

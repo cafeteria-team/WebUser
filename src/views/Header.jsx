@@ -11,6 +11,7 @@ import { Menu, Location, Logo } from "../assets/icons";
 import { Title, MoreBtn, ModalAddress } from "../components";
 import { MapContainer, CurrentMapContainer } from "../pages";
 import Modal from "react-modal";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 // modal style
 
@@ -110,6 +111,8 @@ const Header = ({ onClickMenu }) => {
     SetFindLocation((prev) => !prev);
   };
 
+  const location = useSelector((state) => state.setLocation, shallowEqual);
+
   return (
     <>
       {/* modal */}
@@ -168,7 +171,9 @@ const Header = ({ onClickMenu }) => {
         <LocationContent>
           <Title margin="0 0 16px 0">내주변</Title>
           <MyLocationWrap>
-            <MyLocation>중구 태평로 1가</MyLocation>
+            <MyLocation>
+              {location ? location.location : "서초구 서초동"}
+            </MyLocation>
             <MoreBtn
               padding="6px 8px"
               background="#F9FAFB"

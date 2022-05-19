@@ -12,8 +12,9 @@ import { CloseCircle } from "../../assets/icons";
 import styled from "styled-components";
 import { Title } from "../../components";
 import Modal from "react-modal";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setCurrentLocation } from "../../_modules/location";
+// redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 const ModalStyle = {
   content: {
