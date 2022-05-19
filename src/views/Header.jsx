@@ -10,7 +10,6 @@ import {
 import { Menu, Location, Logo } from "../assets/icons";
 import { Title, MoreBtn, ModalAddress } from "../components";
 import Modal from "react-modal";
-import "../styles/modal.css";
 
 // modal style
 

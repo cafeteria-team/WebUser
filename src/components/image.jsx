@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "intersection-observer";
 import "../polyfill/customEvent";
-import { CardImage } from "../styles/styledElements";
+import { CardImage, CardImagePlacholder } from "../styles/styledElements";
 
 let observer = null;
 // 이미지를 로드할 이벤트 이름은 loadImage로 정했습니다.
@@ -60,8 +60,14 @@ const Image = (props) => {
     }
   }, []);
 
-  return <CardImage ref={imgRef} src={isLoad ? src : ""} alt={alt} />;
+  return isLoad ? (
+    <CardImage ref={imgRef} src={src} alt={alt} />
+  ) : (
+    <CardImagePlacholder ref={imgRef} alt={alt} />
+  );
 };
+
+// <CardImage ref={imgRef} src={isLoad ? src : ""} alt={alt} />;
 
 Image.defaultProps = {
   alt: "",

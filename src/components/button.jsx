@@ -13,6 +13,7 @@ const StyledButton = styled.button`
   outline: unset;
   border: ${(props) => props.border || "unset"};
   margin: ${(props) => props.margin || ""};
+  color: ${(props) => props.color || props.theme.colors.text};
 `;
 
 const Button = ({ onClick, children, ...props }) => {

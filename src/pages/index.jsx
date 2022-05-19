@@ -6,6 +6,7 @@ import NoticeDetail from "./noticePage/noticeDetail";
 import ServicePage from "./servicePage/servicePage";
 import LikePage from "./likePage/likePage";
 import NotFoundPage from "./notFoundPage/notFoundPage";
+import MapContainer from "./mapContainer/mapContainer";
 
 export {
   MainContainer,
@@ -16,4 +17,5 @@ export {
   ServicePage,
   LikePage,
   NotFoundPage,
+  MapContainer,
 };

@@ -7,6 +7,7 @@ import ImageBox from "./imageBox";
 import Panel from "./panel";
 import Image from "./image";
 import ImageLoadingContainer from "./imageLoadingContainer";
+import Input from "./input";
 
 export {
   Title,
@@ -18,4 +19,5 @@ export {
   Panel,
   Image,
   ImageLoadingContainer,
+  Input,
 };

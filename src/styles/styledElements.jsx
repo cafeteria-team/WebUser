@@ -51,6 +51,136 @@ body{
     font-size: ${({ theme }) => theme.fontSizes.body};
   }
 
+
+  // carousel
+  .flicking-viewport{
+    touch-action:pan-x !important;
+    // -webkit-user-select:contain !important; 
+    // -moz-user-select:contain !important; 
+    // -ms-user-select:contain !important; 
+    // user-select:contain !important;
+    -webkit-user-drag: element !important;
+  }
+  .flicking-pagination-scroll {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .flicking-pagination {
+    width: 100%;
+    margin: 10px auto 0;
+    z-index: 2;
+  }
+  .flicking-pagination-scroll .flicking-pagination-slider {
+    transition: transform 0.2s;
+  }
+  .flicking-pagination-scroll .flicking-pagination-bullet {
+    position: relative;
+    transform: scale(0);
+    transition: transform 0.2s, left 0.2s;
+    vertical-align: middle;
+  }
+  .flicking-pagination-bullet {
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1rem;
+    height: 8px;
+    margin: 0 4px;
+    width: 8px;
+  }
+  .flicking-pagination-scroll .flicking-pagination-bullet-next,
+  .flicking-pagination-scroll .flicking-pagination-bullet-prev {
+    transform: scale(0.66);
+  }
+  .flicking-pagination-scroll .flicking-pagination-bullet-next2,
+  .flicking-pagination-scroll .flicking-pagination-bullet-prev2 {
+    transform: scale(0.33);
+  }
+  .flicking-pagination-scroll .flicking-pagination-bullet-active {
+    background-color: #ff9030;
+  }
+  .flicking-pagination-scroll .flicking-pagination-bullet-active {
+    transform: scale(1);
+  }
+  
+  .flicking-arrow-disabled.is-circle,
+  .flicking-pagination-bullet,
+  .hero.is-black .tabs.is-boxed a:hover,
+  .hero.is-black .tabs.is-toggle a:hover,
+  .hero.is-danger .tabs.is-boxed a:hover,
+  .hero.is-danger .tabs.is-toggle a:hover,
+  .hero.is-dark .tabs.is-boxed a:hover,
+  .hero.is-dark .tabs.is-toggle a:hover,
+  .hero.is-info .tabs.is-boxed a:hover,
+  .hero.is-info .tabs.is-toggle a:hover,
+  .hero.is-light .tabs.is-boxed a:hover,
+  .hero.is-light .tabs.is-toggle a:hover,
+  .hero.is-link .tabs.is-boxed a:hover,
+  .hero.is-link .tabs.is-toggle a:hover,
+  .hero.is-primary .tabs.is-boxed a:hover,
+  .hero.is-primary .tabs.is-toggle a:hover,
+  .hero.is-success .tabs.is-boxed a:hover,
+  .hero.is-success .tabs.is-toggle a:hover,
+  .hero.is-warning .tabs.is-boxed a:hover,
+  .hero.is-warning .tabs.is-toggle a:hover,
+  .hero.is-white .tabs.is-boxed a:hover,
+  .hero.is-white .tabs.is-toggle a:hover {
+    background-color: hsla(0, 0%, 4%, 0.1);
+  }
+
+  //modal
+
+  .ReactModal__Content{
+    outline: unset;
+    box-shadow:${({ theme }) => theme.shadow.content};
+  }
+
+  .ReactModal__Modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    bottom: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    z-index: 999;
+    width: 100%;
+    max-width: 600px;
+    height: 313px;
+    display: flex;
+    border-radius: 16px;
+    border: unset;
+    padding: 20px 20px 50px;
+  }
+  .ReactModal__Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 2000ms linear;
+  }
+  .ReactModal__Overlay {
+    opacity: 0;
+    transition: all 500ms linear;
+  }
+  
+  .ReactModal__Overlay--after-open {
+    opacity: 1;
+  }
+  
+  .ReactModal__Overlay--before-close {
+    opacity: 0;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .ReactModal__Content {
+      width: calc(100% - 24px) !important;
+    }
+  }
 `;
 
 ///////////// common /////////////
@@ -114,7 +244,7 @@ export const LocationContentWrap = styled.div`
   height: 120px;
   background: #fff;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  transition: all 0.4s ease-in-out;
+  transition: all 0.4s linear;
   overflow: hidden;
   max-height: ${({ OnAddress }) => (OnAddress ? "120px" : "0")};
 `;
@@ -156,7 +286,7 @@ export const SlideMenuWrap = styled.div`
   background: #fff;
   z-index: 999;
 
-  transition: all 0.5s ease-in;
+  transition: all 0.5s linear;
   transform: ${(props) =>
     props.OnMenu ? "translateX(0%)" : "translateX(-100%)"};
 
@@ -170,7 +300,7 @@ export const SlideMenuBg = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
 
-  transition: opacity 0.5s ease-in;
+  transition: opacity 0.5s linear;
   opacity: ${(props) => (props.OnMenu ? "1" : "0")};
 
   @media screen and ${({ theme }) => theme.mobileS} {
@@ -259,6 +389,18 @@ export const CardImage = styled.img`
   height: 100%;
 `;
 
+export const CardImagePlacholder = styled.div`
+  top: -100%;
+  bottom: -100%;
+  margin: auto;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  width: 100%;
+  height: 100%;
+  background: #fcf1e8;
+`;
+
 // title
 export const CardTitleContainer = styled.div`
   display: flex;
@@ -289,7 +431,7 @@ export const CardMenuContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: ${(props) => props.height || "64px"};
-  transition: all 0.6s ease-in;
+  transition: all 0.6s linear;
   background: ${({ theme }) => theme.colors.background};
   border-radius: ${({ theme }) => theme.radii.button};
   padding: ${({ theme }) => theme.space.large};
@@ -313,7 +455,7 @@ export const CardMenuListsWrap = styled.ul`
   height: 100%;
   max-height: ${(props) => props.maxHeight || "0"};
   overflow: hidden;
-  transition: all 0.6s ease;
+  transition: all 0.6s linear;
   margin-top: ${(props) => props.marginTop || "0"};
 `;
 export const CardMenuLists = styled.li`
