@@ -103,15 +103,7 @@ const CurrentMapContainer = ({ OnClickCurrentLocation }) => {
     };
   }, []);
 
-  // redux
-  // useSelector는 : check store's state
-  // state === store.getState()
-  //   const { location } = useSelector((state) => ({
-  //     location: state.setLocation.location,
-  //   }));
   const location = useSelector((state) => state.location, shallowEqual);
-
-  console.log(location);
 
   // useDispatch : call dispatch in store
   const dispatch = useDispatch();

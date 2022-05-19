@@ -63,6 +63,25 @@ const MapContainer = ({ OnClickFindLocation }) => {
     geocoder.addressSearch(`${InputText}`, callback);
   };
 
+  // find region
+  const SearchAddressFromCode = () => {
+    const geocoder = new kakao.maps.services.Geocoder();
+
+    let callback = function (result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        const newSearch = result[0];
+        console.log(newSearch);
+      } else {
+        alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
+      }
+    };
+    geocoder.coord2RegionCode(
+      Location.center.lng,
+      Location.center.lat,
+      callback
+    );
+  };
+
   return (
     <ModalContainer>
       <SlideIconWrap margin="0">
@@ -105,6 +124,7 @@ const MapContainer = ({ OnClickFindLocation }) => {
             color="#fff"
             radii="8px"
             shadow
+            onClick={SearchAddressFromCode}
           >
             설정완료
           </Button>
