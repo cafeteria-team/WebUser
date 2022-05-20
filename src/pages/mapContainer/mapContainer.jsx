@@ -9,7 +9,7 @@ import {
 import { MapView } from "../../views";
 import { CloseCircle } from "../../assets/icons";
 import styled from "styled-components";
-import { Title } from "../../components";
+import { Title, AlertModal } from "../../components";
 // redux
 import { useDispatch } from "react-redux";
 import { setCurrentLocation } from "../../_modules/location";
@@ -37,6 +37,14 @@ const MapContainer = ({ onClickFindLocation }) => {
     // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
     isPanto: true,
   });
+
+  //failed modal
+  const [onModal, setOnModal] = useState(false);
+
+  // address modal show up
+  const onClickModal = () => {
+    setOnModal((prev) => !prev);
+  };
 
   const onChange = (e) => {
     setInputText(e.target.value);
@@ -98,6 +106,15 @@ const MapContainer = ({ onClickFindLocation }) => {
 
   return (
     <ModalContainer>
+      {/* modal */}
+      <AlertModal
+        onModal={onModal}
+        onClickModal={onClickModal}
+        color="#FF4842"
+        title="위치정보 오류!"
+        body="정확한 주소를 입력해주세요."
+        secondBody="예)강남구, 은평구, 갈현동"
+      />
       {/* close btn */}
       <SlideIconWrap margin="0">
         <CloseCircle color="#637381" onClick={onClickFindLocation} />

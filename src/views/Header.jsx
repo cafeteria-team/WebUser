@@ -74,7 +74,7 @@ const FindModalStyle = {
 
 const Header = ({ onClickMenu }) => {
   //address content
-  const [onArea, setOnArea] = useState(false);
+  const [area, setArea] = useState(false);
 
   //address modal
   const [onModal, setOnModal] = useState(false);
@@ -85,7 +85,7 @@ const Header = ({ onClickMenu }) => {
 
   // header address content show up
   const onClickLocation = () => {
-    setOnArea((prev) => !prev);
+    setArea((prev) => !prev);
   };
 
   // address modal show up
@@ -142,7 +142,7 @@ const Header = ({ onClickMenu }) => {
         overlayClassName="Overlay"
         ariaHideApp={false}
       >
-        <CurrentMapContainer OnClickCurrentLocation={onClickCurrentLocation} />
+        <CurrentMapContainer onClickCurrentLocation={onClickCurrentLocation} />
       </Modal>
 
       {/* map modal */}
@@ -167,12 +167,12 @@ const Header = ({ onClickMenu }) => {
         </StyledHeaderWrap>
       </StyledHeaderContainer>
       {/* location content */}
-      <LocationContentWrap onArea={onArea}>
+      <LocationContentWrap area={area}>
         <LocationContent>
           <Title margin="0 0 16px 0">내주변</Title>
           <MyLocationWrap>
             <MyLocation>
-              {location ? location.location : "서초구 서초동"}
+              {location.location ? location.location : "서초구 서초동"}
             </MyLocation>
             <MoreBtn
               padding="6px 8px"

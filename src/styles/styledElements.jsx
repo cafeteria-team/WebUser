@@ -241,7 +241,7 @@ export const LocationContentWrap = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   transition: all 0.4s linear;
   overflow: hidden;
-  max-height: ${({ onArea }) => (onArea ? "120px" : "0")};
+  max-height: ${({ area }) => (area ? "120px" : "0")};
 `;
 export const LocationContent = styled.div`
   display: flex;

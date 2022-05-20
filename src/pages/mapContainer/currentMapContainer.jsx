@@ -4,51 +4,16 @@ import {
   StyledMapContainer,
   SlideIconWrap,
   StyledButtonMapWrap,
-  Paragraph,
-  CardWrap,
 } from "../../styles/styledElements";
 import { MapView } from "../../views";
 import { CloseCircle } from "../../assets/icons";
 import styled from "styled-components";
-import { Title } from "../../components";
-import Modal from "react-modal";
+import { Title, AlertModal } from "../../components";
 import { setCurrentLocation } from "../../_modules/location";
 // redux
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const { kakao } = window;
-
-const ModalStyle = {
-  content: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    right: "50%",
-    bottom: "50%",
-    transform: "translate(-50%,-50%)",
-    backgroundColor: "#fff",
-    zIndex: "999",
-    width: "100%",
-    maxWidth: "400px",
-    height: "220px",
-    display: "flex",
-    borderRadius: "16px",
-    border: "unset",
-    padding: "20px 20px",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  overlay: {
-    position: "fixed",
-    top: "0",
-    left: "0",
-    right: "0",
-    bottom: "0",
-    backgroundColor: "rgba(0,0,0,0.4)",
-    zIndex: "999",
-  },
-};
 
 const ModalContainer = styled.div`
   display: flex;
@@ -136,44 +101,26 @@ const CurrentMapContainer = ({ onClickCurrentLocation }) => {
     };
   }, []);
 
-  const location = useSelector((state) => state.location, shallowEqual);
-
   return (
     <ModalContainer>
-      <Modal
-        isOpen={onModal}
-        contentLabel="phone check"
-        onRequestClose={onClickModal}
-        style={ModalStyle}
-        className="Modal"
-        overlayClassName="Overlay"
-        ariaHideApp={false}
-      >
-        <CardWrap flexDirection="column" align="center" margin="0 0 20px 0">
-          <Title margin="20px 0" color="#FF4842">
-            위치정보 오류!
-          </Title>
-          <Paragraph margin="0 0 6px 0">
-            위치정보를 사용할 수 없습니다.
-          </Paragraph>
-          <Paragraph> 브라우저의 위치사용을 허용해 주세요.</Paragraph>
-        </CardWrap>
-        <Button
-          background="#FF4842"
-          color="#fff"
-          width="100%"
-          height="56px"
-          onClick={onClickModal}
-        >
-          확인
-        </Button>
-      </Modal>
+      {/* alert modal */}
+      <AlertModal
+        onModal={onModal}
+        onClickModal={onClickModal}
+        color="#FF4842"
+        title="위치정보 오류!"
+        body="위치정보를 사용할 수 없습니다."
+        secondBody="브라우저의 위치사용을 허용해주신후, 새로고침해주세요."
+      />
+      {/* close btn */}
       <SlideIconWrap margin="0">
         <CloseCircle color="#637381" onClick={onClickCurrentLocation} />
       </SlideIconWrap>
+      {/* title */}
       <Title width="100%" margin="0 0 20px 0">
         현재위치로 위치선정
       </Title>
+      {/* map */}
       <StyledMapContainer>
         <MapView // 지도를 표시할 Container
           location={coordinate}

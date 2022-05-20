@@ -8,6 +8,7 @@ import Panel from "./panel";
 import Image from "./image";
 import ImageLoadingContainer from "./imageLoadingContainer";
 import Input from "./input";
+import AlertModal from "./alertModal";
 
 export {
   Title,
@@ -20,4 +21,5 @@ export {
   Image,
   ImageLoadingContainer,
   Input,
+  AlertModal,
 };
