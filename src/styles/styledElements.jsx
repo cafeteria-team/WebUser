@@ -52,7 +52,7 @@ body{
   }
 
 
-  // carousel
+  // carousel //
   .flicking-viewport{
     touch-action:pan-x !important;
   }
@@ -156,11 +156,21 @@ body{
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 999;
     opacity: 0;
-    transition: opacity 2000ms linear;
+    transition: opacity 500ms linear;
+    -webkit-transition: -webkit-opacity 500ms linear;
+    -webkit-transition: -opacity 500ms linear;
+    -moz-transition: opacity 500ms linear;
+    -ms-transition: opacity 500ms linear;
+    -o-transition: opacity 500ms linear;
   }
   .ReactModal__Overlay {
     opacity: 0;
     transition: all 500ms linear;
+    -webkit-transition: all 500ms linear;
+    -webkit-transition: -webkit-all 500ms linear;
+    -moz-transition: all 500ms linear;
+    -ms-transition: all 500ms linear;
+    -o-transition: all 500ms linear;
   }
   
   .ReactModal__Overlay--after-open {
@@ -280,8 +290,22 @@ export const SlideMenuWrap = styled.div`
   padding: ${({ theme }) => `${theme.space.large}`};
   background: #fff;
   z-index: 999;
-
+  -webkit-transition: transform 0.4s linear;
+  -webkit-transition: -webkit-transform 0.4s linear;
+  -moz-transition: transform 0.4s linear;
+  -ms-transition: transform 0.4s linear;
+  -o-transition: transform 0.4s linear;
   transition: transform 0.4s linear;
+  -webkit-transform: ${(props) =>
+    props.OnMenu ? "translateX(0%)" : "translateX(-100%)"};
+  -webkit-transform: ${(props) =>
+    props.OnMenu ? "-webkit-translateX(0%)" : "translateX(-100%)"};
+  -moz-transform: ${(props) =>
+    props.OnMenu ? "translateX(0%)" : "translateX(-100%)"};
+  -ms-transform: ${(props) =>
+    props.OnMenu ? "translateX(0%)" : "translateX(-100%)"};
+  -o-transform: ${(props) =>
+    props.OnMenu ? "translateX(0%)" : "translateX(-100%)"};
   transform: ${(props) =>
     props.OnMenu ? "translateX(0%)" : "translateX(-100%)"};
 
@@ -295,7 +319,12 @@ export const SlideMenuBg = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
 
-  transition: opacity 0.5s linear;
+  -webkit-transition: opacity 0.4s linear;
+  -webkit-transition: -webkit-opacity 0.4s linear;
+  -moz-transition: opacity 0.4s linear;
+  -ms-transition: opacity 0.4s linear;
+  -o-transition: opacity 0.4s linear;
+  transition: opacity 0.4s linear;
   opacity: ${(props) => (props.OnMenu ? "1" : "0")};
 
   @media screen and ${({ theme }) => theme.mobileS} {

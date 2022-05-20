@@ -71,7 +71,8 @@ const MapContainer = ({ onClickFindLocation }) => {
           center: { lat: newSearch.y, lng: newSearch.x },
         });
       } else {
-        alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
+        setOnModal(true);
+        // alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
       }
     };
     geocoder.addressSearch(`${inputText}`, callback);
@@ -89,7 +90,8 @@ const MapContainer = ({ onClickFindLocation }) => {
         );
         onClickFindLocation();
       } else {
-        alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
+        setOnModal(true);
+        // alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
       }
     };
     geocoder.coord2RegionCode(
