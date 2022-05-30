@@ -84,7 +84,9 @@ const MenuPart = ({ OnMenu, onClickMenu, scrollRef }) => {
         <CardMenuLists>미역국</CardMenuLists>
         <CardMenuLists>돈까스</CardMenuLists>
         <CardMenuLists>김치찌개</CardMenuLists>
-        <CardMenuLists>오징어볶음</CardMenuLists>
+        <CardMenuLists border padding="10px 0 0">
+          오징어볶음
+        </CardMenuLists>
       </CardMenuListsWrap>
     </CardMenuContainer>
   );

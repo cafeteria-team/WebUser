@@ -19,7 +19,7 @@ export const CardSlideWrap = styled(Flicking)`
 const ImageBox = () => {
   // const plugins = [new Parallax("img", 4), new Pagination({ type: "scroll" })];
 
-  const plugins = [new Pagination({ type: "scroll" })];
+  const plugins = [new Pagination({ type: "bullet" })];
 
   return (
     <CardSlideWrap

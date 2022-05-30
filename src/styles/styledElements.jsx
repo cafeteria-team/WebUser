@@ -62,8 +62,10 @@ body{
   }
   .flicking-pagination {
     width: 100%;
-    margin: 10px auto 0;
+    margin: 16px auto 0;
     z-index: 2;
+    display:flex;
+    justify-content:center;
   }
   .flicking-pagination-scroll .flicking-pagination-slider {
     transition: transform 0.2s;
@@ -121,6 +123,10 @@ body{
   .hero.is-white .tabs.is-boxed a:hover,
   .hero.is-white .tabs.is-toggle a:hover {
     background-color: hsla(0, 0%, 4%, 0.1);
+  }
+
+  .flicking-pagination-bullet-active{
+    background-color: #ff9030;
   }
 
   //modal
