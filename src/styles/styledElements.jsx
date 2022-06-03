@@ -1,6 +1,6 @@
 import styled, { css, keyframes, createGlobalStyle } from "styled-components";
 import Pretendard from "../assets/fonts/PretendardVariable.woff2";
-import Changwon from "../assets/fonts/Changwon.ttf";
+import Changwon from "../assets/fonts/Changwon.woff2";
 import { memo } from "react";
 
 export const GlobalStyle = createGlobalStyle`
@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
 }
 @font-face {
   font-family: 'Changwon';
-  src: url(${Changwon}) format('truetype');
+  src: url(${Changwon}) format('woff2');
   font-weight: 600;
   font-style: bold;
   font-display: auto;
