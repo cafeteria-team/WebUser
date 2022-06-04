@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { NoticeContainer, NoticeTitle } from "../../styles/styledElements";
 import { NoticeList } from "../../views";
 import axiosInstance from "../../utills/axios";
+
+const SUSPENSE_CONFIG = { timeoutMs: 2000 };
 
 const NoticeListPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [notice, setNotice] = useState("");
 
+  const [startTransition, isPending] = useTransition(SUSPENSE_CONFIG);
+
   useEffect(() => {
     axiosInstance.get("/api/notice/admin").then((res) => {
-      setNotice(res.data);
+      startTransition(() => {
+        setNotice(res.data);
+      });
     });
   }, []);
 
@@ -18,7 +24,7 @@ const NoticeListPage = () => {
       <NoticeTitle>공지사항</NoticeTitle>
       <NoticeContainer>
         {/* notice lists */}
-        <NoticeList />
+        {isPending ? "Loading..." : <NoticeList />}
       </NoticeContainer>
     </>
   );
