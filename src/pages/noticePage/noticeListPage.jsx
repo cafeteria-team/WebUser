@@ -6,7 +6,6 @@ import {
   InfiniteLoader,
   AutoSizer,
 } from "react-virtualized";
-import withLoading from "../../utills/hoc";
 
 import { NoticeContainer, NoticeTitle } from "../../styles/styledElements";
 import { NoticeList } from "../../views";
@@ -71,18 +70,6 @@ const NoticeListPage = () => {
   }) => {
     return (
       // 보이지 않는것을 렌더링하여, 크기를 측정
-      // <CellMeasurer
-      //   key={key}
-      //   cache={cellMeasurerCache}
-      //   parent={parent}
-      //   columnIndex={0}
-      //   rowIndex={index}
-      // >
-      //   <div key={notice[index].id} style={style}>
-      //     {notice[index].subject}
-      //   </div>
-      // </CellMeasurer>
-
       <CellMeasurer
         key={key}
         cache={cellMeasurerCache}
@@ -90,12 +77,10 @@ const NoticeListPage = () => {
         columnIndex={0}
         rowIndex={index}
       >
-        <div style={style}>{notice[index].subject}</div>
+        <div style={{ ...style, padding: "20px" }}>{notice[index].subject}</div>
       </CellMeasurer>
     );
   };
-
-  const NoticeWithLoading = withLoading(NoticeContainer);
 
   return (
     <>
@@ -103,15 +88,15 @@ const NoticeListPage = () => {
       <NoticeContainer ref={containerRef}>
         {/* 부모 element의 높이와 너비를 자식 컴포넌트에 전달해주는 hoc, 부모의 넓이와 너비만큼 자식을 채운다. */}
         <AutoSizer>
-          {({ width, height }) => {
-            console.log(height);
+          {({ width }) => {
+            console.log(width, notice);
             return (
               // 요소의 창 행목록
               <List
                 //항목의 개수
                 rowCount={notice.length}
                 //실제 렌더링되는 높이범위
-                height={height}
+                height={notice.length * 90}
                 //항목의 높이
                 rowHeight={90}
                 //항목의 넓이
@@ -163,7 +148,6 @@ const NoticeListPage = () => {
             rowRenderer={rowRenderer}
           />
         </InfiniteLoader> */}
-        <NoticeWithLoading isLoading />
       </NoticeContainer>
     </>
   );

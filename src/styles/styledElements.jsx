@@ -192,6 +192,13 @@ body{
       width: calc(100% - 24px) !important;
     }
   }
+
+  // infinite scroll
+  .ReactVirtualized__Grid{
+    box-shadow:0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%);
+    background:#fff;
+    border-radius:16px;
+  }
 `;
 
 ///////////// common /////////////
@@ -551,12 +558,12 @@ export const NoticeTitle = styled.div`
   letter-spacing: 0px;
 `;
 export const NoticeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: block;
+  // flex-direction: column;
+  // justify-content: center;
   width: 100%;
   height: 100%;
-  border-radius: ${({ theme }) => theme.radii.rounded};
+  // border-radius: ${({ theme }) => theme.radii.rounded};
   // padding: ${({ theme }) => `0 ${theme.space.large}`};
   // background: #fff;
   // box-shadow: ${({ theme }) => theme.shadow.content};
