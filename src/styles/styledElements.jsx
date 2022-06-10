@@ -557,9 +557,9 @@ export const NoticeContainer = styled.div`
   width: 100%;
   height: 100%;
   border-radius: ${({ theme }) => theme.radii.rounded};
-  padding: ${({ theme }) => `0 ${theme.space.large}`};
-  background: #fff;
-  box-shadow: ${({ theme }) => theme.shadow.content};
+  // padding: ${({ theme }) => `0 ${theme.space.large}`};
+  // background: #fff;
+  // box-shadow: ${({ theme }) => theme.shadow.content};
 `;
 export const NoticeTitleWrap = styled.div`
   display: flex;

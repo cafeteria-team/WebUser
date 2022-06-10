@@ -6,6 +6,7 @@ import {
   InfiniteLoader,
   AutoSizer,
 } from "react-virtualized";
+import withLoading from "../../utills/hoc";
 
 import { NoticeContainer, NoticeTitle } from "../../styles/styledElements";
 import { NoticeList } from "../../views";
@@ -23,8 +24,11 @@ const NoticeListPage = () => {
   //list
   const listRef = useRef();
 
+  const containerRef = useRef();
+
   //cached shared between its cellMeasure and its parent Grid(List)
   // CellMeasurer의 결과를 부모(여기서는 List)와 공유합니다.
+  //요소의 동적인 height값을측정
   const cellMeasurerCache = new CellMeasurerCache({
     fixedWidth: true,
     defaultHeight: 100,
@@ -78,33 +82,47 @@ const NoticeListPage = () => {
       //     {notice[index].subject}
       //   </div>
       // </CellMeasurer>
-      <div style={style} key={notice[index].id}>
-        {notice[index].subject}
-      </div>
+
+      <CellMeasurer
+        key={key}
+        cache={cellMeasurerCache}
+        parent={parent}
+        columnIndex={0}
+        rowIndex={index}
+      >
+        <div style={style}>{notice[index].subject}</div>
+      </CellMeasurer>
     );
   };
+
+  const NoticeWithLoading = withLoading(NoticeContainer);
 
   return (
     <>
       <NoticeTitle>공지사항</NoticeTitle>
-      <NoticeContainer>
+      <NoticeContainer ref={containerRef}>
+        {/* 부모 element의 높이와 너비를 자식 컴포넌트에 전달해주는 hoc, 부모의 넓이와 너비만큼 자식을 채운다. */}
         <AutoSizer>
-          {({ width }) => (
-            <List
-              //항목의 개수
-              rowCount={notice.length}
-              //실제 렌더링되는 높이범위
-              height={window.innerHeight}
-              //항목의 높이
-              rowHeight={200}
-              //항목의 넓이
-              width={window.innerWidth}
-              //항목렌더링 할때 쓰는 함수
-              rowRenderer={rowRenderer}
-              //다음에 로드해올 항목 미리 컨텐츠 높이
-              overscanColumnCount={2}
-            />
-          )}
+          {({ width, height }) => {
+            console.log(height);
+            return (
+              // 요소의 창 행목록
+              <List
+                //항목의 개수
+                rowCount={notice.length}
+                //실제 렌더링되는 높이범위
+                height={height}
+                //항목의 높이
+                rowHeight={90}
+                //항목의 넓이
+                width={width}
+                //항목렌더링 할때 쓰는 함수
+                rowRenderer={rowRenderer}
+                //다음에 로드해올 항목 미리 컨텐츠 높이
+                overscanColumnCount={2}
+              />
+            );
+          }}
         </AutoSizer>
         {/* notice lists */}
         {/* {isPending ? "Loading..." : <NoticeList />} */}
@@ -145,6 +163,7 @@ const NoticeListPage = () => {
             rowRenderer={rowRenderer}
           />
         </InfiniteLoader> */}
+        <NoticeWithLoading isLoading />
       </NoticeContainer>
     </>
   );
