@@ -198,6 +198,12 @@ body{
     box-shadow:0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%);
     background:#fff;
     border-radius:16px;
+    margin-bottom:20px;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+  }
+  .ReactVirtualized__Grid::-webkit-scrollbar {
+    display: none; 
   }
 `;
 
@@ -562,7 +568,7 @@ export const NoticeContainer = styled.div`
   // flex-direction: column;
   // justify-content: center;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   // border-radius: ${({ theme }) => theme.radii.rounded};
   // padding: ${({ theme }) => `0 ${theme.space.large}`};
   // background: #fff;
