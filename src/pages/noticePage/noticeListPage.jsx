@@ -17,8 +17,9 @@ const NoticeListPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [notice, setNotice] = useState([]);
   const [page, setPage] = useState(1);
-  const [hasNextPage, setHasNextPage] = useState(true);
+  const [hasNextPage, setHasNextPage] = useState(null);
   const [isNextPageLoading, setNextPageLoading] = useState(false);
+  const [rowCount, setRowCount] = useState(null);
 
   //infinite loader
   const infiniteLoaderRef = useRef();
@@ -36,47 +37,51 @@ const NoticeListPage = () => {
     defaultHeight: 100,
   });
 
-  const getNoticeW = async () => {
+  const getNotice = async (page) => {
     try {
       setNextPageLoading(true);
       const { data } = await axiosInstance.get(
         `/api/notice/admin?page=${page}&page_size=10`
       );
       setNotice(notice.concat(data.results));
-      setNextPageLoading(false);
-      setHasNextPage(notice.length < data.page.total_count);
-      setPage(page);
+      if (notice.length < data.page.total_count) {
+        setHasNextPage(true);
+        setPage((prev) => prev + 1);
+      } else {
+        setHasNextPage(false);
+      }
     } catch {
       console.error("fetching error");
     }
   };
 
-  const getNotice = async (page) => {
-    console.log("fetch", page);
-    try {
-      setNextPageLoading(true);
-      const { data } = await axiosInstance.get(
-        `/api/notice/admin?page=${page}&page_size=10`
-      );
-      setNotice(notice.concat(data.results));
-      setNextPageLoading(false);
-      setHasNextPage(notice.length < data.page.total_count);
-      setPage(page);
-    } catch {
-      console.error("fetching error");
-    }
-  };
+  // const getNotice = async (page) => {
+  //   console.log("fetch", page);
+  //   try {
+  //     setNextPageLoading(true);
+  //     const { data } = await axiosInstance.get(
+  //       `/api/notice/admin?page=${page}&page_size=10`
+  //     );
+  //     setNotice(notice.concat(data.results));
+  //     setNextPageLoading(false);
+  //     setHasNextPage(notice.length < data.page.total_count);
+  //     setPage(page);
+  //     setRowCount(notice.length + 1);
+  //   } catch {
+  //     console.error("fetching error");
+  //   }
+  // };
 
   const loadNextPage = async () => {
-    await getNotice(page + 1);
+    await getNotice(page);
   };
 
   const itemCount = hasNextPage ? notice.length + 1 : notice.length;
   const loadMoreItems = isNextPageLoading ? () => {} : loadNextPage;
 
   useEffect(() => {
-    getNoticeW();
-  }, [page]);
+    getNotice(page);
+  }, []);
 
   const rowRenderer = ({
     key,
@@ -95,12 +100,7 @@ const NoticeListPage = () => {
         columnIndex={0}
         rowIndex={index}
       >
-        {/* <div style={{ ...style, padding: "20px" }}>{notice[index].subject}</div> */}
-        {isItemLoaded(index) ? (
-          <div>{notice[index].subject}</div>
-        ) : (
-          <div>`Loading...`</div>
-        )}
+        <div style={{ ...style, padding: "20px" }}>{notice[index].subject}</div>
       </CellMeasurer>
     );
   };
@@ -110,18 +110,16 @@ const NoticeListPage = () => {
     return !!notice[index];
   };
 
-  const isItemLoaded = (index) => !hasNextPage || index < notice.length;
+  // const isItemLoaded = (index) => !hasNextPage || index < notice.length;
 
   return (
     <>
       <NoticeTitle>공지사항</NoticeTitle>
       <NoticeContainer>
         <InfiniteLoader
-          // isRowLoaded={isRowLoaded}
-          isRowLoaded={(index) => index < notice.length}
+          isRowLoaded={isRowLoaded}
           loadMoreRows={loadMoreItems}
           rowCount={itemCount}
-          // ref={infiniteLoaderRef}
         >
           {({ onRowsRendered, registerChild }) => (
             <AutoSizer>
