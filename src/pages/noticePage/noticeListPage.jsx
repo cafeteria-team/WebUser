@@ -17,6 +17,8 @@ const NoticeListPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [notice, setNotice] = useState([]);
   const [page, setPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(true);
+  const [isNextPageLoading, setNextPageLoading] = useState(false);
 
   //infinite loader
   const infiniteLoaderRef = useRef();
@@ -34,17 +36,46 @@ const NoticeListPage = () => {
     defaultHeight: 100,
   });
 
-  const getNotice = async (props) => {
+  const getNoticeW = async () => {
     try {
-      const { data } = await axiosInstance.get(`/api/notice/admin`);
-      setNotice(notice.concat(data));
+      setNextPageLoading(true);
+      const { data } = await axiosInstance.get(
+        `/api/notice/admin?page=${page}&page_size=10`
+      );
+      setNotice(notice.concat(data.results));
+      setNextPageLoading(false);
+      setHasNextPage(notice.length < data.page.total_count);
+      setPage(page);
     } catch {
       console.error("fetching error");
     }
   };
 
+  const getNotice = async (page) => {
+    console.log("fetch", page);
+    try {
+      setNextPageLoading(true);
+      const { data } = await axiosInstance.get(
+        `/api/notice/admin?page=${page}&page_size=10`
+      );
+      setNotice(notice.concat(data.results));
+      setNextPageLoading(false);
+      setHasNextPage(notice.length < data.page.total_count);
+      setPage(page);
+    } catch {
+      console.error("fetching error");
+    }
+  };
+
+  const loadNextPage = async () => {
+    await getNotice(page + 1);
+  };
+
+  const itemCount = hasNextPage ? notice.length + 1 : notice.length;
+  const loadMoreItems = isNextPageLoading ? () => {} : loadNextPage;
+
   useEffect(() => {
-    getNotice();
+    getNoticeW();
   }, [page]);
 
   const rowRenderer = ({
@@ -64,7 +95,12 @@ const NoticeListPage = () => {
         columnIndex={0}
         rowIndex={index}
       >
-        <div style={{ ...style, padding: "20px" }}>{notice[index].subject}</div>
+        {/* <div style={{ ...style, padding: "20px" }}>{notice[index].subject}</div> */}
+        {isItemLoaded(index) ? (
+          <div>{notice[index].subject}</div>
+        ) : (
+          <div>`Loading...`</div>
+        )}
       </CellMeasurer>
     );
   };
@@ -74,31 +110,45 @@ const NoticeListPage = () => {
     return !!notice[index];
   };
 
+  const isItemLoaded = (index) => !hasNextPage || index < notice.length;
+
   return (
     <>
       <NoticeTitle>공지사항</NoticeTitle>
       <NoticeContainer>
-        <AutoSizer>
-          {({ width, height }) => {
-            return (
-              // 요소의 창 행목록
-              <List
-                //항목의 개수
-                rowCount={notice.length}
-                //실제 렌더링되는 높이범위
-                height={height}
-                //항목의 높이
-                rowHeight={90}
-                //항목의 넓이
-                width={width}
-                //항목렌더링 할때 쓰는 함수
-                rowRenderer={rowRenderer}
-                //다음에 로드해올 항목 미리 컨텐츠 높이
-              />
-            );
-          }}
-        </AutoSizer>
-
+        <InfiniteLoader
+          // isRowLoaded={isRowLoaded}
+          isRowLoaded={(index) => index < notice.length}
+          loadMoreRows={loadMoreItems}
+          rowCount={itemCount}
+          // ref={infiniteLoaderRef}
+        >
+          {({ onRowsRendered, registerChild }) => (
+            <AutoSizer>
+              {({ width, height }) => {
+                return (
+                  // 요소의 창 행목록
+                  <List
+                    //항목의 개수
+                    rowCount={notice.length}
+                    //실제 렌더링되는 높이범위
+                    height={height}
+                    //항목의 높이
+                    rowHeight={90}
+                    //항목의 넓이
+                    width={width}
+                    //항목렌더링 할때 쓰는 함수
+                    rowRenderer={rowRenderer}
+                    //다음에 로드해올 항목 미리 컨텐츠 높이
+                    ref={registerChild}
+                    onRowsRendered={onRowsRendered}
+                    overscanRowCount={10}
+                  />
+                );
+              }}
+            </AutoSizer>
+          )}
+        </InfiniteLoader>
         {/* notice lists */}
         {/* {isPending ? "Loading..." : <NoticeList />} */}
       </NoticeContainer>
