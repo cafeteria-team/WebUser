@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useTransition, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   List,
   CellMeasurer,
@@ -10,16 +10,11 @@ import {
 import { NoticeContainer, NoticeTitle } from "../../styles/styledElements";
 import { NoticeList } from "../../views";
 import axiosInstance from "../../utills/axios";
-import { toArray } from "@egjs/flicking";
-
-const SUSPENSE_CONFIG = { timeoutMs: 2000 };
 
 const NoticeListPage = () => {
   const [notice, setNotice] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
-
-  const maxPage = 4;
 
   //cached shared between its cellMeasure and its parent Grid(List)
   // CellMeasurer의 결과를 부모(여기서는 List)와 공유합니다.
@@ -30,24 +25,22 @@ const NoticeListPage = () => {
   });
 
   const getNotice = async (page) => {
-    console.log("getData");
-    if (page < maxPage) {
-      try {
-        const { data } = await axiosInstance.get(
-          `/api/notice/admin?page=${page}&page_size=10`
-        );
-        // setNotice(data.results);
-        setNotice(notice.concat(data.results));
-
-        if (data.page.current_page < data.page.total_count) {
-          setHasNextPage(true);
-          setPage((prev) => prev + 1);
-        }
-      } catch {
-        console.error("fetching error");
+    try {
+      const { data } = await axiosInstance.get(
+        `/api/notice/admin?page=${page}&page_size=10`
+      );
+      setNotice(notice.concat(data.results));
+      if (page < Math.ceil(data.page.total_count / 10)) {
+        setHasNextPage(true);
+        setPage((prev) => prev + 1);
+      } else if (page === Math.ceil(data.page.total_count / 10)) {
+        setHasNextPage(true);
+      } else {
+        return;
       }
-    } else {
-      return;
+    } catch (error) {
+      console.log(error);
+      alert("공지사항을 불러올수없습니다. 잠시후 다시 시도해주십시오.");
     }
   };
 
@@ -66,7 +59,7 @@ const NoticeListPage = () => {
   };
 
   const rowRenderer = ({ key, index, parent, style }) => {
-    console.log(index);
+    // console.log(index);
     return (
       // 보이지 않는것을 렌더링하여, 크기를 측정
       <CellMeasurer
@@ -115,7 +108,7 @@ const NoticeListPage = () => {
                     //항목의 개수
                     rowCount={itemCount}
                     //실제 렌더링되는 높이범위
-                    height={800}
+                    height={height}
                     //항목의 높이
                     rowHeight={90}
                     //항목의 넓이
