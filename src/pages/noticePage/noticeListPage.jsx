@@ -70,7 +70,7 @@ const NoticeListPage = () => {
         rowIndex={index}
       >
         {!isRowLoaded({ index }) ? (
-          <div>..로딩</div>
+          <div style={style}>..로딩</div>
         ) : (
           <div style={{ ...style, padding: "20px" }}>
             {notice[index].subject}
