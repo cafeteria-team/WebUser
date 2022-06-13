@@ -228,6 +228,26 @@ export const Wrap = styled.article`
   }
 `;
 
+//pagenation
+export const PagenationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-contents: center;
+`;
+export const PageNum = styled.div`
+  font-size: ${({ theme }) => theme.fontSizes.body};
+  color: ${(props) => props.color};
+  font-weight: ${(props) => props.bold};
+  background: ${(props) => props.background};
+  border-radius: 100%;
+  width: 26.66px;
+  height: 26.66px;
+  margin: 0 3px;
+  line-height: 28px;
+  text-align: center;
+  cursor: pointer;
+`;
+
 //body paragraph content
 export const Paragraph = styled.p`
   margin: ${(props) => props.margin || ""};
@@ -568,7 +588,7 @@ export const NoticeContainer = styled.div`
   // flex-direction: column;
   // justify-content: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   // border-radius: ${({ theme }) => theme.radii.rounded};
   // padding: ${({ theme }) => `0 ${theme.space.large}`};
   // background: #fff;

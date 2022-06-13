@@ -15,6 +15,8 @@ import RouteSquare from "./routeSquare";
 import WifiSquare from "./wifiSquare";
 import Logo from "./logo";
 import ImageIcon from "./imageIcon";
+import Left from "./left";
+import Right from "./right";
 
 export {
   ArrowRight,
@@ -34,4 +36,6 @@ export {
   WifiSquare,
   Logo,
   ImageIcon,
+  Left,
+  Right,
 };

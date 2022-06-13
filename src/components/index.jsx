@@ -9,6 +9,7 @@ import Image from "./image";
 import ImageLoadingContainer from "./imageLoadingContainer";
 import Input from "./input";
 import AlertModal from "./alertModal";
+import Pagenation from "./pagenation";
 
 export {
   Title,
@@ -22,4 +23,5 @@ export {
   ImageLoadingContainer,
   Input,
   AlertModal,
+  Pagenation,
 };
