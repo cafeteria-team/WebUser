@@ -34,7 +34,7 @@ const NoticeListPage = () => {
         setHasNextPage(true);
         setPage((prev) => prev + 1);
       } else if (page === Math.ceil(data.page.total_count / 10)) {
-        setHasNextPage(true);
+        setHasNextPage(false);
       } else {
         return;
       }
