@@ -6,7 +6,7 @@ const ServicePage = () => {
   return (
     <>
       <NoticeTitle>고객센터</NoticeTitle>
-      <NoticeContainer>
+      <NoticeContainer padding="6px 20px">
         <ServiceList />
       </NoticeContainer>
     </>

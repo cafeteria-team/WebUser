@@ -272,6 +272,14 @@ export const StyledHeaderContainer = styled.article`
   height: 60px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+`;
+export const SpaceHeader = styled.div`
+  width: 100%;
+  height: 60px;
 `;
 export const StyledHeaderWrap = styled.header`
   display: flex;
@@ -292,6 +300,10 @@ export const LocationContentWrap = styled.div`
   transition: all 0.4s linear;
   overflow: hidden;
   max-height: ${({ area }) => (area ? "120px" : "0")};
+  position: fixed;
+  top: 60px;
+  left: 0;
+  z-index: 99;
 `;
 export const LocationContent = styled.div`
   display: flex;
@@ -593,6 +605,7 @@ export const NoticeContainer = styled.div`
   border-radius: ${({ theme }) => theme.radii.rounded};
   background: #fff;
   box-shadow: ${({ theme }) => theme.shadow.content};
+  padding: ${(props) => props.padding || ""};
 `;
 export const NoticeTitleWrap = styled.div`
   display: flex;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import {
   StyledHeaderContainer,
   StyledHeaderWrap,
@@ -6,6 +6,7 @@ import {
   LocationContent,
   MyLocationWrap,
   MyLocation,
+  SpaceHeader,
 } from "../styles/styledElements";
 import { Menu, Location, Logo } from "../assets/icons";
 import { Title, MoreBtn, ModalAddress } from "../components";
@@ -166,6 +167,7 @@ const Header = ({ onClickMenu }) => {
           <Location color="#212B36" OnClickLocation={onClickLocation} />
         </StyledHeaderWrap>
       </StyledHeaderContainer>
+      <SpaceHeader />
       {/* location content */}
       <LocationContentWrap area={area}>
         <LocationContent>
@@ -190,4 +192,4 @@ const Header = ({ onClickMenu }) => {
   );
 };
 
-export default Header;
+export default memo(Header);
