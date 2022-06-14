@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   SlideMenuContainer,
   SlideMenuWrap,
@@ -10,9 +10,10 @@ import {
 import { CloseCircle, Edit } from "../assets/icons";
 import { Title, SideLink } from "../components";
 import uuid from "react-uuid";
+import { useEffect } from "react";
 
 const SlideMenu = ({ OnMenu, onClickMenu, onClickBg }) => {
-  const [MenuLists, SetMenuLists] = useState([
+  const MenuLists = [
     {
       path: "/",
       name: "메인 홈",
@@ -29,11 +30,20 @@ const SlideMenu = ({ OnMenu, onClickMenu, onClickBg }) => {
       path: "/service",
       name: "고객센터",
     },
-  ]);
+  ];
 
   const OnClickSurvey = () => {
     alert("설문조사 준비중입니다.");
   };
+
+  useEffect(() => {
+    if (OnMenu) {
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [OnMenu]);
 
   return (
     <SlideMenuContainer OnMenu={OnMenu}>

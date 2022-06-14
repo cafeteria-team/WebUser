@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useEffect } from "react";
 import {
   StyledHeaderContainer,
   StyledHeaderWrap,
@@ -114,6 +114,15 @@ const Header = ({ onClickMenu }) => {
 
   const location = useSelector((state) => state.setLocation, shallowEqual);
 
+  useEffect(() => {
+    if (onModal || currentMap || findLocation) {
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [onModal, currentMap, findLocation]);
+
   return (
     <>
       {/* modal */}
@@ -125,6 +134,7 @@ const Header = ({ onClickMenu }) => {
         className="Modal"
         overlayClassName="Overlay"
         ariaHideApp={false}
+        closeTimeoutMS={300}
       >
         <ModalAddress
           onClickModal={onClickModal}
@@ -142,6 +152,7 @@ const Header = ({ onClickMenu }) => {
         className="Modal"
         overlayClassName="Overlay"
         ariaHideApp={false}
+        closeTimeoutMS={300}
       >
         <CurrentMapContainer onClickCurrentLocation={onClickCurrentLocation} />
       </Modal>

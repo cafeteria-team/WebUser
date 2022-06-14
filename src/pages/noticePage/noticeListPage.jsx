@@ -11,6 +11,11 @@ const NoticeListPage = () => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(null);
   const [isListsLoading, setIsListsLoading] = useState(false);
+  const [loadingLists, setLoadingLists] = useState([
+    { subject: "loading", updated: "loading", id: 1 },
+    { subject: "loading", updated: "loading", id: 2 },
+    { subject: "loading", updated: "loading", id: 3 },
+  ]);
   const LIMIT = 10;
 
   const getNotice = async () => {
@@ -36,18 +41,31 @@ const NoticeListPage = () => {
     <>
       <NoticeTitle>공지사항</NoticeTitle>
       <NoticeContainer>
-        {notice.map((lists) => {
-          return (
-            <NoticeList
-              list={lists}
-              title={lists.subject}
-              time={lists.updated}
-              key={uuidv4()}
-              pathName={lists.id}
-              isListsLoading={isListsLoading}
-            />
-          );
-        })}
+        {notice.length !== 0
+          ? notice.map((lists) => {
+              return (
+                <NoticeList
+                  list={lists}
+                  title={lists.subject}
+                  time={lists.updated}
+                  key={uuidv4()}
+                  pathName={lists.id}
+                  isListsLoading={isListsLoading}
+                />
+              );
+            })
+          : loadingLists.map((lists) => {
+              return (
+                <NoticeList
+                  list={lists}
+                  title={lists.subject}
+                  time={lists.updated}
+                  key={uuidv4()}
+                  pathName={lists.id}
+                  isListsLoading={true}
+                />
+              );
+            })}
       </NoticeContainer>
       <Pagenation total={total} limit={LIMIT} page={page} setPage={setPage} />
     </>
