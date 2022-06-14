@@ -13,6 +13,8 @@ const NoticeListsWrap = styled(NavLink)`
   width: 100%;
   cursor: pointer;
   text-decoration: unset;
+  padding: 20px;
+  border-bottom: 1px solid #eceff1;
 `;
 
 const NoticeList = ({ children, pathName, border, title, time, ...props }) => {

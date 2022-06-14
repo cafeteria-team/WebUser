@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const Left = ({ color, onClick, disabled }) => {
   return (
@@ -7,7 +7,7 @@ const Left = ({ color, onClick, disabled }) => {
       width="32"
       height="32"
       viewBox="0 0 32 32"
-      style={{ cursor: "pointer" }}
+      style={{ cursor: disabled ? "" : "pointer" }}
       onClick={disabled ? () => {} : onClick}
     >
       <g id="arrow-circle-left" transform="translate(0 0)">
@@ -30,4 +30,4 @@ const Left = ({ color, onClick, disabled }) => {
   );
 };
 
-export default Left;
+export default memo(Left);

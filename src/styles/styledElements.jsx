@@ -232,7 +232,8 @@ export const Wrap = styled.article`
 export const PagenationContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-contents: center;
+  justify-content: center;
+  margin-top: 20px;
 `;
 export const PageNum = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.body};
@@ -585,14 +586,14 @@ export const NoticeTitle = styled.div`
 `;
 export const NoticeContainer = styled.div`
   display: block;
-  // flex-direction: column;
-  // justify-content: center;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
   height: 100%;
-  // border-radius: ${({ theme }) => theme.radii.rounded};
+  border-radius: ${({ theme }) => theme.radii.rounded};
   // padding: ${({ theme }) => `0 ${theme.space.large}`};
-  // background: #fff;
-  // box-shadow: ${({ theme }) => theme.shadow.content};
+  background: #fff;
+  box-shadow: ${({ theme }) => theme.shadow.content};
 `;
 export const NoticeTitleWrap = styled.div`
   display: flex;
