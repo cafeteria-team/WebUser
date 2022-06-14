@@ -20,7 +20,7 @@ const Pagenation = ({ total, limit, page, setPage }) => {
           return (
             <PageNum
               onClick={() => setPage(i + 1)}
-              ariaCurrent={page === i + 1 ? "page" : null}
+              ariaCurrent={page === i + 1 ? "page" : ""}
               color={page === i + 1 ? "#fff" : "rgb(99, 115, 129)"}
               key={i}
               bold={page === i + 1 ? "600" : "400"}

@@ -26,14 +26,9 @@ const NoticeList = ({
   list,
   ...props
 }) => {
+  console.log(list);
   return (
-    <NoticeListsWrap
-      border={true}
-      to={{
-        pathname: `${pathName}`,
-        state: list,
-      }}
-    >
+    <NoticeListsWrap to={`${pathName}`} state={list}>
       <NoticeTitleWrap>
         <Title margin="0 0 10px 0">{title}</Title>
         <Paragraph fontSize="14px" color="rgba(0,0,0,0.3)">

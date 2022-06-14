@@ -6,17 +6,19 @@ import {
   NoticeBody,
 } from "../styles/styledElements";
 import { Title } from "../components";
+import moment from "moment";
+import Parser from "html-react-parser";
 
-const NoticeContent = () => {
+const NoticeContent = ({ subject, content, time }) => {
   return (
     <NoticeContentContainer>
       <NoticeContentTitleWrap>
-        <Title margin="0 0 10px 0">[공지] 공지사항입니다.</Title>
+        <Title margin="0 0 10px 0">{subject}</Title>
         <Paragraph fontSize="14px" color="rgba(0,0,0,0.3)">
-          2022.05.10
+          {moment(time).format("L")}
         </Paragraph>
       </NoticeContentTitleWrap>
-      <NoticeBody>안녕하세요, 공지사항입니다. 테스트입니다.</NoticeBody>
+      <NoticeBody>{Parser(content)}</NoticeBody>
     </NoticeContentContainer>
   );
 };
