@@ -166,6 +166,7 @@ const Header = ({ onClickMenu }) => {
         className="Modal"
         overlayClassName="Overlay"
         ariaHideApp={false}
+        closeTimeoutMS={300}
       >
         <MapContainer onClickFindLocation={onClickFindLocation} />
       </Modal>

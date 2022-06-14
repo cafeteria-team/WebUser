@@ -497,10 +497,11 @@ export const CardMenuContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: ${(props) => props.height || "64px"};
-  transition: all 0.6s linear;
+  transition: height 0.8s ease-in-out;
   background: ${({ theme }) => theme.colors.background};
   border-radius: ${({ theme }) => theme.radii.button};
   padding: ${({ theme }) => theme.space.large};
+  margin: ${(props) => props.margin || ""};
 `;
 export const CardMenuTitleContainer = styled.div`
   display: flex;
