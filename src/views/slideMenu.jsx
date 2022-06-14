@@ -11,7 +11,7 @@ import { CloseCircle, Edit } from "../assets/icons";
 import { Title, SideLink } from "../components";
 import uuid from "react-uuid";
 
-const SlideMenu = ({ OnMenu, onClickMenu }) => {
+const SlideMenu = ({ OnMenu, onClickMenu, onClickBg }) => {
   const [MenuLists, SetMenuLists] = useState([
     {
       path: "/",
@@ -66,7 +66,7 @@ const SlideMenu = ({ OnMenu, onClickMenu }) => {
         </SlideMenuListWrap>
       </SlideMenuWrap>
       {/* bg */}
-      <SlideMenuBg OnMenu={OnMenu} />
+      <SlideMenuBg OnMenu={OnMenu} onClick={onClickBg} />
     </SlideMenuContainer>
   );
 };

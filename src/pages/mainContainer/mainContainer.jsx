@@ -10,9 +10,17 @@ const MainContainer = () => {
     SetOnMenu((prev) => !prev);
   };
 
+  const onClickBg = () => {
+    SetOnMenu((prev) => !prev);
+  };
+
   return (
     <RootStyle>
-      <SlideMenu OnMenu={OnMenu} onClickMenu={onClickMenu} />
+      <SlideMenu
+        OnMenu={OnMenu}
+        onClickMenu={onClickMenu}
+        onClickBg={onClickBg}
+      />
       <Header onClickMenu={onClickMenu} />
       <Container>
         <Wrap>
