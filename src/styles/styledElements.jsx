@@ -683,3 +683,11 @@ export const StyledButtonMapWrap = styled.div`
   z-index: 2;
   display: flex;
 `;
+
+export const LoadingContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

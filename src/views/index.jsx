@@ -7,6 +7,7 @@ import ServiceList from "./serviceList";
 import CardLike from "./cardLike";
 import CardDetail from "./cardDetail";
 import MapView from "./mapView";
+import MapLoading from "./mapLoading";
 
 export {
   Header,
@@ -18,4 +19,5 @@ export {
   CardLike,
   CardDetail,
   MapView,
+  MapLoading,
 };

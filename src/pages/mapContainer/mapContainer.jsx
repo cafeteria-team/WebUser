@@ -13,6 +13,7 @@ import { Title, AlertModal } from "../../components";
 // redux
 import { useDispatch } from "react-redux";
 import { setCurrentLocation } from "../../_modules/location";
+import { MapLoading } from "../../views";
 
 const { kakao } = window;
 
@@ -41,6 +42,9 @@ const MapContainer = ({ onClickFindLocation }) => {
   //failed modal
   const [onModal, setOnModal] = useState(false);
 
+  //loading
+  const [isLoading, setIsLoading] = useState(false);
+
   // address modal show up
   const onClickModal = () => {
     setOnModal((prev) => !prev);
@@ -55,6 +59,7 @@ const MapContainer = ({ onClickFindLocation }) => {
     if (inputText === "") {
       alert("주소를 입력해주세요.");
     } else {
+      setIsLoading(true);
       searchMap();
       setInputText("");
     }
@@ -70,8 +75,10 @@ const MapContainer = ({ onClickFindLocation }) => {
         setCoordinate({
           center: { lat: newSearch.y, lng: newSearch.x },
         });
+        setIsLoading(false);
       } else {
         setOnModal(true);
+        setIsLoading(false);
         // alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
       }
     };
@@ -148,9 +155,14 @@ const MapContainer = ({ onClickFindLocation }) => {
             검색
           </Button>
         </StyledMapWrap>
-        <MapView // 지도를 표시할 Container
-          location={coordinate}
-        ></MapView>
+        {isLoading ? (
+          <MapLoading />
+        ) : (
+          <MapView // 지도를 표시할 Container
+            location={coordinate}
+          ></MapView>
+        )}
+
         <StyledButtonMapWrap>
           <Button
             type="submit"

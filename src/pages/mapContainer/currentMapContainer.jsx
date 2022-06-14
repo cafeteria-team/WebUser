@@ -12,6 +12,7 @@ import { Title, AlertModal } from "../../components";
 import { setCurrentLocation } from "../../_modules/location";
 // redux
 import { useDispatch } from "react-redux";
+import { MapLoading } from "../../views";
 
 const { kakao } = window;
 
@@ -39,6 +40,9 @@ const CurrentMapContainer = ({ onClickCurrentLocation }) => {
   //failed modal
   const [onModal, setOnModal] = useState(false);
 
+  //loading
+  const [isLoading, setIsLoading] = useState(false);
+
   // address modal show up
   const onClickModal = () => {
     setOnModal((prev) => !prev);
@@ -46,6 +50,7 @@ const CurrentMapContainer = ({ onClickCurrentLocation }) => {
 
   //   find current location
   const getCurrentPos = () => {
+    setIsLoading(true);
     navigator.geolocation.getCurrentPosition(
       locationLoadSuccess,
       locationLoadError
@@ -58,11 +63,13 @@ const CurrentMapContainer = ({ onClickCurrentLocation }) => {
       ...prev,
       center: { lat: pos.coords.latitude, lng: pos.coords.longitude },
     }));
+    setIsLoading(false);
   };
 
   //   if failed to find location
   const locationLoadError = (pos) => {
     setOnModal(true);
+    setIsLoading(false);
   };
 
   // find region
@@ -121,25 +128,30 @@ const CurrentMapContainer = ({ onClickCurrentLocation }) => {
         현재위치로 위치선정
       </Title>
       {/* map */}
-      <StyledMapContainer>
-        <MapView // 지도를 표시할 Container
-          location={coordinate}
-        ></MapView>
-        <StyledButtonMapWrap>
-          <Button
-            type="submit"
-            width="100px"
-            height="56px"
-            background="#ff9030"
-            color="#fff"
-            radii="8px"
-            shadow
-            onClick={searchAddressFromCode}
-          >
-            설정완료
-          </Button>
-        </StyledButtonMapWrap>
-      </StyledMapContainer>
+      {isLoading ? (
+        <MapLoading />
+      ) : (
+        <StyledMapContainer>
+          <MapView // 지도를 표시할 Container
+            location={coordinate}
+          ></MapView>
+
+          <StyledButtonMapWrap>
+            <Button
+              type="submit"
+              width="100px"
+              height="56px"
+              background="#ff9030"
+              color="#fff"
+              radii="8px"
+              shadow
+              onClick={searchAddressFromCode}
+            >
+              설정완료
+            </Button>
+          </StyledButtonMapWrap>
+        </StyledMapContainer>
+      )}
     </ModalContainer>
   );
 };
