@@ -17,9 +17,23 @@ const NoticeListsWrap = styled(NavLink)`
   border-bottom: 1px solid #eceff1;
 `;
 
-const NoticeList = ({ children, pathName, border, title, time, ...props }) => {
+const NoticeList = ({
+  children,
+  pathName,
+  border,
+  title,
+  time,
+  list,
+  ...props
+}) => {
   return (
-    <NoticeListsWrap border={true} to={`${pathName}`}>
+    <NoticeListsWrap
+      border={true}
+      to={{
+        pathname: `${pathName}`,
+        state: list,
+      }}
+    >
       <NoticeTitleWrap>
         <Title margin="0 0 10px 0">{title}</Title>
         <Paragraph fontSize="14px" color="rgba(0,0,0,0.3)">

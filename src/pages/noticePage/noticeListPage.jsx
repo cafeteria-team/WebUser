@@ -32,9 +32,9 @@ const NoticeListPage = () => {
       <NoticeTitle>공지사항</NoticeTitle>
       <NoticeContainer>
         {notice.map((lists) => {
-          console.log(lists);
           return (
             <NoticeList
+              list={lists}
               title={lists.subject}
               time={lists.updated}
               key={uuidv4()}
