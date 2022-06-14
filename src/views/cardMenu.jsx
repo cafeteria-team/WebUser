@@ -60,40 +60,33 @@ const TitlePart = memo(() => {
 
 const MenuPart = ({ OnMenu, onClickMenu, scrollRef }) => {
   return (
-    <>
-      <CardMenuContainer height={OnMenu ? "100%" : null} ref={scrollRef}>
-        <CardMenuTitleContainer>
-          <CardMenuTitleWrap>
-            <MenuItem color="#637381" />
-            <Paragraph margin="0 0 0 6px" fontWeight="bold">
-              오늘의 메뉴
-            </Paragraph>
-          </CardMenuTitleWrap>
-          <MoreBtn
-            background="unset"
-            color="#637381"
-            onClick={(e) => onClickMenu(e)}
-            padding="10px 0"
-          >
-            더보기
-          </MoreBtn>
-        </CardMenuTitleContainer>
-      </CardMenuContainer>
-      <CardMenuContainer height="100%" margin="10px 0 0 0">
-        <CardMenuListsWrap
-          maxHeight={OnMenu ? "1000px" : null}
-          // marginTop={OnMenu ? "26px" : null}
+    <CardMenuContainer height="100%" ref={scrollRef}>
+      <CardMenuTitleContainer>
+        <CardMenuTitleWrap>
+          <MenuItem color="#637381" />
+          <Paragraph margin="0 0 0 6px" fontWeight="bold">
+            오늘의 메뉴
+          </Paragraph>
+        </CardMenuTitleWrap>
+        <MoreBtn
+          background="unset"
+          color="#637381"
+          onClick={(e) => onClickMenu(e)}
+          padding="10px 0"
         >
-          <CardMenuLists>흰밥</CardMenuLists>
-          <CardMenuLists>미역국</CardMenuLists>
-          <CardMenuLists>돈까스</CardMenuLists>
-          <CardMenuLists>김치찌개</CardMenuLists>
-          <CardMenuLists border padding="10px 0 0">
-            오징어볶음
-          </CardMenuLists>
-        </CardMenuListsWrap>
-      </CardMenuContainer>
-    </>
+          {OnMenu ? "간략히 보기" : "더보기"}
+        </MoreBtn>
+      </CardMenuTitleContainer>
+      <CardMenuListsWrap maxHeight={OnMenu ? "1000px" : null}>
+        <CardMenuLists padding="20px 0 10px">흰밥</CardMenuLists>
+        <CardMenuLists>미역국</CardMenuLists>
+        <CardMenuLists>돈까스</CardMenuLists>
+        <CardMenuLists>김치찌개</CardMenuLists>
+        <CardMenuLists border padding="10px 0 0">
+          오징어볶음
+        </CardMenuLists>
+      </CardMenuListsWrap>
+    </CardMenuContainer>
   );
 };
 

@@ -497,7 +497,6 @@ export const CardMenuContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: ${(props) => props.height || "64px"};
-  transition: height 0.8s ease-in-out;
   background: ${({ theme }) => theme.colors.background};
   border-radius: ${({ theme }) => theme.radii.button};
   padding: ${({ theme }) => theme.space.large};
@@ -522,7 +521,7 @@ export const CardMenuListsWrap = styled.ul`
   height: 100%;
   max-height: ${(props) => props.maxHeight || "0"};
   overflow: hidden;
-  transition: all 0.6s linear;
+  transition: max-height 1.1s cubic-bezier(1, 0, 0, 1);
   margin-top: ${(props) => props.marginTop || "0"};
 `;
 export const CardMenuLists = styled.li`
