@@ -406,6 +406,7 @@ export const SlideMenuListWrap = memo(styled.div`
 
 // card components
 export const CardContainer = styled.div`
+  position:relative;
   display: flex;
   flex-direction: column;
   max-width: 600px;
@@ -574,6 +575,22 @@ export const FacilityIconWrap = styled.div`
   height: 64px;
   background: #f9fafb;
   border-radius: ${({ theme }) => theme.radii.button};
+`;
+
+/////////map page /////////
+export const MapTitle = styled.div`
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  z-index: 2;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  hieght: 64px;
+  border-radius: ${({ theme }) => theme.radii.rounded};
 `;
 
 ///////// notice page /////////
