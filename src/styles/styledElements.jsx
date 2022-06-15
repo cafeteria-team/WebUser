@@ -162,12 +162,12 @@ body{
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 999;
     opacity: 0;
-    transition: all 500ms linear;
-    -webkit-transition: -webkit-all 500ms linear;
-    -webkit-transition: all 500ms linear;
-    -moz-transition: all 500ms linear;
-    -ms-transition: all 500ms linear;
-    -o-transition: all 500ms linear;
+    transition: all 200ms linear;
+    -webkit-transition: -webkit-all 200ms linear;
+    -webkit-transition: all 200ms linear;
+    -moz-transition: all 200ms linear;
+    -ms-transition: all 200ms linear;
+    -o-transition: all 200ms linear;
   }
   .ReactModal__Overlay--after-open {
     opacity: 1;

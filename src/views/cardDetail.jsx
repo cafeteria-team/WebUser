@@ -1,4 +1,4 @@
-import React, { useState, memo, useRef } from "react";
+import React, { useState, memo } from "react";
 import {
   CardContainer,
   CardImageIconWrap,
@@ -51,7 +51,7 @@ const TitlePart = memo(() => {
   );
 });
 
-const AddressPart = memo(() => {
+const AddressPart = memo(({ mapOpen }) => {
   return (
     <CardAddressWrap margin="0 0 20px 0">
       <CardAddressWrap margin="0 12px 0 0">
@@ -60,7 +60,12 @@ const AddressPart = memo(() => {
           서울 금천구 가산동
         </Paragraph>
       </CardAddressWrap>
-      <MoreBtn color="#1A90FF" background="unset" fontSize="14px">
+      <MoreBtn
+        color="#1A90FF"
+        background="unset"
+        fontSize="14px"
+        onClick={mapOpen}
+      >
         지도보기
       </MoreBtn>
     </CardAddressWrap>
@@ -154,7 +159,7 @@ const MapPart = () => {
   );
 };
 
-const CardDetail = () => {
+const CardDetail = ({ mapOpen }) => {
   // like state
   const [Liked, SetLiked] = useState(false);
 
@@ -169,7 +174,7 @@ const CardDetail = () => {
       {/* title */}
       <TitlePart />
       {/* address */}
-      <AddressPart />
+      <AddressPart mapOpen={mapOpen} />
       {/* menu */}
       <MenuPart />
       {/* facility */}

@@ -148,7 +148,7 @@ const Header = ({ onClickMenu }) => {
         className="Modal"
         overlayClassName="Overlay"
         ariaHideApp={false}
-        closeTimeoutMS={300}
+        closeTimeoutMS={200}
       >
         <ModalAddress
           onClickModal={onClickModal}
@@ -166,7 +166,7 @@ const Header = ({ onClickMenu }) => {
         className="Modal"
         overlayClassName="Overlay"
         ariaHideApp={false}
-        closeTimeoutMS={300}
+        closeTimeoutMS={200}
       >
         <CurrentMapContainer onClickCurrentLocation={onClickCurrentLocation} />
       </Modal>
@@ -180,7 +180,7 @@ const Header = ({ onClickMenu }) => {
         className="Modal"
         overlayClassName="Overlay"
         ariaHideApp={false}
-        closeTimeoutMS={300}
+        closeTimeoutMS={200}
       >
         <MapContainer onClickFindLocation={onClickFindLocation} />
       </Modal>

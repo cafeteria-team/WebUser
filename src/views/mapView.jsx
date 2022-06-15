@@ -1,7 +1,7 @@
 import React from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
-const MapView = ({ location }) => {
+const MapView = ({ location, height }) => {
   return (
     <Map // 지도를 표시할 Container
       center={location.center}
@@ -9,7 +9,7 @@ const MapView = ({ location }) => {
       style={{
         // 지도의 크기
         width: "100%",
-        height: "450px",
+        height: height ? window.innerHeight - 120 : "450px",
         borderRadius: "20px",
       }}
       level={4} // 지도의 확대 레벨

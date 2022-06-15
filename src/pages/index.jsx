@@ -8,6 +8,7 @@ import LikePage from "./likePage/likePage";
 import NotFoundPage from "./notFoundPage/notFoundPage";
 import MapContainer from "./mapContainer/mapContainer";
 import CurrentMapContainer from "./mapContainer/currentMapContainer";
+import MapPage from "./storePage/mapPage";
 
 export {
   MainContainer,
@@ -20,4 +21,5 @@ export {
   NotFoundPage,
   MapContainer,
   CurrentMapContainer,
+  MapPage,
 };

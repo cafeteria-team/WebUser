@@ -8,6 +8,7 @@ import {
   NoticeDetail,
   NoticeListPage,
   ServicePage,
+  MapPage,
 } from "./pages";
 
 const Router = () => {
@@ -18,6 +19,7 @@ const Router = () => {
       children: [
         { path: "/", element: <MainPage /> },
         { path: ":storeId", element: <StorePage /> },
+        { path: ":storeId/address", element: <MapPage /> },
         { path: "like", element: <LikePage /> },
         { path: "like/:storeId", element: <StorePage /> },
         { path: "notice", element: <NoticeListPage /> },

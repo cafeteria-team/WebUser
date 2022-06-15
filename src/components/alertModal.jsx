@@ -52,7 +52,7 @@ const AlertModal = ({
       className="Modal"
       overlayClassName="Overlay"
       ariaHideApp={false}
-      closeTimeoutMS={300}
+      closeTimeoutMS={200}
     >
       <CardWrap flexDirection="column" align="center" margin="0 0 20px 0">
         <Title margin="20px 0" color={color}>
