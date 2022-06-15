@@ -588,6 +588,7 @@ export const MapTitle = styled.div`
   padding: 2px 20px;
   display: flex;
   align-items: center;
+  width: max-content;
   justify-content: center;
   border-radius: ${({ theme }) => theme.radii.rounded};
 `;

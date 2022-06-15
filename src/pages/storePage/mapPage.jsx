@@ -9,6 +9,7 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const { kakao } = window;
 
@@ -55,17 +56,6 @@ const MapPage = () => {
     dispatch(setCurrentLocation(region));
   };
 
-  const copyAddress = async () => {
-    try {
-      await navigator.clipboard.writeText(address);
-      setCopied(true);
-      copyToaster();
-    } catch (error) {
-      alert("클립보드에 복사가 실패되었습니다. 잠시후 다시 시도해주십시오.");
-      setCopied(false);
-    }
-  };
-
   const copyToaster = () => {
     NotificationManager.success("주소가 복사되었습니다.", "", 1000);
   };
@@ -78,7 +68,13 @@ const MapPage = () => {
     <CardContainer>
       <NotificationContainer />
       <MapTitle>
-        <Copy onClick={copyAddress} />
+        <CopyToClipboard
+          options={{ message: "" }}
+          text={address}
+          onCopy={() => copyToaster()}
+        >
+          <Copy />
+        </CopyToClipboard>
         {address}
       </MapTitle>
       <MapView location={coordinate} height />
