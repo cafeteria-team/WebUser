@@ -3,6 +3,12 @@ import { useDispatch } from "react-redux";
 import { setCurrentLocation } from "../../_modules/location";
 import { MapView } from "../../views";
 import { CardContainer, MapTitle } from "../../styles/styledElements";
+import { Copy } from "../../assets/icons";
+import "react-notifications/lib/notifications.css";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 
 const { kakao } = window;
 
@@ -19,6 +25,9 @@ const MapPage = () => {
     // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
     isPanto: true,
   });
+
+  const [copied, setCopied] = useState(false);
+  const [address, setAddress] = useState("서울 금천구 가산동");
 
   // find region
   const searchAddressFromCode = () => {
@@ -46,13 +55,32 @@ const MapPage = () => {
     dispatch(setCurrentLocation(region));
   };
 
+  const copyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(address);
+      setCopied(true);
+      copyToaster();
+    } catch (error) {
+      alert("클립보드에 복사가 실패되었습니다. 잠시후 다시 시도해주십시오.");
+      setCopied(false);
+    }
+  };
+
+  const copyToaster = () => {
+    NotificationManager.success("주소가 복사되었습니다.", "", 1000);
+  };
+
   useEffect(() => {
     searchAddressFromCode();
   }, []);
 
   return (
     <CardContainer>
-      <MapTitle>서울 금천구 가산동</MapTitle>
+      <NotificationContainer />
+      <MapTitle>
+        <Copy onClick={copyAddress} />
+        {address}
+      </MapTitle>
       <MapView location={coordinate} height />
     </CardContainer>
   );

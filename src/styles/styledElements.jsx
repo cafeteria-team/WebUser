@@ -585,11 +585,10 @@ export const MapTitle = styled.div`
   transform: translateX(-50%);
   background: #fff;
   z-index: 2;
-  padding: 20px;
+  padding: 2px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  hieght: 64px;
   border-radius: ${({ theme }) => theme.radii.rounded};
 `;
 

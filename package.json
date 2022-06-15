@@ -19,6 +19,7 @@
     "react-loading-skeleton": "^3.1.0",
     "react-lottie": "^1.2.3",
     "react-modal": "^3.15.1",
+    "react-notifications": "^1.7.3",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
