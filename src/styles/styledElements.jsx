@@ -281,6 +281,11 @@ export const StyledHeaderWrap = styled.header`
   margin: 0 auto;
   padding: ${({ theme }) => `0 ${theme.space.large}`};
 `;
+export const MenuWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 // header - my location content
 export const LocationContentWrap = styled.div`
   width: 100%;

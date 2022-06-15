@@ -7,12 +7,14 @@ import {
   MyLocationWrap,
   MyLocation,
   SpaceHeader,
+  MenuWrap,
 } from "../styles/styledElements";
-import { Menu, Location, Logo } from "../assets/icons";
+import { Menu, Location, Logo, Home, LeftArrow } from "../assets/icons";
 import { Title, MoreBtn, ModalAddress } from "../components";
 import { MapContainer, CurrentMapContainer } from "../pages";
 import Modal from "react-modal";
 import { useSelector, shallowEqual } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // modal style
 
@@ -112,6 +114,18 @@ const Header = ({ onClickMenu }) => {
     setFindLocation((prev) => !prev);
   };
 
+  const history = useLocation();
+  const navigate = useNavigate();
+
+  // go back to previous page
+  const goBack = () => {
+    navigate(-1);
+  };
+  // go to main page
+  const goMain = () => {
+    navigate("/");
+  };
+
   const location = useSelector((state) => state.setLocation, shallowEqual);
 
   useEffect(() => {
@@ -174,9 +188,22 @@ const Header = ({ onClickMenu }) => {
       {/* header */}
       <StyledHeaderContainer>
         <StyledHeaderWrap>
-          <Menu color="#212B36" onClickMenu={onClickMenu} />
+          <>
+            {history.pathname !== "/" ? (
+              <MenuWrap>
+                <LeftArrow onClick={goBack} />
+                <Home onClick={goMain} />
+              </MenuWrap>
+            ) : (
+              <Menu color="#212B36" onClickMenu={onClickMenu} />
+            )}
+          </>
           <Logo />
-          <Location color="#212B36" OnClickLocation={onClickLocation} />
+          <Location
+            color="#212B36"
+            OnClickLocation={onClickLocation}
+            padding="5px"
+          />
         </StyledHeaderWrap>
       </StyledHeaderContainer>
       <SpaceHeader />

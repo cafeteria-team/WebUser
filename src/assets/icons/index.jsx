@@ -17,6 +17,8 @@ import Logo from "./logo";
 import ImageIcon from "./imageIcon";
 import Left from "./left";
 import Right from "./right";
+import Home from "./home";
+import LeftArrow from "./leftArrow";
 
 export {
   ArrowRight,
@@ -38,4 +40,6 @@ export {
   ImageIcon,
   Left,
   Right,
+  Home,
+  LeftArrow,
 };
