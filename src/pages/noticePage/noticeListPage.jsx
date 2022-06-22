@@ -4,7 +4,6 @@ import { NoticeContainer, NoticeTitle } from "../../styles/styledElements";
 import { NoticeList } from "../../views";
 import { Pagenation } from "../../components";
 import axiosInstance from "../../utills/axios";
-import withLoading from "../../hoc/withSkeleton";
 
 const NoticeListPage = () => {
   const [notice, setNotice] = useState([]);

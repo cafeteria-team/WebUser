@@ -1,4 +1,4 @@
-import React, { useState, memo, useRef } from "react";
+import React, { useState, memo, useRef, useCallback } from "react";
 import {
   CardImageIconWrap,
   CardImageContainer,
@@ -18,6 +18,7 @@ import { MenuItem, Heart } from "../assets/icons";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import withLoading from "../hoc/withSkeleton";
 
 const CardContainer = styled(NavLink)`
 display: flex;
@@ -33,12 +34,12 @@ text-decoration:unset;
 color:${({ theme }) => theme.colors.text}};
 `;
 
-const ImagePart = memo(({ Liked, onClickLike, images }) => {
+const ImagePart = memo(({ liked, onClickLike, images }) => {
   return (
     <CardImageContainer>
       <CardImageIconWrap>
         <Heart
-          color={Liked ? "#FF4842" : "#fff"}
+          color={liked ? "#FF4842" : "#fff"}
           onClcik={(e) => onClickLike(e)}
         />
       </CardImageIconWrap>
@@ -59,7 +60,7 @@ const TitlePart = memo(({ name }) => {
   );
 });
 
-const MenuPart = ({ OnMenu, onClickMenu, scrollRef, menu }) => {
+const MenuPart = memo(({ onMenu, onClickMenu, scrollRef, menu }) => {
   return (
     <CardMenuContainer height="100%" ref={scrollRef}>
       <CardMenuTitleContainer>
@@ -75,10 +76,10 @@ const MenuPart = ({ OnMenu, onClickMenu, scrollRef, menu }) => {
           onClick={(e) => onClickMenu(e)}
           padding="10px 0"
         >
-          {OnMenu ? "간략히 보기" : "더보기"}
+          {onMenu ? "간략히 보기" : "더보기"}
         </MoreBtn>
       </CardMenuTitleContainer>
-      <CardMenuListsWrap maxHeight={OnMenu ? "1000px" : null}>
+      <CardMenuListsWrap maxHeight={onMenu ? "1000px" : null}>
         {menu.map((item, index) => {
           if (index === 0) {
             return (
@@ -99,16 +100,16 @@ const MenuPart = ({ OnMenu, onClickMenu, scrollRef, menu }) => {
       </CardMenuListsWrap>
     </CardMenuContainer>
   );
-};
+});
 
-const CardMenu = ({ menu, name, images, storeId }) => {
+const CardMenu = ({ menu, name, images, storeId, isLoading }) => {
   // scroll ref
   const scrollRef = useRef();
 
   // menu lists state
-  const [OnMenu, SetOnMenu] = useState(false);
+  const [onMenu, setOnMenu] = useState(false);
   // like state
-  const [Liked, SetLiked] = useState(false);
+  const [liked, setLiked] = useState(false);
 
   const scrollToBottom = () => {
     scrollRef.current.scrollIntoView({
@@ -118,32 +119,64 @@ const CardMenu = ({ menu, name, images, storeId }) => {
     });
   };
 
-  const onClickMenu = (e) => {
-    e.preventDefault();
-    SetOnMenu((prev) => !prev);
-    if (!OnMenu) {
-      scrollToBottom();
-    }
-  };
+  const onClickMenu = useCallback(
+    (e) => {
+      e.preventDefault();
+      setOnMenu((prev) => !prev);
+      if (!onMenu) {
+        scrollToBottom();
+      }
+    },
+    [onMenu]
+  );
 
-  const onClickLike = (e) => {
-    e.preventDefault();
-    SetLiked((prev) => !prev);
-  };
+  const onClickLike = useCallback(
+    (e) => {
+      e.preventDefault();
+      setLiked((prev) => !prev);
+    },
+    [liked]
+  );
+
+  // handle loading elements
+  const WithImageLoading = withLoading(ImagePart);
+  const WithTitleLoading = withLoading(TitlePart);
+  const WIthMenuLoading = withLoading(MenuPart);
 
   return (
     <CardContainer to={`${storeId}`}>
       {/* image */}
-      <ImagePart onClickLike={onClickLike} Liked={Liked} images={images} />
+      <WithImageLoading
+        isLoading={isLoading}
+        onClickLike={onClickLike}
+        liked={liked}
+        images={images}
+        height={420}
+        width={560}
+      />
+      {/* <ImagePart onClickLike={onClickLike} liked={liked} images={images} /> */}
       {/* title */}
-      <TitlePart name={name} />
+      <WithTitleLoading
+        isLoading={isLoading}
+        name={name}
+        height={80}
+        width={560}
+      />
+      {/* <TitlePart name={name} /> */}
       {/* menu */}
-      <MenuPart
+      <WIthMenuLoading
+        isLoading={isLoading}
         onClickMenu={onClickMenu}
-        OnMenu={OnMenu}
+        onMenu={onMenu}
         scrollRef={scrollRef}
         menu={menu}
       />
+      {/* <MenuPart
+        onClickMenu={onClickMenu}
+        onMenu={onMenu}
+        scrollRef={scrollRef}
+        menu={menu}
+      /> */}
     </CardContainer>
   );
 };
