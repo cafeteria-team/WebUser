@@ -4,8 +4,9 @@ import "@egjs/react-flicking/dist/flicking.css";
 // Or, if you have to support IE9
 import "@egjs/react-flicking/dist/flicking-inline.css";
 import Panel from "./panel";
-import { Parallax, Pagination } from "@egjs/flicking-plugins";
+import { Pagination } from "@egjs/flicking-plugins";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 
 export const CardSlideWrap = styled(Flicking)`
   width: 100%;
@@ -16,9 +17,7 @@ export const CardSlideWrap = styled(Flicking)`
   border-radius: 5px;
 `;
 
-const ImageBox = () => {
-  // const plugins = [new Parallax("img", 4), new Pagination({ type: "scroll" })];
-
+const ImageBox = ({ images }) => {
   const plugins = [new Pagination({ type: "bullet" })];
 
   return (
@@ -28,9 +27,9 @@ const ImageBox = () => {
       plugins={plugins}
       // resizeOnContentsReady={true}
     >
-      <Panel index={1} src={require("../assets/images/mock_img1.jpg")} />
-      <Panel index={2} src={require("../assets/images/mock_img2.jpg")} />
-      <Panel index={3} src={require("../assets/images/mock_img3.jpg")} />
+      {images.map((item, index) => (
+        <Panel index={index} src={item} key={uuidv4()} />
+      ))}
       <ViewportSlot>
         <div className="flicking-pagination"></div>
       </ViewportSlot>

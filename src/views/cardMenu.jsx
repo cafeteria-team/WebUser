@@ -17,6 +17,7 @@ import { ImageBox, Title, MoreBtn } from "../components";
 import { MenuItem, Heart } from "../assets/icons";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 const CardContainer = styled(NavLink)`
 display: flex;
@@ -32,7 +33,7 @@ text-decoration:unset;
 color:${({ theme }) => theme.colors.text}};
 `;
 
-const ImagePart = memo(({ Liked, onClickLike }) => {
+const ImagePart = memo(({ Liked, onClickLike, images }) => {
   return (
     <CardImageContainer>
       <CardImageIconWrap>
@@ -41,15 +42,15 @@ const ImagePart = memo(({ Liked, onClickLike }) => {
           onClcik={(e) => onClickLike(e)}
         />
       </CardImageIconWrap>
-      <ImageBox />
+      <ImageBox images={images} />
     </CardImageContainer>
   );
 });
 
-const TitlePart = memo(() => {
+const TitlePart = memo(({ name }) => {
   return (
     <CardTitleContainer>
-      <Title>행복식당</Title>
+      <Title>{name}</Title>
       <CardStorePriceContainer>
         <CardStorePriceDes>식권</CardStorePriceDes>
         <CardStorePrice>￦ 5,500원</CardStorePrice>
@@ -58,7 +59,7 @@ const TitlePart = memo(() => {
   );
 });
 
-const MenuPart = ({ OnMenu, onClickMenu, scrollRef }) => {
+const MenuPart = ({ OnMenu, onClickMenu, scrollRef, menu }) => {
   return (
     <CardMenuContainer height="100%" ref={scrollRef}>
       <CardMenuTitleContainer>
@@ -78,19 +79,29 @@ const MenuPart = ({ OnMenu, onClickMenu, scrollRef }) => {
         </MoreBtn>
       </CardMenuTitleContainer>
       <CardMenuListsWrap maxHeight={OnMenu ? "1000px" : null}>
-        <CardMenuLists padding="20px 0 10px">흰밥</CardMenuLists>
-        <CardMenuLists>미역국</CardMenuLists>
-        <CardMenuLists>돈까스</CardMenuLists>
-        <CardMenuLists>김치찌개</CardMenuLists>
-        <CardMenuLists border padding="10px 0 0">
-          오징어볶음
-        </CardMenuLists>
+        {menu.map((item, index) => {
+          if (index === 0) {
+            return (
+              <CardMenuLists padding="20px 0 10px" key={uuidv4()}>
+                {item}
+              </CardMenuLists>
+            );
+          } else if (index === item.length - 1) {
+            return (
+              <CardMenuLists border padding="10px 0 0" key={uuidv4()}>
+                {item}
+              </CardMenuLists>
+            );
+          } else {
+            return <CardMenuLists key={uuidv4()}>{item}</CardMenuLists>;
+          }
+        })}
       </CardMenuListsWrap>
     </CardMenuContainer>
   );
 };
 
-const CardMenu = ({ storeId }) => {
+const CardMenu = ({ menu, name, images, storeId }) => {
   // scroll ref
   const scrollRef = useRef();
 
@@ -123,14 +134,15 @@ const CardMenu = ({ storeId }) => {
   return (
     <CardContainer to={`${storeId}`}>
       {/* image */}
-      <ImagePart onClickLike={onClickLike} Liked={Liked} />
+      <ImagePart onClickLike={onClickLike} Liked={Liked} images={images} />
       {/* title */}
-      <TitlePart />
+      <TitlePart name={name} />
       {/* menu */}
       <MenuPart
         onClickMenu={onClickMenu}
         OnMenu={OnMenu}
         scrollRef={scrollRef}
+        menu={menu}
       />
     </CardContainer>
   );
