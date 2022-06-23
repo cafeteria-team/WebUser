@@ -10,6 +10,7 @@ import {
 import MapContainer from "../mapContainer/mapContainer";
 import axiosInstance from "../../utills/axios";
 import { v4 as uuidv4 } from "uuid";
+import Virtual from "./virtual";
 
 const MainPage = () => {
   const [stores, setStores] = useState([]);
@@ -61,15 +62,19 @@ const MainPage = () => {
 
   const rowRenderer = ({ key, index, parent, style }) => {
     const item = !isRowLoaded({ index }) ? (
-      <CardMenu key={uuidv4()} isLoading={isLoading} />
+      <div style={style}>
+        <CardMenu key={uuidv4()} isLoading={isLoading} />
+      </div>
     ) : (
-      <CardMenu
-        menu={stores[index].menus}
-        name={stores[index].store.name}
-        images={stores[index].store.store_img}
-        storeId={1}
-        key={uuidv4()}
-      />
+      <div style={style} className="ss">
+        <CardMenu
+          menu={stores[index].menus}
+          name={stores[index].store.name}
+          images={stores[index].store.store_img}
+          storeId={1}
+          key={uuidv4()}
+        />
+      </div>
     );
 
     return (
@@ -114,7 +119,7 @@ const MainPage = () => {
               />
             );
           })} */}
-      <InfiniteLoader
+      {/* <InfiniteLoader
         isRowLoaded={isRowLoaded}
         loadMoreRows={loadMoreRows}
         rowCount={itemCount}
@@ -128,9 +133,9 @@ const MainPage = () => {
                   //항목의 개수
                   rowCount={itemCount}
                   //실제 렌더링되는 높이범위
-                  height={window.innerHeight - 215}
+                  height={window.innerHeight}
                   //항목의 높이
-                  rowHeight={90}
+                  rowHeight={cellMeasurerCache.rowHeight}
                   //항목의 넓이
                   width={width}
                   //항목렌더링 할때 쓰는 함수
@@ -143,7 +148,8 @@ const MainPage = () => {
             }}
           </AutoSizer>
         )}
-      </InfiniteLoader>
+      </InfiniteLoader> */}
+      <Virtual />
     </>
   );
 };
