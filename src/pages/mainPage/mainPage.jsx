@@ -16,6 +16,17 @@ const MainPage = () => {
   const [pageNum, setPageNum] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const loadingArray = [
+    {
+      name: "loading",
+    },
+    {
+      name: "loading",
+    },
+    {
+      name: "loading",
+    },
+  ];
 
   // CellMeasurer의 결과를 부모(여기서는 List)와 공유합니다.
   //요소의 동적인 height값을측정
@@ -33,9 +44,9 @@ const MainPage = () => {
       } = await axiosInstance.get(`/api/menu/today?page=${pageNum}&page_size=10
       `);
       setStores(...stores, results);
-      // setIsLoading(false);
+      setIsLoading(false);
     } catch (err) {
-      // setIsLoading(false);
+      setIsLoading(false);
       console.log(err);
     }
   };
@@ -44,20 +55,95 @@ const MainPage = () => {
     getUserLists();
   }, []);
 
+  const isRowLoaded = ({ index }) => {
+    return !!stores[index];
+  };
+
+  const rowRenderer = ({ key, index, parent, style }) => {
+    const item = !isRowLoaded({ index }) ? (
+      <CardMenu key={uuidv4()} isLoading={isLoading} />
+    ) : (
+      <CardMenu
+        menu={stores[index].menus}
+        name={stores[index].store.name}
+        images={stores[index].store.store_img}
+        storeId={1}
+        key={uuidv4()}
+      />
+    );
+
+    return (
+      // 보이지 않는것을 렌더링하여, 크기를 측정
+      <CellMeasurer
+        key={key}
+        cache={cellMeasurerCache}
+        parent={parent}
+        columnIndex={0}
+        rowIndex={index}
+      >
+        {item}
+      </CellMeasurer>
+    );
+  };
+
+  const loadMoreRows = () => {
+    if (hasNextPage) {
+      getUserLists();
+    } else {
+      return;
+    }
+  };
+
+  const itemCount = hasNextPage ? stores.length + 1 : stores.length;
+
   return (
     <>
-      {stores.map((item) => {
-        return (
-          <CardMenu
-            menu={item.menus}
-            name={item.store.name}
-            images={item.store.store_img}
-            storeId={1}
-            key={uuidv4()}
-            isLoading={isLoading}
-          />
-        );
-      })}
+      {/* {isLoading
+        ? loadingArray.map((item) => (
+            <CardMenu key={uuidv4()} isLoading={isLoading} />
+          ))
+        : stores.map((item) => {
+            return (
+              <CardMenu
+                menu={item.menus}
+                name={item.store.name}
+                images={item.store.store_img}
+                storeId={1}
+                key={uuidv4()}
+                isLoading={isLoading}
+              />
+            );
+          })} */}
+      <InfiniteLoader
+        isRowLoaded={isRowLoaded}
+        loadMoreRows={loadMoreRows}
+        rowCount={itemCount}
+      >
+        {({ onRowsRendered, registerChild }) => (
+          <AutoSizer>
+            {({ width, height }) => {
+              return (
+                // 요소의 창 행목록
+                <List
+                  //항목의 개수
+                  rowCount={itemCount}
+                  //실제 렌더링되는 높이범위
+                  height={window.innerHeight - 215}
+                  //항목의 높이
+                  rowHeight={90}
+                  //항목의 넓이
+                  width={width}
+                  //항목렌더링 할때 쓰는 함수
+                  rowRenderer={rowRenderer}
+                  //다음에 로드해올 항목 미리 컨텐츠 높이
+                  ref={registerChild}
+                  onRowsRendered={onRowsRendered}
+                />
+              );
+            }}
+          </AutoSizer>
+        )}
+      </InfiniteLoader>
     </>
   );
 };

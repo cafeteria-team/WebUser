@@ -151,16 +151,16 @@ const CardMenu = ({ menu, name, images, storeId, isLoading }) => {
         onClickLike={onClickLike}
         liked={liked}
         images={images}
-        height={420}
-        width={560}
+        height={350}
+        width="100%"
       />
       {/* <ImagePart onClickLike={onClickLike} liked={liked} images={images} /> */}
       {/* title */}
       <WithTitleLoading
         isLoading={isLoading}
         name={name}
-        height={80}
-        width={560}
+        height={25}
+        width="100%"
       />
       {/* <TitlePart name={name} /> */}
       {/* menu */}
@@ -170,6 +170,8 @@ const CardMenu = ({ menu, name, images, storeId, isLoading }) => {
         onMenu={onMenu}
         scrollRef={scrollRef}
         menu={menu}
+        height={80}
+        width="100%"
       />
       {/* <MenuPart
         onClickMenu={onClickMenu}
