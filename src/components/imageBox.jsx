@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from "uuid";
 export const CardSlideWrap = styled(Flicking)`
   width: 100%;
   height: 100%;
-  max-height: 400px;
   margin: 0px auto;
   background: #fff;
   background: rgba(55, 55, 55 0.1);
@@ -33,11 +32,10 @@ const ImageBox = ({ images, onLoad }) => {
           <Panel index={index} src={item} key={uuidv4()} onLoad={onLoad} />
         ))
       ) : (
-        <img
+        <Panel
+          alt="default img"
           src={require("../assets/images/default_img.png")}
           onLoad={onLoad}
-          alt="default img"
-          style={{ width: "100%", height: "auto", objectFit: "cover" }}
         />
       )}
       <ViewportSlot>

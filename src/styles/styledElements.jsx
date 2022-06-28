@@ -128,10 +128,7 @@ body{
   .flicking-pagination-bullet-active{
     background-color: #ff9030;
   }
-  .flicking-camera{
-    max-height:400px;
-  }
-
+  
   //modal
 
   .ReactModal__Content{

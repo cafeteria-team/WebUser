@@ -1,24 +1,8 @@
-import React, { useState, memo, useRef, useCallback } from "react";
-import {
-  CardImageIconWrap,
-  CardImageContainer,
-  CardTitleContainer,
-  CardStorePriceContainer,
-  CardStorePriceDes,
-  CardStorePrice,
-  CardMenuContainer,
-  CardMenuTitleContainer,
-  CardMenuTitleWrap,
-  CardMenuListsWrap,
-  CardMenuLists,
-  Paragraph,
-} from "../styles/styledElements";
-import { ImageBox, Title, MoreBtn } from "../components";
-import { MenuItem, Heart } from "../assets/icons";
+import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
-import withLoading from "../hoc/withSkeleton";
+
+import { CardTodayMenu, CardImage, CardTitle } from "./index";
 
 const CardContainer = styled(NavLink)`
 display: flex;
@@ -34,152 +18,16 @@ text-decoration:unset;
 color:${({ theme }) => theme.colors.text}};
 `;
 
-const ImagePart = memo(({ liked, onClickLike, images, onLoad }) => {
-  return (
-    <CardImageContainer>
-      <CardImageIconWrap>
-        <Heart
-          color={liked ? "#FF4842" : "#fff"}
-          onClcik={(e) => onClickLike(e)}
-        />
-      </CardImageIconWrap>
-      <ImageBox images={images} onLoad={onLoad} />
-    </CardImageContainer>
-  );
-});
-
-const TitlePart = memo(({ name }) => {
-  return (
-    <CardTitleContainer>
-      <Title>{name}</Title>
-      <CardStorePriceContainer>
-        <CardStorePriceDes>식권</CardStorePriceDes>
-        <CardStorePrice>￦ 5,500원</CardStorePrice>
-      </CardStorePriceContainer>
-    </CardTitleContainer>
-  );
-});
-
-const MenuPart = memo(({ onMenu, onClickMenu, scrollRef, menu }) => {
-  return (
-    <CardMenuContainer height="100%" ref={scrollRef}>
-      <CardMenuTitleContainer>
-        <CardMenuTitleWrap>
-          <MenuItem color="#637381" />
-          <Paragraph margin="0 0 0 6px" fontWeight="bold">
-            오늘의 메뉴
-          </Paragraph>
-        </CardMenuTitleWrap>
-        <MoreBtn
-          background="unset"
-          color="#637381"
-          onClick={(e) => onClickMenu(e)}
-          padding="10px 0"
-        >
-          {onMenu ? "간략히 보기" : "더보기"}
-        </MoreBtn>
-      </CardMenuTitleContainer>
-      <CardMenuListsWrap maxHeight={onMenu ? "1000px" : null}>
-        {menu.map((item, index) => {
-          if (index === 0) {
-            return (
-              <CardMenuLists padding="20px 0 10px" key={uuidv4()}>
-                {item}
-              </CardMenuLists>
-            );
-          } else if (index === item.length - 1) {
-            return (
-              <CardMenuLists border padding="10px 0 0" key={uuidv4()}>
-                {item}
-              </CardMenuLists>
-            );
-          } else {
-            return <CardMenuLists key={uuidv4()}>{item}</CardMenuLists>;
-          }
-        })}
-      </CardMenuListsWrap>
-    </CardMenuContainer>
-  );
-});
-
 const CardMenu = ({ menu, name, images, storeId, isLoading, onLoad }) => {
-  // scroll ref
-  const scrollRef = useRef();
-
-  // menu lists state
-  const [onMenu, setOnMenu] = useState(false);
-  // like state
-  const [liked, setLiked] = useState(false);
-
-  const scrollToBottom = () => {
-    scrollRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-      inline: "nearest",
-    });
-  };
-
-  const onClickMenu = useCallback(
-    (e) => {
-      e.preventDefault();
-      setOnMenu((prev) => !prev);
-      if (!onMenu) {
-        scrollToBottom();
-      }
-    },
-    [onMenu]
-  );
-
-  const onClickLike = useCallback(
-    (e) => {
-      e.preventDefault();
-      setLiked((prev) => !prev);
-    },
-    [liked]
-  );
-
-  // handle loading elements
-  const WithImageLoading = withLoading(ImagePart);
-  const WithTitleLoading = withLoading(TitlePart);
-  const WIthMenuLoading = withLoading(MenuPart);
-
+  console.log("카드메뉴 호출");
   return (
     <CardContainer to={`${storeId}`}>
       {/* image */}
-      <WithImageLoading
-        isLoading={isLoading}
-        onClickLike={onClickLike}
-        liked={liked}
-        images={images}
-        height={350}
-        width="100%"
-        onLoad={onLoad}
-      />
-      {/* <ImagePart onClickLike={onClickLike} liked={liked} images={images} /> */}
+      <CardImage isLoading={isLoading} images={images} onLoad={onLoad} />
       {/* title */}
-      <WithTitleLoading
-        isLoading={isLoading}
-        name={name}
-        height={25}
-        width="100%"
-      />
-      {/* <TitlePart name={name} /> */}
+      <CardTitle isLoading={isLoading} name={name} />
       {/* menu */}
-      <WIthMenuLoading
-        isLoading={isLoading}
-        onClickMenu={onClickMenu}
-        onMenu={onMenu}
-        scrollRef={scrollRef}
-        menu={menu}
-        height={80}
-        width="100%"
-      />
-      {/* <MenuPart
-        onClickMenu={onClickMenu}
-        onMenu={onMenu}
-        scrollRef={scrollRef}
-        menu={menu}
-      /> */}
+      <CardTodayMenu isLoading={isLoading} menu={menu} />
     </CardContainer>
   );
 };
