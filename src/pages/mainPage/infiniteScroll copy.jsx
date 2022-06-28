@@ -4,6 +4,7 @@ import {
   AutoSizer,
   CellMeasurer,
   CellMeasurerCache,
+  Grid,
   List,
   InfiniteLoader,
   WindowScroller,
@@ -18,30 +19,15 @@ const InfiniteScroll = ({
   height,
   renderer,
   children,
-  // 스크롤 할때마다 이벤트가 호출된다.
+  // ?? 머선일이구 이 onScroll은
+  // 하지만 스크롤 할때마다 이벤트가 호출된다.
   onScroll,
-  // minHeight 기본값 1로 설정.
+  // 이건또 머선일이구??
+  // minHeight 기본값은 1로 설정되있다.
   minHeight = 1,
 }) => {
   // trigger ??
   let triggered = useRef(false);
-
-  const _list = useRef();
-  const prevLength = UsePrevious(children.length);
-  let _mostRecentWidth = 0;
-  let _resizeAllFlag = useRef(false);
-
-  //   props값을 useRef로 설정
-  const props = useRef({
-    next,
-    hasMore,
-    onScroll,
-  });
-
-  console.log("인피니트 렌더링");
-  console.log("데이터 랭스", dataLength);
-  console.log("_list는?", _list);
-  console.log("prevLength는?", prevLength);
 
   // trigger 의 current값을 설정한다
   // dataLength가 바뀔때마다 리렌더
@@ -49,13 +35,12 @@ const InfiniteScroll = ({
     triggered.current = false;
   }, [dataLength]);
 
-  useEffect(() => {
-    props.current = {
-      next,
-      hasMore,
-      onScroll,
-    };
-  }, [next, hasMore, onScroll]);
+  //   props값을 useRef로 설정
+  const props = useRef({
+    next,
+    hasMore,
+    onScroll,
+  });
 
   // 스크롤값 이벤트감지
   const scrollListener = (e) => {
@@ -81,20 +66,29 @@ const InfiniteScroll = ({
     }
   };
 
+  useEffect(() => {
+    props.current = {
+      next,
+      hasMore,
+      onScroll,
+    };
+  }, [next, hasMore, onScroll]);
+
   const throttleScrollListener = throttle(scrollListener, 150);
 
   const rowRenderer = ({ parent, key, index, style }) => {
-    // console.log("로우 렌더링 호출");
-    // let content;
-    // if (index >= children.length && hasMore) {
-    //   content = loader;
-    // } else if (index >= children.length && !hasMore) {
-    //   content = loader;
-    // } else {
-    //   content = renderer({
-    //     index,
-    //   });
-    // }
+    let content;
+
+    if (index >= children.length && hasMore) {
+      content = loader;
+    } else if (index >= children.length && !hasMore) {
+      content = "";
+    } else {
+      content = renderer({
+        index,
+      });
+    }
+
     return (
       <CellMeasurer
         cache={_cache}
@@ -104,23 +98,7 @@ const InfiniteScroll = ({
         rowIndex={index}
         width={_mostRecentWidth}
       >
-        {({ measure }) => {
-          let content;
-          // if (index >= children.length && hasMore) {
-          //   content = loader;
-          // } else if (index >= children.length && !hasMore) {
-          //   content = loader;
-          // } else {
-          //   content = renderer(
-          //     {
-          //       index,
-          //     },
-          //     measure
-          //   );
-          // }
-          return <div style={style}>{content}</div>;
-        }}
-        {/* <div style={style}>{content}</div> */}
+        <div style={style}>{content}</div>
       </CellMeasurer>
     );
   };
@@ -135,6 +113,11 @@ const InfiniteScroll = ({
       }),
     [minHeight]
   );
+
+  const _list = useRef();
+  const prevLength = UsePrevious(children.length);
+  let _mostRecentWidth = 0;
+  let _resizeAllFlag = useRef(false);
 
   useEffect(() => {
     if (_resizeAllFlag.current) {
@@ -173,27 +156,17 @@ const InfiniteScroll = ({
             _resizeAllFlag.current = true;
             setTimeout(_resizeAll, 0);
           }
+
           return (
             <List
-              // Height constraint for list (determines how many actual rows are rendered)
-              height={height}
-              // Callback invoked whenever the scroll offset changes within the inner scrollable region:
-              // ({ clientHeight: number, scrollHeight: number, scrollTop: number }): void
-              onScroll={throttleScrollListener}
-              // Number of rows to render above/below the visible bounds of the list.
-              // This can help reduce flickering during scrolling on certain browsers/devices.
-              overscanRowCount={4}
-              // Number of rows in list.
-              rowCount={children.length + 1}
-              // Either a fixed row height (number) or a function that returns the height of a row given its index:
-              // ({ index: number }): number
-              rowHeight={_cache.rowHeight}
-              // Responsible for rendering a row
-              rowRenderer={rowRenderer}
-              // Width of the list
-              width={width}
-              // cellmeasure
               deferredMeasurementCache={_cache}
+              rowCount={children.length + 1}
+              width={width}
+              height={height}
+              rowHeight={_cache.rowHeight}
+              rowRenderer={rowRenderer}
+              overscanRowCount={5}
+              onScroll={throttleScrollListener}
               ref={_list}
             />
           );

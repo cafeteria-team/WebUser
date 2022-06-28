@@ -18,7 +18,7 @@ function onIntersection(entries, io) {
 
 // 이미지 경로와 alt를 받는다
 const Image = (props) => {
-  const { src, alt } = props;
+  const { src, alt, onLoad } = props;
   const imgRef = useRef(null);
 
   const [isLoad, setIsLoad] = useState(false);
@@ -61,9 +61,9 @@ const Image = (props) => {
   }, []);
 
   return isLoad ? (
-    <CardImage ref={imgRef} src={src} alt={alt} />
+    <CardImage ref={imgRef} src={src} alt={alt} onLoad={onLoad} />
   ) : (
-    <CardImagePlacholder ref={imgRef} alt={alt} />
+    <CardImagePlacholder ref={imgRef} alt={alt} onLoad={onLoad} />
   );
 };
 

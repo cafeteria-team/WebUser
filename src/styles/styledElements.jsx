@@ -128,6 +128,9 @@ body{
   .flicking-pagination-bullet-active{
     background-color: #ff9030;
   }
+  .flicking-camera{
+    max-height:400px;
+  }
 
   //modal
 
@@ -185,10 +188,10 @@ body{
 
   // infinite scroll
   .ReactVirtualized__Grid{
-    box-shadow:0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%);
-    background:#fff;
-    border-radius:16px;
-    margin-bottom:20px;
+    // box-shadow:0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%);
+    // background:#fff;
+    // border-radius:16px;
+    // margin-bottom:20px;
     -ms-overflow-style: none; 
     scrollbar-width: none;
   }
@@ -200,7 +203,7 @@ body{
 ///////////// common /////////////
 export const RootStyle = styled.div`
   width: 100%;
-  padding-bottom: ${({ theme }) => `${theme.space.large}`};
+  padding-bottom: ${({ theme }) => `${theme.space.xxlarge}`};
 `;
 
 //container

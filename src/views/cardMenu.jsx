@@ -34,7 +34,7 @@ text-decoration:unset;
 color:${({ theme }) => theme.colors.text}};
 `;
 
-const ImagePart = memo(({ liked, onClickLike, images }) => {
+const ImagePart = memo(({ liked, onClickLike, images, onLoad }) => {
   return (
     <CardImageContainer>
       <CardImageIconWrap>
@@ -43,7 +43,7 @@ const ImagePart = memo(({ liked, onClickLike, images }) => {
           onClcik={(e) => onClickLike(e)}
         />
       </CardImageIconWrap>
-      <ImageBox images={images} />
+      <ImageBox images={images} onLoad={onLoad} />
     </CardImageContainer>
   );
 });
@@ -102,7 +102,7 @@ const MenuPart = memo(({ onMenu, onClickMenu, scrollRef, menu }) => {
   );
 });
 
-const CardMenu = ({ menu, name, images, storeId, isLoading }) => {
+const CardMenu = ({ menu, name, images, storeId, isLoading, onLoad }) => {
   // scroll ref
   const scrollRef = useRef();
 
@@ -153,6 +153,7 @@ const CardMenu = ({ menu, name, images, storeId, isLoading }) => {
         images={images}
         height={350}
         width="100%"
+        onLoad={onLoad}
       />
       {/* <ImagePart onClickLike={onClickLike} liked={liked} images={images} /> */}
       {/* title */}
