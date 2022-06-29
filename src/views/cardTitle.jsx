@@ -9,7 +9,7 @@ import { Title } from "../components";
 import withLoading from "../hoc/withSkeleton";
 
 const TitlePart = memo(({ name }) => {
-  console.log("2. 타이틀파트 렌더링");
+  // console.log("2. 타이틀파트 렌더링");
 
   return (
     <CardTitleContainer>

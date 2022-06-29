@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setLikeStore } from "../_modules/like";
 
 const ImagePart = memo(({ liked, onClickLike, images, onLoad }) => {
-  console.log("1. 이미지파트 렌더링");
+  // console.log("1. 이미지파트 렌더링");
   return (
     <CardImageContainer>
       <CardImageIconWrap>

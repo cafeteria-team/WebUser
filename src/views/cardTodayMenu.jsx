@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import withLoading from "../hoc/withSkeleton";
 
 const MenuPart = memo(({ onMenu, onClickMenu, menu }) => {
-  console.log("3. 메뉴파트 렌더링");
+  // console.log("3. 메뉴파트 렌더링");
   return (
     <CardMenuContainer height="100%">
       <CardMenuTitleContainer>
@@ -55,7 +55,14 @@ const MenuPart = memo(({ onMenu, onClickMenu, menu }) => {
   );
 });
 
-const CardTodayMenu = ({ menu, isLoading }) => {
+const CardTodayMenu = ({
+  menu,
+  isLoading,
+  setSelectedIndex,
+  index,
+  onMenu,
+  setOnMenu,
+}) => {
   // const scrollRef = useRef();
   // const scrollToBottom = () => {
   //   console.log("스크롤이벤트", scrollRef.current);
@@ -67,12 +74,14 @@ const CardTodayMenu = ({ menu, isLoading }) => {
   // };
 
   // menu lists state
-  const [onMenu, setOnMenu] = useState(false);
+  // const [onMenu, setOnMenu] = useState(false);
 
   const onClickMenu = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
     setOnMenu((prev) => !prev);
+    // setSelectedIndex((prev) => (prev === -1 ? index : -1));
+    setSelectedIndex(index);
   }, []);
 
   const WIthMenuLoading = withLoading(MenuPart);

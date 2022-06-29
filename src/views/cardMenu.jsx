@@ -18,8 +18,19 @@ text-decoration:unset;
 color:${({ theme }) => theme.colors.text}};
 `;
 
-const CardMenu = ({ menu, name, images, storeId, isLoading, onLoad }) => {
-  console.log("카드메뉴 호출");
+const CardMenu = ({
+  menu,
+  name,
+  images,
+  storeId,
+  isLoading,
+  onLoad,
+  setSelectedIndex,
+  index,
+  onMenu,
+  setOnMenu,
+}) => {
+  // console.log("카드메뉴 호출");
   return (
     <CardContainer to={`${storeId}`}>
       {/* image */}
@@ -32,7 +43,14 @@ const CardMenu = ({ menu, name, images, storeId, isLoading, onLoad }) => {
       {/* title */}
       <CardTitle isLoading={isLoading} name={name} />
       {/* menu */}
-      <CardTodayMenu isLoading={isLoading} menu={menu} />
+      <CardTodayMenu
+        isLoading={isLoading}
+        menu={menu}
+        setSelectedIndex={setSelectedIndex}
+        index={index}
+        onMenu={onMenu}
+        setOnMenu={setOnMenu}
+      />
     </CardContainer>
   );
 };
