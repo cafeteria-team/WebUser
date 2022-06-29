@@ -295,20 +295,24 @@ function MainPage({ onScroll, minHeight = 1 }) {
     // 스크롤이 밑에 도달했는지 확인한다.
     const atBottom = scrollTop + clientHeight >= scrollHeight;
 
-    console.log("스크롤이벤트");
-
     if (atBottom && hasNextPage) {
       console.log(hasNextPage);
       triggered.current = true;
       addMoreUserLists(pageNum);
     }
   };
-
+  console.log(total);
   const throttleScrollListener = throttle(scrollListener, 150);
 
   useEffect(() => {
     onScrollRef.current = onScroll;
   }, [onScroll, hasNextPage, addMoreUserLists]);
+
+  // trigger 의 current값을 설정한다
+  // dataLength가 바뀔때마다 리렌더
+  useEffect(() => {
+    triggered.current = false;
+  }, [stores.length]);
 
   return (
     <WindowScroller>
