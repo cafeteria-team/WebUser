@@ -1,136 +1,3 @@
-// import React, { useState, useEffect, memo } from "react";
-// import { CardMenu } from "../../views";
-// import axiosInstance from "../../utills/axios";
-// import { v4 as uuidv4 } from "uuid";
-// import EasyVirtualized from "react-easy-virtualized";
-// import { Paragraph } from "../../styles/styledElements";
-
-// const Loader = memo(() => {
-//   const loadingArray = [
-//     {
-//       name: "loading",
-//     },
-//     {
-//       name: "loading",
-//     },
-//     {
-//       name: "loading",
-//     },
-//   ];
-
-//   return (
-//     <>
-//       {loadingArray.map((item) => (
-//         <CardMenu isLoading={true} name={item.name} key={uuidv4()} />
-//       ))}
-//     </>
-//   );
-// });
-
-// const MainPage = ({ data, loadMore, hasMore }) => {
-//   const [stores, setStores] = useState([]);
-//   const [pageNum, setPageNum] = useState(1);
-//   const [hasNextPage, setHasNextPage] = useState(false);
-//   const [total, setTotal] = useState(0);
-//   const [isLoading, setIsLoading] = useState(false);
-
-//   // get more items
-//   const MoreLoading = () => {
-//     return <CardMenu isLoading={true} />;
-//   };
-
-//   // get stores info
-//   const getUserLists = async () => {
-//     setIsLoading(true);
-//     try {
-//       const {
-//         data: { page, results },
-//       } = await axiosInstance.get(`/api/menu/today?page=${pageNum}&page_size=10
-//       `);
-//       setStores(results);
-//       setTotal(page.total_count);
-//       if (1 < Math.ceil(page.total_count / 10)) {
-//         setHasNextPage(true);
-//       }
-//       setIsLoading(false);
-//     } catch (err) {
-//       console.log(err);
-//       setIsLoading(false);
-//     }
-//   };
-
-//   const addMoreUserLists = async (props) => {
-//     setIsLoading(true);
-//     try {
-//       const {
-//         data: { page, results },
-//       } = await axiosInstance.get(`/api/menu/today?page=${props}&page_size=10
-//       `);
-//       setStores([...stores, ...results]);
-//       setPageNum(page.current_page);
-//       setIsLoading(false);
-//     } catch (err) {
-//       console.log(err);
-//       setIsLoading(false);
-//     }
-//   };
-
-//   const checkPageLeft = () => {
-//     if (pageNum === Math.ceil(total / 10)) {
-//       setHasNextPage(false);
-//     } else {
-//       setHasNextPage(true);
-//       addMoreUserLists(pageNum + 1);
-//     }
-//   };
-
-//   console.log(stores);
-
-//   useEffect(() => {
-//     getUserLists();
-//   }, []);
-
-//   if (isLoading)
-//     return (
-//       <>
-//         {/* <Loader /> */}
-//         <div>로딩</div>
-//       </>
-//     );
-
-//   if (!stores && stores.length === 0)
-//     return <Paragraph>등록된 리스트가 존재 하지않습니다.</Paragraph>;
-
-//   return (
-//     <>
-//       <EasyVirtualized
-//         onLoadMore={checkPageLeft}
-//         hasMore={hasNextPage}
-//         loader={MoreLoading}
-//         overscanRowCount={3}
-//         useParentScrollElement={true}
-//         threshold={10}
-//       >
-//         {/* {stores.map((item) => {
-//           return (
-//             <CardMenu
-//               key={item.id}
-//               menu={item.menus}
-//               name={item.store.name}
-//               storeId={item.store.id}
-//               images={item.store.store_img}
-//               // onLoad={measure}
-//             />
-//           );
-//         })} */}
-//         <div>리스트</div>
-//       </EasyVirtualized>
-//     </>
-//   );
-// };
-
-// export default MainPage;
-
 import {
   AutoSizer,
   List,
@@ -146,13 +13,30 @@ import axiosInstance from "../../utills/axios";
 import { v4 as uuidv4 } from "uuid";
 import { Paragraph } from "../../styles/styledElements";
 import throttle from "lodash/throttle";
+import { useCallback } from "react";
 
-// const cache = new CellMeasurerCache({
-//   defaultWidth: 100,
-//   fixedWidth: true,
-// });
+// 아이템 로딩시
+const Loader = () => {
+  const loadingArray = [
+    {
+      name: "loading",
+    },
+    {
+      name: "loading",
+    },
+    {
+      name: "loading",
+    },
+  ];
+
+  return loadingArray.map((item) => (
+    <CardMenu loading="true" name={item.name} key={uuidv4()} />
+  ));
+};
 
 function MainPage({ onScroll, minHeight = 1 }) {
+  // CellMeasure의 결과를 List와 공유
+  // 측정된 셀의 크기가 재계산되는것을 방지
   let cache = useMemo(
     () =>
       new CellMeasurerCache({
@@ -162,24 +46,25 @@ function MainPage({ onScroll, minHeight = 1 }) {
     [minHeight]
   );
 
+  //data states
   const [stores, setStores] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [total, setTotal] = useState(0);
+
+  //loading states
   const [isLoading, setIsLoading] = useState(false);
 
+  //menu states
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [onMenu, setOnMenu] = useState(false);
 
+  //refs
   const listRef = useRef();
-
-  // get more items
-  const MoreLoading = () => {
-    return <CardMenu isLoading={true} />;
-  };
 
   // get stores info
   const getUserLists = async () => {
+    console.log("first get stores data in MAINPAGE");
     setIsLoading(true);
     try {
       const {
@@ -198,40 +83,54 @@ function MainPage({ onScroll, minHeight = 1 }) {
     }
   };
 
-  const addMoreUserLists = async (props) => {
-    console.log("렌더모어");
-    setIsLoading(true);
-    try {
-      const {
-        data: { page, results },
-      } = await axiosInstance.get(`/api/menu/today?page=${props}&page_size=10
+  // add more stores data when more pages left
+  const addMoreUserLists = useCallback(
+    async (pagePros) => {
+      console.log("call more stores data in MAINPAGE");
+      console.log("현재 페이지", pagePros);
+      setIsLoading(true);
+      try {
+        const {
+          data: { page, results },
+        } = await axiosInstance.get(`/api/menu/today?page=${pagePros}&page_size=10
         `);
-      setStores([...stores, ...results]);
-      setPageNum(page.current_page);
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
-      setIsLoading(false);
-    }
-  };
+        if (pagePros === Math.ceil(page.total_count / 10)) {
+          setHasNextPage(false);
+        }
+        setStores([...stores, ...results]);
+        setPageNum(page.current_page);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+        setIsLoading(false);
+      }
+    },
+    [stores]
+  );
 
+  // call stores data when mainpage rendering
   useEffect(() => {
     getUserLists();
   }, []);
 
+  // to catch changes from stores
+  // if more data (hasNextPage) => rocount will be more than stores.length
   const rowCount = stores.length + (hasNextPage ? 1 : 0);
 
+  // Function responsible for tracking the loaded state of each row.
+  // It should implement the following signature: ({ index: number }): boolean
+  // !! makes every elements boolean
+  // (isRowLoaded)=> card menu render (else) => card loader render
   const isRowLoaded = ({ index }) => {
     // return !hasNextPage || index < stores.length;
     return !!stores[index];
   };
 
-  console.log(stores);
-  const rowRenderer = ({ parent, index, style }) => {
+  // rowRender
+  const rowRenderer = ({ parent, index, style, key }) => {
     const item = isRowLoaded({ index }) ? (
-      // <DataComponent data={data[params.index]} />
       <CardMenu
-        key={stores[index].id}
+        key={index}
         menu={stores[index].menus}
         name={stores[index].store.name}
         storeId={stores[index].store.id}
@@ -243,7 +142,7 @@ function MainPage({ onScroll, minHeight = 1 }) {
         // onLoad={measure}
       />
     ) : (
-      <div>Loading...</div>
+      <CardMenu loading="true" key={uuidv4()} />
     );
 
     return (
@@ -252,29 +151,26 @@ function MainPage({ onScroll, minHeight = 1 }) {
         parent={parent}
         columnIndex={0}
         rowIndex={index}
+        key={key}
       >
         <div style={style}>{item}</div>
       </CellMeasurer>
     );
   };
 
+  //catch changed row and change the row's height
   useEffect(() => {
-    console.log("useEffect실행");
+    // clear saved cache of selceted row
     cache.clear(selectedIndex, 0);
     if (listRef.current) {
       listRef.current.recomputeRowHeights(selectedIndex);
     }
   }, [onMenu]);
 
-  // //   props값을 useRef로 설정
-  // const props = useRef({
-  //   next,
-  //   hasMore,
-  //   onScroll,
-  // });
-
+  // to check scroll is placed at the bottom
   let triggered = useRef(false);
 
+  // catch scroll events
   const onScrollRef = useRef(onScroll);
 
   // 스크롤값 이벤트감지
@@ -282,9 +178,11 @@ function MainPage({ onScroll, minHeight = 1 }) {
     // const { next, hasMore, onScroll } = props.current;
 
     // 스크롤 이벤트가 함수라면 현재 이벤트값을 보낸다.
-    if (typeof onScrollRef === "function") {
-      setTimeout(() => onScrollRef && onScrollRef(e), 0);
-    }
+    // 왜?
+    // if (typeof onScrollRef === "function") {
+    //   console.log("이벤트감지");
+    //   setTimeout(() => onScrollRef && onScrollRef(e), 0);
+    // }
 
     const { clientHeight, scrollHeight, scrollTop } = e;
 
@@ -295,13 +193,20 @@ function MainPage({ onScroll, minHeight = 1 }) {
     // 스크롤이 밑에 도달했는지 확인한다.
     const atBottom = scrollTop + clientHeight >= scrollHeight;
 
+    console.log(triggered);
+    console.log("at Bottom", atBottom);
+    console.log("scrollTop", scrollTop);
+    console.log("clientHeight", clientHeight);
+    console.log("scrollHeight", scrollHeight);
+
     if (atBottom && hasNextPage) {
-      console.log(hasNextPage);
       triggered.current = true;
       addMoreUserLists(pageNum);
     }
   };
-  console.log(total);
+
+  console.log("현재 store", stores, "store length = ", stores.length);
+
   const throttleScrollListener = throttle(scrollListener, 150);
 
   useEffect(() => {
@@ -313,6 +218,8 @@ function MainPage({ onScroll, minHeight = 1 }) {
   useEffect(() => {
     triggered.current = false;
   }, [stores.length]);
+
+  if (isLoading) return <Loader />;
 
   return (
     <WindowScroller>

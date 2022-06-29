@@ -16,6 +16,7 @@ padding:${({ theme }) => theme.space.large};
 margin-top:${({ theme }) => theme.space.large};
 text-decoration:unset;
 color:${({ theme }) => theme.colors.text}};
+pointer-events:${(props) => (props.loading ? "none" : "unset")};
 `;
 
 const CardMenu = ({
@@ -23,7 +24,7 @@ const CardMenu = ({
   name,
   images,
   storeId,
-  isLoading,
+  loading,
   onLoad,
   setSelectedIndex,
   index,
@@ -32,19 +33,19 @@ const CardMenu = ({
 }) => {
   // console.log("카드메뉴 호출");
   return (
-    <CardContainer to={`${storeId}`}>
+    <CardContainer to={`${storeId}`} loading={loading}>
       {/* image */}
       <CardImage
-        isLoading={isLoading}
+        loading={loading}
         images={images}
         onLoad={onLoad}
         storeId={storeId}
       />
       {/* title */}
-      <CardTitle isLoading={isLoading} name={name} />
+      <CardTitle loading={loading} name={name} />
       {/* menu */}
       <CardTodayMenu
-        isLoading={isLoading}
+        loading={loading}
         menu={menu}
         setSelectedIndex={setSelectedIndex}
         index={index}

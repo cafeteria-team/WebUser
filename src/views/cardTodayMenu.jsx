@@ -57,7 +57,7 @@ const MenuPart = memo(({ onMenu, onClickMenu, menu }) => {
 
 const CardTodayMenu = ({
   menu,
-  isLoading,
+  loading,
   setSelectedIndex,
   index,
   onMenu,
@@ -89,7 +89,7 @@ const CardTodayMenu = ({
   return (
     <>
       <WIthMenuLoading
-        isLoading={isLoading}
+        loading={loading}
         onClickMenu={onClickMenu}
         onMenu={onMenu}
         // scrollRef={scrollRef}

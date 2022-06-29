@@ -24,7 +24,7 @@ const ImagePart = memo(({ liked, onClickLike, images, onLoad }) => {
   );
 });
 
-const CardImage = ({ isLoading, images, onLoad, storeId }) => {
+const CardImage = ({ loading, images, onLoad, storeId }) => {
   const _like = useSelector((state) => state.setLikedStore);
   const dispatch = useDispatch();
 
@@ -41,7 +41,7 @@ const CardImage = ({ isLoading, images, onLoad, storeId }) => {
   return (
     <>
       <WithImageLoading
-        isLoading={isLoading}
+        loading={loading}
         onClickLike={onClickLike}
         liked={liked}
         images={images}

@@ -25,8 +25,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 // }
 
 export default function withLoading(WrappedComponent) {
-  return function WithLoading({ isLoading, ...props }) {
-    if (isLoading) {
+  return function WithLoading({ loading, ...props }) {
+    if (loading) {
       return <Skeleton {...props} />;
     }
     return <WrappedComponent {...props} />;

@@ -22,12 +22,12 @@ const TitlePart = memo(({ name }) => {
   );
 });
 
-const CardTitle = ({ isLoading, name }) => {
+const CardTitle = ({ loading, name }) => {
   const WithTitleLoading = withLoading(TitlePart);
   return (
     <>
       <WithTitleLoading
-        isLoading={isLoading}
+        loading={loading}
         name={name}
         height={25}
         width="100%"
