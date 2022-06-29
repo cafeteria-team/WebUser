@@ -1,6 +1,7 @@
 //to combine redux modules
 import { combineReducers } from "redux";
-import setLocation from "./location";
+import location from "./location";
+import like from "./like";
 // reducer persists
 import { persistReducer } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
@@ -15,7 +16,8 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  setLocation,
+  location,
+  like,
 });
 
 export default persistReducer(persistConfig, rootReducer);

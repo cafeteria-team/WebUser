@@ -6,6 +6,8 @@ import {
 import { ImageBox } from "../components";
 import { Heart } from "../assets/icons";
 import withLoading from "../hoc/withSkeleton";
+import { useSelector, useDispatch } from "react-redux";
+import { setLikeStore } from "../_modules/like";
 
 const ImagePart = memo(({ liked, onClickLike, images, onLoad }) => {
   console.log("1. 이미지파트 렌더링");
@@ -13,7 +15,7 @@ const ImagePart = memo(({ liked, onClickLike, images, onLoad }) => {
     <CardImageContainer>
       <CardImageIconWrap>
         <Heart
-          color={liked ? "#FF4842" : "#fff"}
+          color={liked ? "#FF4842" : "#f2f2f2"}
           onClcik={(e) => onClickLike(e)}
         />
       </CardImageIconWrap>
@@ -22,13 +24,17 @@ const ImagePart = memo(({ liked, onClickLike, images, onLoad }) => {
   );
 });
 
-const CardImage = ({ isLoading, images, onLoad }) => {
+const CardImage = ({ isLoading, images, onLoad, storeId }) => {
+  const _like = useSelector((state) => state.setLikedStore);
+  const dispatch = useDispatch();
+
   // like state
   const [liked, setLiked] = useState(false);
 
   const onClickLike = useCallback((e) => {
     e.preventDefault();
     setLiked((prev) => !prev);
+    dispatch(setLikeStore);
   }, []);
 
   const WithImageLoading = withLoading(ImagePart);

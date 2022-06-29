@@ -1,25 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { CardMenu } from "../../views";
-import MapContainer from "../mapContainer/mapContainer";
 import axiosInstance from "../../utills/axios";
 import { v4 as uuidv4 } from "uuid";
 import EasyVirtualized from "react-easy-virtualized";
-
-// const RenderItem = ({
-//   menus,
-//   store: { addr, facilities, name, price, store_img, zip_code, id },
-//   measure,
-// }) => {
-//   return (
-//     <CardMenu
-//       menu={menus}
-//       name={name}
-//       storeId={id}
-//       images={store_img}
-//       onLoad={measure}
-//     />
-//   );
-// };
 
 const MainPage = ({ data, loadMore, hasMore }) => {
   const [stores, setStores] = useState([]);
@@ -29,7 +12,6 @@ const MainPage = ({ data, loadMore, hasMore }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const RenderItem = useCallback((stores) => {
-    console.log("렌더 아이템 호출");
     return stores.map((item) => {
       return (
         <CardMenu

@@ -23,7 +23,12 @@ const CardMenu = ({ menu, name, images, storeId, isLoading, onLoad }) => {
   return (
     <CardContainer to={`${storeId}`}>
       {/* image */}
-      <CardImage isLoading={isLoading} images={images} onLoad={onLoad} />
+      <CardImage
+        isLoading={isLoading}
+        images={images}
+        onLoad={onLoad}
+        storeId={storeId}
+      />
       {/* title */}
       <CardTitle isLoading={isLoading} name={name} />
       {/* menu */}
