@@ -4,20 +4,13 @@ import {
   WindowScroller,
   InfiniteLoader,
   CellMeasurerCache,
-  ListRowRenderer,
   CellMeasurer,
 } from "react-virtualized";
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { CardMenu } from "../../views";
 import axiosInstance from "../../utills/axios";
 import { v4 as uuidv4 } from "uuid";
-import { Paragraph } from "../../styles/styledElements";
+
 import throttle from "lodash/throttle";
 import { useCallback } from "react";
 
@@ -56,7 +49,6 @@ function MainPage({ onScroll, minHeight = 1 }) {
   const [stores, setStores] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
-  const [total, setTotal] = useState(0);
 
   //loading states
   const [isLoading, setIsLoading] = useState(false);
@@ -78,7 +70,6 @@ function MainPage({ onScroll, minHeight = 1 }) {
       } = await axiosInstance.get(`/api/menu/today?page=${pageNum}&page_size=10
         `);
       setStores(results);
-      setTotal(page.total_count);
       if (1 < Math.ceil(page.total_count / 10)) {
         setHasNextPage(true);
       }
@@ -94,7 +85,7 @@ function MainPage({ onScroll, minHeight = 1 }) {
     async (pagePros) => {
       console.log("call more stores data in MAINPAGE");
       console.log("현재 페이지", pagePros);
-      setIsLoading(true);
+      // setIsLoading(true);
       try {
         const {
           data: { page, results },
@@ -105,10 +96,10 @@ function MainPage({ onScroll, minHeight = 1 }) {
         }
         setStores([...stores, ...results]);
         setPageNum(page.current_page);
-        setIsLoading(false);
+        // setIsLoading(false);
       } catch (err) {
         console.log(err);
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     },
     [stores]
@@ -177,14 +168,11 @@ function MainPage({ onScroll, minHeight = 1 }) {
   let triggered = useRef(false);
 
   // catch scroll events
-  const onScrollRef = useRef(onScroll);
+  // const onScrollRef = useRef(onScroll);
 
   // 스크롤값 이벤트감지
   const scrollListener = (e) => {
     // const { next, hasMore, onScroll } = props.current;
-
-    // 스크롤 이벤트가 함수라면 현재 이벤트값을 보낸다.
-    // 왜?
     // if (typeof onScrollRef === "function") {
     //   console.log("이벤트감지");
     //   setTimeout(() => onScrollRef && onScrollRef(e), 0);
@@ -212,9 +200,9 @@ function MainPage({ onScroll, minHeight = 1 }) {
 
   const throttleScrollListener = throttle(scrollListener, 150);
 
-  useEffect(() => {
-    onScrollRef.current = onScroll;
-  }, [onScroll, hasNextPage, addMoreUserLists]);
+  // useEffect(() => {
+  //   onScrollRef.current = onScroll;
+  // }, [onScroll, hasNextPage, addMoreUserLists]);
 
   // trigger 의 current값을 설정한다
   // dataLength가 바뀔때마다 리렌더
