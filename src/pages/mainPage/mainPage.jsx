@@ -388,7 +388,7 @@ const MainPage = () => {
         hasMore={hasNextPage}
         next={addMoreUserLists}
         loader={<Loader />}
-        height={window.innerHeight - 62}
+        height={window.innerHeight}
         renderer={renderer}
         children={stores}
         page={pageNum}

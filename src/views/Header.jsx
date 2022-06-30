@@ -213,7 +213,7 @@ const Header = ({ onClickMenu }) => {
           <Title margin="0 0 16px 0">내주변</Title>
           <MyLocationWrap>
             <MyLocation>
-              {location.location ? location.location : "서초구 서초동"}
+              {location?.location ? location?.location : "서초구 서초동"}
             </MyLocation>
             <MoreBtn
               padding="6px 8px"
