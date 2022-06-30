@@ -28,8 +28,9 @@ const CardMenu = ({
   onLoad,
   setSelectedIndex,
   index,
-  onMenu,
-  setOnMenu,
+  setMenuOpen,
+  // onMenu,
+  // setOnMenu,
 }) => {
   // console.log("카드메뉴 호출");
   return (
@@ -49,8 +50,9 @@ const CardMenu = ({
         menu={menu}
         setSelectedIndex={setSelectedIndex}
         index={index}
-        onMenu={onMenu}
-        setOnMenu={setOnMenu}
+        setMenuOpen={setMenuOpen}
+        // onMenu={onMenu}
+        // setOnMenu={setOnMenu}
       />
     </CardContainer>
   );

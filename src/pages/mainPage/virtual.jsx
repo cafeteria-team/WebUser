@@ -1,116 +1,173 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
+import throttle from "lodash/throttle";
+import List from "react-virtualized/dist/commonjs/List";
+import AutoSizer from "react-virtualized/dist/commonjs/AutoSizer";
+import CellMeasurer, {
+  CellMeasurerCache,
+} from "react-virtualized/dist/commonjs/CellMeasurer";
+import usePrevious from "./usePrevious";
 
-import InfiniteScroll from "./infiniteScroll";
+const InfiniteScroll = ({
+  next,
+  hasMore,
+  onScroll,
+  height,
+  loader,
+  dataLength,
+  children,
+  renderer,
+  minHeight = 1,
+  page,
+  selectedIndex,
+  menuOpen,
+}) => {
+  let triggered = useRef(false);
 
-// 내가 렌더할 아이템
-const RenderItem = ({ i, title, description }) => {
-  return (
-    <div
-      style={{
-        backgroundColor: "#fff",
-        border: "1px solid black",
-        width: "100%",
-        margin: "8px 0",
-      }}
-    >
-      <h2
-        style={{
-          margin: 0,
-        }}
-      >
-        {title} - {i}
-      </h2>
-      <p>{description}</p>
-    </div>
-  );
-};
+  useEffect(() => {
+    triggered.current = false;
+  }, [dataLength]);
 
-// 아이템 로딩시
-const Loader = () => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "red",
-      }}
-    >
-      ...loading
-    </div>
-  );
-};
+  const props = useRef({
+    next,
+    hasMore,
+    onScroll,
+  });
 
-//더미데이터에 추가할 리스트 길이
-const LENGTH_LIST = [1, 5, 9, 13, 17, 50];
+  const scrollListener = (e) => {
+    const { next, hasMore, onScroll } = props.current;
+    if (typeof onScroll === "function") {
+      setTimeout(() => onScroll && onScroll(e), 0);
+    }
 
-// 더미데이터 임의의 인덱스형성
-const _getRandomLength = () => {
-  const randomIndex = Math.floor(Math.random() * LENGTH_LIST.length);
-  return LENGTH_LIST[randomIndex];
-};
+    const { clientHeight, scrollHeight, scrollTop } = e;
 
-const Virtual = () => {
-  // 더미데이터 만들기
-  const [items, setItems] = useState(() =>
-    Array.from({ length: 20 }).map(() => ({
-      title: "제목제목",
-      description: "내용내용".repeat(_getRandomLength()),
-    }))
-  );
+    if (triggered.current) {
+      return;
+    }
 
-  // 아이템 확인
-  const [hasMore, setHasMore] = useState(true);
+    const atBottom = scrollTop + clientHeight >= scrollHeight;
 
-  //   아이템을 더부를때 20개씩 임의의 데이터를 불러온다
-  const fetchMoreData = () => {
-    // a fake async api call like which sends
-    // 20 more records in .5 secs
-    setTimeout(() => {
-      const nextItems = items.concat(
-        Array.from({ length: 20 }).map(() => ({
-          title: "제목제목",
-          description: "내용내용".repeat(_getRandomLength()),
-        }))
-      );
-      setItems(nextItems);
-    }, 500);
+    if (atBottom && hasMore) {
+      triggered.current = true;
+      next && next(page + 1);
+    }
   };
 
-  // item.length를 계속 주시하여,
-  // item.legnth가 100개가 넘을시 hasMore를 더이상 호출하지 않는다.
   useEffect(() => {
-    if (items.length >= 100) {
-      setHasMore(false);
+    props.current = {
+      next,
+      hasMore,
+      onScroll,
+    };
+  }, [next, hasMore, onScroll]);
+
+  const throttleScrollListener = throttle(scrollListener, 150);
+
+  const rowRenderer = ({ parent, key, index, style }) => {
+    let content;
+
+    if (index >= children.length && hasMore) {
+      content = loader;
+    } else if (index >= children.length && !hasMore) {
+      content = "";
+    } else {
+      content = renderer({
+        index,
+      });
     }
-  }, [items.length]);
 
-  //   현재 인덱스에따른 item 렌더러 이다.
-  const renderer = ({ index }) => <RenderItem i={index} {...items[index]} />;
+    return (
+      <CellMeasurer
+        cache={_cache}
+        columnIndex={0}
+        key={key}
+        parent={parent}
+        rowIndex={index}
+        width={_mostRecentWidth}
+      >
+        <div style={style}>{content}</div>
+      </CellMeasurer>
+    );
+  };
 
+  // next() 호출 시 스크롤이 너무 많이 넘어가는 문제: 컴포넌트가 rerender되면서 _cache또한 재정의됨
+  // _cache는 minHeight이 유동적일 때에만 새로 생성해줘야 함
+  let _cache = useMemo(
+    () =>
+      new CellMeasurerCache({
+        minHeight: minHeight,
+        fixedWidth: true,
+      }),
+    [minHeight]
+  );
+
+  const _list = useRef();
+  const prevLength = usePrevious(children.length);
+  let _mostRecentWidth = 0;
+  let _resizeAllFlag = useRef(false);
+
+  useEffect(() => {
+    if (_resizeAllFlag.current) {
+      _resizeAllFlag.current = false;
+      _cache.clearAll();
+      if (_list.current) {
+        _list.current.recomputeRowHeights();
+      }
+    } else if (prevLength && prevLength !== children.length) {
+      const index = prevLength;
+      _cache.clear(index, 0);
+      if (_list.current) {
+        _list.current.recomputeRowHeights(index);
+      }
+    }
+  }, [children, _resizeAllFlag]);
+
+  const _resizeAll = () => {
+    _resizeAllFlag.current = false;
+    _cache.clearAll();
+    if (_list.current) {
+      _list.current.recomputeRowHeights();
+    }
+  };
+
+  useEffect(() => {
+    // clear saved cache of selceted row
+    _cache.clear(selectedIndex, 0);
+    if (_list.current) {
+      _list.current.recomputeRowHeights(selectedIndex);
+    }
+  }, [menuOpen]);
+
+  console.log(selectedIndex);
+
+  /**
+   * 고민 1. height는 무조건 주어져야 함 -> 어쩔 수 없음...
+   * 고민 2. loader 컴포넌트를 어따가 둬야 제대로 뜨지 ㅠㅠ -> rowCount + 1해서 index가 rowCount+1과 같고 데이터를 더 불러와야 할 경우에 loader 컴포넌트로 세팅
+   * 고민 3. 가변적인 height 계산은? dynamic height 게산을 위해 CellMeasurer 적용
+   */
   return (
-    <div>
-      <InfiniteScroll
-        // 아이템의 길이
-        dataLength={items.length}
-        // 더 렌더링할 아이템이 있는지 없는지 확인
-        hasMore={hasMore}
-        // 렌더링할 아이템이 있을시, 호출
-        next={fetchMoreData}
-        // 로딩시 필요한 로더
-        loader={<Loader />}
-        // 높이를 설정해야한다..
-        // 높이는 무조건적인가?
-        // window.visualViewport.height ->? iframe에 맞춰진 height??
-        // header와 아래 bottom값을 띄운 나머지로 height를 맞춘다
-        height={window.innerHeight - 100}
-        // index에따른 아이템을 렌더한다
-        renderer={renderer}
-        // 자식 props, 실제 어떤 데이터가 렌더리할지 보낸다
-        children={items}
-      ></InfiniteScroll>
-    </div>
+    <AutoSizer disableHeight>
+      {({ width }) => {
+        if (_mostRecentWidth && _mostRecentWidth !== width) {
+          _resizeAllFlag.current = true;
+          setTimeout(_resizeAll, 0);
+        }
+        return (
+          <List
+            deferredMeasurementCache={_cache}
+            rowCount={children.length + 1}
+            width={width}
+            height={height}
+            rowHeight={_cache.rowHeight}
+            rowRenderer={rowRenderer}
+            overscanRowCount={5}
+            onScroll={throttleScrollListener}
+            ref={_list}
+          />
+        );
+      }}
+    </AutoSizer>
   );
 };
 
-export default Virtual;
+export default InfiniteScroll;
