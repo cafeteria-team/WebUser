@@ -7,7 +7,13 @@ import {
   ListRowRenderer,
   CellMeasurer,
 } from "react-virtualized";
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  useLayoutEffect,
+} from "react";
 import { CardMenu } from "../../views";
 import axiosInstance from "../../utills/axios";
 import { v4 as uuidv4 } from "uuid";
@@ -191,17 +197,14 @@ function MainPage({ onScroll, minHeight = 1 }) {
     }
 
     // 스크롤이 밑에 도달했는지 확인한다.
-    const atBottom = scrollTop + clientHeight >= scrollHeight;
+    if (scrollTop !== 0) {
+      const atBottom = scrollTop + clientHeight >= scrollHeight;
 
-    console.log(triggered);
-    console.log("at Bottom", atBottom);
-    console.log("scrollTop", scrollTop);
-    console.log("clientHeight", clientHeight);
-    console.log("scrollHeight", scrollHeight);
-
-    if (atBottom && hasNextPage) {
-      triggered.current = true;
-      addMoreUserLists(pageNum);
+      if (atBottom && hasNextPage) {
+        triggered.current = true;
+        let newPage = pageNum + 1;
+        addMoreUserLists(newPage);
+      }
     }
   };
 
