@@ -112,7 +112,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
         const {
           data: { page, results },
         } = await axiosInstance.get(`/api/menu/today?page=${pagePros}&page_size=10
-        `);
+          `);
         if (pagePros === Math.ceil(page.total_count / 10)) {
           setHasNextPage(false);
         }
@@ -165,14 +165,16 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     //   setTimeout(() => onScroll && onScroll(e), 0);
     // }
     // const { clientHeight, scrollHeight, scrollTop } = e;
-    // if (triggered.current) {
-    //   return;
-    // }
-    const atBottom =
-      scrollTop + clientHeight >= containerRef?.current?.clientHeight;
-    if (hasNextPage && atBottom) {
-      // triggered.current = true;
-      addMoreUserLists(pageNum + 1);
+    if (triggered.current) {
+      return;
+    }
+    if (scrollTop !== 0) {
+      const atBottom =
+        scrollTop + clientHeight >= containerRef?.current?.clientHeight;
+      if (hasNextPage && atBottom) {
+        triggered.current = true;
+        addMoreUserLists(pageNum + 1);
+      }
     }
   };
 
