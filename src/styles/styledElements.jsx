@@ -211,6 +211,7 @@ export const Container = styled.main`
 `;
 export const Wrap = styled.article`
   width: 100%;
+  height: 100%;
   padding: ${({ theme }) => `0 ${theme.space.large}`};
 
   @media screen and ${({ theme }) => theme.mobile} {
@@ -545,6 +546,15 @@ export const AddressButton = styled.button`
   width: 100%;
   height: 56px;
   margin: ${(props) => props.margin || ""};
+`;
+export const CardNoneLists = styled.div`
+  width: 100%;
+  height: 50px;
+  border-radius: ${({ theme }) => theme.radii.botton};
+  background: #fff;
+  box-shadow: ${({ theme }) => theme.shadow.contnet};
+  align-items: center;
+  justify-content: center;
 `;
 
 ////detail page//////

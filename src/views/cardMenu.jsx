@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { CardTodayMenu, CardImage, CardTitle } from "./index";
 
 const CardContainer = styled(NavLink)`
-display: flex;
+display: block;
 flex-direction: column;
 max-width: 600px;
 width: 100%;
@@ -29,8 +29,7 @@ const CardMenu = ({
   setSelectedIndex,
   index,
   setMenuOpen,
-  // onMenu,
-  // setOnMenu,
+  menuOpen,
 }) => {
   // console.log("카드메뉴 호출");
   return (
@@ -51,8 +50,7 @@ const CardMenu = ({
         setSelectedIndex={setSelectedIndex}
         index={index}
         setMenuOpen={setMenuOpen}
-        // onMenu={onMenu}
-        // setOnMenu={setOnMenu}
+        menuOpen={menuOpen}
       />
     </CardContainer>
   );

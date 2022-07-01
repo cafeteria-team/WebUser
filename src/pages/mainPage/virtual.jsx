@@ -138,13 +138,6 @@ const InfiniteScroll = ({
     }
   }, [menuOpen]);
 
-  console.log(selectedIndex);
-
-  /**
-   * 고민 1. height는 무조건 주어져야 함 -> 어쩔 수 없음...
-   * 고민 2. loader 컴포넌트를 어따가 둬야 제대로 뜨지 ㅠㅠ -> rowCount + 1해서 index가 rowCount+1과 같고 데이터를 더 불러와야 할 경우에 loader 컴포넌트로 세팅
-   * 고민 3. 가변적인 height 계산은? dynamic height 게산을 위해 CellMeasurer 적용
-   */
   return (
     <AutoSizer disableHeight>
       {({ width }) => {
