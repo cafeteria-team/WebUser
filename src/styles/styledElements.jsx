@@ -548,13 +548,16 @@ export const AddressButton = styled.button`
   margin: ${(props) => props.margin || ""};
 `;
 export const CardNoneLists = styled.div`
+  display: flex;
   width: 100%;
-  height: 50px;
-  border-radius: ${({ theme }) => theme.radii.botton};
+  height: 120px;
+  border-radius: ${({ theme }) => theme.radii.button};
+  margin-top: 20px;
   background: #fff;
-  box-shadow: ${({ theme }) => theme.shadow.contnet};
+  box-shadow: ${({ theme }) => theme.shadow.content};
   align-items: center;
   justify-content: center;
+  font-size: 14px;
 `;
 
 ////detail page//////

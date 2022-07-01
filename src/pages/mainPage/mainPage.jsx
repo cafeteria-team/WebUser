@@ -8,7 +8,7 @@ import React, {
 import { CardMenu } from "../../views";
 import axiosInstance from "../../utills/axios";
 import { v4 as uuidv4 } from "uuid";
-import { Paragraph, CardNoneLists } from "../../styles/styledElements";
+import { CardNoneLists } from "../../styles/styledElements";
 import {
   AutoSizer,
   List,
@@ -78,6 +78,8 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   // const [onMenu, setOnMenu] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const containerRef = useRef();
 
   // get stores info
   const getUserLists = async () => {
@@ -151,7 +153,13 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     onScroll,
   });
 
-  const scrollListener = (scrollTop) => {
+  const scrollListener = (scrollTop, clientHeight) => {
+    // containerRef.current.clientHeight
+    // console.log("windowScroller는", windowR);
+    // console.log("List는", _list);
+    // console.log(scrollTop, clientHeight);
+    // scrollTop, clientHeight
+    // console.log(scrollTop);
     // const { addMoreUserLists, hasNextPage, onScroll } = props.current;
     // if (typeof onScroll === "function") {
     //   setTimeout(() => onScroll && onScroll(e), 0);
@@ -160,11 +168,12 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     // if (triggered.current) {
     //   return;
     // }
-    // const atBottom = scrollTop + clientHeight >= scrollHeight;
-    // if (atBottom && hasNextPage) {
-    //   triggered.current = true;
-    //   addMoreUserLists && addMoreUserLists(pageNum + 1);
-    // }
+    const atBottom =
+      scrollTop + clientHeight >= containerRef?.current?.clientHeight;
+    if (hasNextPage && atBottom) {
+      // triggered.current = true;
+      addMoreUserLists(pageNum + 1);
+    }
   };
 
   useEffect(() => {
@@ -177,18 +186,46 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
 
   const throttleScrollListener = throttle(scrollListener, 150);
 
-  const rowRenderer = ({ parent, key, index, style }) => {
-    let content;
+  // const rowRenderer = ({ parent, key, index, style, isScrolling }) => {
+  //   let content;
+  //   if (index >= stores.length && hasNextPage) {
+  //     content = <Loader />;
+  //   } else if (index >= stores.length && !hasNextPage) {
+  //     content = "";
+  //   } else {
+  //     content = renderer({
+  //       index,
+  //     });
+  //   }
 
+  //   console.log("현재 스크롤중입니다.", isScrolling);
+
+  //   return (
+  //     <CellMeasurer
+  //       cache={_cache}
+  //       columnIndex={0}
+  //       key={key}
+  //       parent={parent}
+  //       rowIndex={index}
+  //     >
+  //       <div style={style}>{content}</div>
+  //     </CellMeasurer>
+  //   );
+  // };
+
+  const rowRenderer = ({ index, key, parent, style }) => {
+    let content;
     if (index >= stores.length && hasNextPage) {
       content = <Loader />;
     } else if (index >= stores.length && !hasNextPage) {
       content = "";
     } else {
-      content = renderer({
-        index,
-      });
+      content = renderer({ index });
     }
+
+    // console.log("현재 스크롤중입니다.", props);
+
+    throttleScrollListener(parent.state.scrollTop, parent.props.height);
 
     return (
       <CellMeasurer
@@ -199,6 +236,9 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
         rowIndex={index}
       >
         <div style={style}>{content}</div>
+        {/* <div style={style}>
+          <div style={{ height: "700px" }}>우우우</div>
+        </div> */}
       </CellMeasurer>
     );
   };
@@ -223,51 +263,43 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
       _list.current.recomputeRowHeights(selectedIndex);
     }
   }, [menuOpen]);
-  console.log(_list);
 
   if (isLoading) return <FirstLoader />;
-  if (stores.length === 0)
-    return (
-      <CardNoneLists>
-        <Paragraph fontSize="14px" fontWeight="bold" color="#ff9030">
-          등록된 리스트가 없습니다.
-        </Paragraph>
-      </CardNoneLists>
-    );
+  // if (!isLoading && stores.length === 0)
+  //   return <CardNoneLists>등록된 리스트가 없습니다.</CardNoneLists>;
   return (
-    <>
-      <WindowScroller>
-        {({ height, scrollTop, isScrolling, onChildScroll, onScroll }) => {
-          // console.log(isScrolling, onScroll);
-          // if (isScrolling) {
-          //   throttleScrollListener(scrollTop, onChildScroll, onScroll);
-          // }
-          return (
-            <AutoSizer disableHeight>
-              {({ width }) => {
-                return (
-                  <List
-                    autoHeight
-                    deferredMeasurementCache={_cache}
-                    rowCount={stores.length + 1}
-                    width={width}
-                    height={height}
-                    rowHeight={_cache.rowHeight}
-                    isScrolling={isScrolling}
-                    rowRenderer={rowRenderer}
-                    overscanRowCount={5}
-                    // onScroll={throttleScrollListener}
-
-                    onScroll={(e) => console.log(e)}
-                    ref={_list}
-                  />
-                );
-              }}
-            </AutoSizer>
-          );
-        }}
-      </WindowScroller>
-    </>
+    <div ref={containerRef}>
+      {!stores && stores.length === 0 ? (
+        <CardNoneLists>등록된 리스트가 없습니다.</CardNoneLists>
+      ) : (
+        <WindowScroller>
+          {({ height, scrollTop, isScrolling, onChildScroll }) => {
+            return (
+              <AutoSizer disableHeight>
+                {({ width }) => {
+                  return (
+                    <List
+                      autoHeight
+                      width={width}
+                      height={height}
+                      rowHeight={_cache.rowHeight}
+                      scrollTop={scrollTop}
+                      onScroll={onChildScroll}
+                      isScrolling={isScrolling}
+                      rowCount={stores.length + 1}
+                      rowRenderer={rowRenderer}
+                      deferredMeasurementCache={_cache}
+                      overscanRowCount={3}
+                      ref={_list}
+                    />
+                  );
+                }}
+              </AutoSizer>
+            );
+          }}
+        </WindowScroller>
+      )}
+    </div>
   );
 };
 
