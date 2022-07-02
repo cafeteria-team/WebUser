@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback, useState, useEffect } from "react";
 import {
   CardImageIconWrap,
   CardImageContainer,
@@ -8,6 +8,7 @@ import { Heart } from "../assets/icons";
 import withLoading from "../hoc/withSkeleton";
 import { useSelector, useDispatch } from "react-redux";
 import { setLikeStore } from "../_modules/like";
+import { addIndexDB, getIndexDB } from "../utills/indexDB";
 
 const ImagePart = memo(({ liked, onClickLike, images, onLoad }) => {
   // console.log("1. 이미지파트 렌더링");
@@ -28,16 +29,26 @@ const CardImage = ({ loading, images, onLoad, storeId }) => {
   const _like = useSelector((state) => state.setLikedStore);
   const dispatch = useDispatch();
 
-  console.log(_like);
-
   // like state
   const [liked, setLiked] = useState(false);
 
-  const onClickLike = useCallback((e) => {
-    e.preventDefault();
-    setLiked((prev) => !prev);
-    dispatch(setLikeStore(storeId));
-  }, []);
+  const onClickLike = useCallback(
+    (e) => {
+      e.preventDefault();
+      setLiked((prev) => !prev);
+      dispatch(setLikeStore(storeId));
+      addIndexDB(storeId);
+    },
+    [dispatch, storeId]
+  );
+
+  useEffect(() => {
+    _like.map((item) => {
+      if (item.store === storeId) {
+        setLiked(true);
+      }
+    });
+  }, [_like]);
 
   const WithImageLoading = withLoading(ImagePart);
   return (
