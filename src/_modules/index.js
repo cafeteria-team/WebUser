@@ -9,11 +9,9 @@ import storage from "redux-persist/lib/storage";
 
 // save data into session storage
 const persistConfig = {
-  key: "current_location",
+  key: "location",
   storage,
-  whiteList: ["setLocation"],
-  // blackList: [],
-  // except for
+  whitelist: ["setLocation"],
 };
 
 const rootReducer = combineReducers({
