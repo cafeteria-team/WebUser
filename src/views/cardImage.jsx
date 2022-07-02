@@ -34,7 +34,7 @@ const CardImage = ({ loading, images, onLoad, storeId }) => {
   const onClickLike = useCallback((e) => {
     e.preventDefault();
     setLiked((prev) => !prev);
-    dispatch(setLikeStore);
+    dispatch(setLikeStore());
   }, []);
 
   const WithImageLoading = withLoading(ImagePart);

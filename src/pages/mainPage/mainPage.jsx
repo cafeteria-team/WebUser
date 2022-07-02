@@ -17,7 +17,6 @@ import {
   WindowScroller,
 } from "react-virtualized";
 import throttle from "lodash/throttle";
-import usePrevious from "./usePrevious";
 
 // cardmenus
 const Elem = ({
@@ -70,6 +69,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
   const [stores, setStores] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
+  const [total, setTotal] = useState(null);
 
   //loading states
   const [isLoading, setIsLoading] = useState(false);
@@ -83,7 +83,6 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
 
   // get stores info
   const getUserLists = async () => {
-    console.log("first get stores data in MAINPAGE");
     setIsLoading(true);
     try {
       const {
@@ -95,6 +94,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
         setHasNextPage(true);
       }
       setIsLoading(false);
+      setTotal(Math.ceil(page.total_count / 10));
     } catch (err) {
       alert("리스트를 불러올수없습니다. 잠시후 다시 시도해주십시오.");
       console.log(err);
@@ -105,9 +105,6 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
   // add more stores data when more pages left
   const addMoreUserLists = useCallback(
     async (pagePros) => {
-      console.log("call more stores data in MAINPAGE");
-      console.log("현재 페이지", pagePros);
-
       try {
         const {
           data: { page, results },
@@ -154,17 +151,6 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
   });
 
   const scrollListener = (scrollTop, clientHeight) => {
-    // containerRef.current.clientHeight
-    // console.log("windowScroller는", windowR);
-    // console.log("List는", _list);
-    // console.log(scrollTop, clientHeight);
-    // scrollTop, clientHeight
-    // console.log(scrollTop);
-    // const { addMoreUserLists, hasNextPage, onScroll } = props.current;
-    // if (typeof onScroll === "function") {
-    //   setTimeout(() => onScroll && onScroll(e), 0);
-    // }
-    // const { clientHeight, scrollHeight, scrollTop } = e;
     if (triggered.current) {
       return;
     }
@@ -178,42 +164,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     }
   };
 
-  useEffect(() => {
-    props.current = {
-      addMoreUserLists,
-      hasNextPage,
-      onScroll,
-    };
-  }, [addMoreUserLists, hasNextPage, onScroll]);
-
   const throttleScrollListener = throttle(scrollListener, 150);
-
-  // const rowRenderer = ({ parent, key, index, style, isScrolling }) => {
-  //   let content;
-  //   if (index >= stores.length && hasNextPage) {
-  //     content = <Loader />;
-  //   } else if (index >= stores.length && !hasNextPage) {
-  //     content = "";
-  //   } else {
-  //     content = renderer({
-  //       index,
-  //     });
-  //   }
-
-  //   console.log("현재 스크롤중입니다.", isScrolling);
-
-  //   return (
-  //     <CellMeasurer
-  //       cache={_cache}
-  //       columnIndex={0}
-  //       key={key}
-  //       parent={parent}
-  //       rowIndex={index}
-  //     >
-  //       <div style={style}>{content}</div>
-  //     </CellMeasurer>
-  //   );
-  // };
 
   const rowRenderer = ({ index, key, parent, style }) => {
     let content;
@@ -224,8 +175,6 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     } else {
       content = renderer({ index });
     }
-
-    // console.log("현재 스크롤중입니다.", props);
 
     throttleScrollListener(parent.state.scrollTop, parent.props.height);
 
@@ -238,9 +187,6 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
         rowIndex={index}
       >
         <div style={style}>{content}</div>
-        {/* <div style={style}>
-          <div style={{ height: "700px" }}>우우우</div>
-        </div> */}
       </CellMeasurer>
     );
   };
@@ -267,8 +213,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
   }, [menuOpen]);
 
   if (isLoading) return <FirstLoader />;
-  // if (!isLoading && stores.length === 0)
-  //   return <CardNoneLists>등록된 리스트가 없습니다.</CardNoneLists>;
+
   return (
     <div ref={containerRef}>
       {!stores && stores.length === 0 ? (

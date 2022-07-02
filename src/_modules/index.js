@@ -1,23 +1,24 @@
 //to combine redux modules
 import { combineReducers } from "redux";
-import location from "./location";
-import like from "./like";
+import setLocation from "./location";
+import setLikedStore from "./like";
 // reducer persists
 import { persistReducer } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
+import storage from "redux-persist/lib/storage";
 
 // save data into session storage
 const persistConfig = {
-  key: "root",
-  storage: storageSession,
-  // whiteList: ["setLocation"],
+  key: "current_location",
+  storage,
+  whiteList: ["setLocation"],
   // blackList: [],
   // except for
 };
 
 const rootReducer = combineReducers({
-  location,
-  like,
+  setLocation,
+  setLikedStore,
 });
 
 export default persistReducer(persistConfig, rootReducer);
