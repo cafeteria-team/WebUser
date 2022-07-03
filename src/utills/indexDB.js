@@ -49,20 +49,24 @@ export const addIndexDB = (storeId) => {
 };
 
 export const getIndexDB = () => {
-  let request = db //
-    .transaction("liked")
-    .objectStore("liked")
-    .openCursor();
+  return new Promise((resolve, reject) => {
+    let request = db //
+      .transaction("liked")
+      .objectStore("liked")
+      .getAll();
+    //   .openCursor();
+    let resultArray = [];
 
-  request.onerror = (e) => {
-    console.log(e.target.error);
-  };
+    request.onerror = (e) => {
+      console.log(e.target.error);
+      reject(e.target.error);
+    };
 
-  request.onsuccess = (e) => {
-    let cursor = e.target.result.key;
-    console.log(cursor);
-    return cursor;
-  };
+    request.onsuccess = (e) => {
+      let cursor = e.target.result;
+      resolve(cursor);
+    };
+  });
 };
 
 export const deleteIndexDB = (storeId) => {

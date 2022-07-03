@@ -39,7 +39,6 @@ const CardImage = ({ loading, images, onLoad, storeId }) => {
       // dispatch(setLikeStore(storeId));
 
       if (!liked) {
-        console.log(!liked);
         addIndexDB(storeId);
       } else {
         deleteIndexDB(storeId);
@@ -49,17 +48,10 @@ const CardImage = ({ loading, images, onLoad, storeId }) => {
   );
 
   useEffect(() => {
-    // _like.map((item) => {
-    //   if (item.store === storeId) {
-    //     setLiked(true);
-    //   }
-    // });
-    // getIndexDB().then((result) => {
-    //   result.map((item) => item.store === storeId && setLiked(true));
-    // });
-    const ee = getIndexDB();
-    console.log(ee);
-  }, []);
+    getIndexDB().then((result) => {
+      result.map((item) => item.store === storeId && setLiked(true));
+    });
+  }, [storeId]);
 
   const WithImageLoading = withLoading(ImagePart);
   return (
