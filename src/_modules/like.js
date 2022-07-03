@@ -2,11 +2,9 @@
 const LIKESTORE = "like/LIKESOTRE";
 
 // action creator
-let nextId = 1;
 export const setLikeStore = (store) => ({
   type: LIKESTORE,
   store: {
-    id: nextId++,
     store,
   },
 });

@@ -8,9 +8,9 @@ import { Heart } from "../assets/icons";
 import withLoading from "../hoc/withSkeleton";
 import { useSelector, useDispatch } from "react-redux";
 import { setLikeStore } from "../_modules/like";
-import { addIndexDB, getIndexDB } from "../utills/indexDB";
+import { addIndexDB, deleteIndexDB, getIndexDB } from "../utills/indexDB";
 
-const ImagePart = memo(({ liked, onClickLike, images, onLoad }) => {
+const ImagePart = memo(({ liked, onClickLike, images, onLoad, storeId }) => {
   // console.log("1. 이미지파트 렌더링");
   return (
     <CardImageContainer>
@@ -36,19 +36,30 @@ const CardImage = ({ loading, images, onLoad, storeId }) => {
     (e) => {
       e.preventDefault();
       setLiked((prev) => !prev);
-      dispatch(setLikeStore(storeId));
-      addIndexDB(storeId);
+      // dispatch(setLikeStore(storeId));
+
+      if (!liked) {
+        console.log(!liked);
+        addIndexDB(storeId);
+      } else {
+        deleteIndexDB(storeId);
+      }
     },
-    [dispatch, storeId]
+    [dispatch, storeId, liked]
   );
 
   useEffect(() => {
-    _like.map((item) => {
-      if (item.store === storeId) {
-        setLiked(true);
-      }
-    });
-  }, [_like]);
+    // _like.map((item) => {
+    //   if (item.store === storeId) {
+    //     setLiked(true);
+    //   }
+    // });
+    // getIndexDB().then((result) => {
+    //   result.map((item) => item.store === storeId && setLiked(true));
+    // });
+    const ee = getIndexDB();
+    console.log(ee);
+  }, []);
 
   const WithImageLoading = withLoading(ImagePart);
   return (
@@ -61,6 +72,7 @@ const CardImage = ({ loading, images, onLoad, storeId }) => {
         height={350}
         width="100%"
         onLoad={onLoad}
+        storeId={storeId}
       />
     </>
   );
