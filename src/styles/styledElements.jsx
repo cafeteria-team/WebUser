@@ -578,15 +578,21 @@ export const CardWrap = styled.div`
   border-bottom: ${(props) =>
     props.border ? `1px solid ${props.theme.colors.border}` : `unset`};
 `;
+export const FaiclityWrap = styled.div`
+  display: felx;
+  align-items: center;
+`;
 
 export const FacilityIconWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 64px;
+  width: max-content;
+  min-width: 64px;
   height: 64px;
   background: #f9fafb;
+  margin-right: 12px;
   border-radius: ${({ theme }) => theme.radii.button};
 `;
 

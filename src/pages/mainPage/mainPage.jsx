@@ -216,7 +216,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
 
   return (
     <div ref={containerRef}>
-      {!stores && stores.length === 0 ? (
+      {stores && stores.length === 0 ? (
         <CardNoneLists>등록된 리스트가 없습니다.</CardNoneLists>
       ) : (
         <WindowScroller>

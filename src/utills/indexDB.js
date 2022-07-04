@@ -55,7 +55,6 @@ export const getIndexDB = () => {
       .objectStore("liked")
       .getAll();
     //   .openCursor();
-    let resultArray = [];
 
     request.onerror = (e) => {
       console.log(e.target.error);

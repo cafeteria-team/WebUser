@@ -6,8 +6,8 @@ import {
 import { ImageBox } from "../components";
 import { Heart } from "../assets/icons";
 import withLoading from "../hoc/withSkeleton";
-import { useSelector, useDispatch } from "react-redux";
-import { setLikeStore } from "../_modules/like";
+// import { useSelector, useDispatch } from "react-redux";
+// import { setLikeStore } from "../_modules/like";
 import { addIndexDB, deleteIndexDB, getIndexDB } from "../utills/indexDB";
 
 const ImagePart = memo(({ liked, onClickLike, images, onLoad, storeId }) => {
@@ -26,8 +26,8 @@ const ImagePart = memo(({ liked, onClickLike, images, onLoad, storeId }) => {
 });
 
 const CardImage = ({ loading, images, onLoad, storeId }) => {
-  const _like = useSelector((state) => state.setLikedStore);
-  const dispatch = useDispatch();
+  // const _like = useSelector((state) => state.setLikedStore);
+  // const dispatch = useDispatch();
 
   // like state
   const [liked, setLiked] = useState(false);
@@ -44,7 +44,7 @@ const CardImage = ({ loading, images, onLoad, storeId }) => {
         deleteIndexDB(storeId);
       }
     },
-    [dispatch, storeId, liked]
+    [storeId, liked]
   );
 
   useEffect(() => {
