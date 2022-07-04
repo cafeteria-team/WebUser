@@ -26,8 +26,12 @@ dbReq.onupgradeneeded = (e) => {
       keyPath: "store",
       autoIncrement: true,
     });
-
-    // db.createIndex("store", "store", { unique: true });
+  }
+  if (oldVersion < 2) {
+    db.createObjectStore("liked", {
+      keyPath: "store",
+      autoIncrement: true,
+    });
   }
 };
 
@@ -51,14 +55,14 @@ export const addIndexDB = (storeId) => {
 export const getIndexDB = () => {
   return new Promise((resolve, reject) => {
     let request = db //
-      .transaction("liked")
+      .transaction("liked", "readonly")
       .objectStore("liked")
       .getAll();
-    //   .openCursor();
+    // //   .openCursor();
 
     request.onerror = (e) => {
       console.log(e.target.error);
-      reject(e.target.error);
+      reject(new Error(e.target.error));
     };
 
     request.onsuccess = (e) => {

@@ -1,4 +1,4 @@
-import React, { useState, memo, useEffect } from "react";
+import React, { useState, memo, useEffect, useCallback } from "react";
 import {
   CardContainer,
   CardImageIconWrap,
@@ -38,12 +38,13 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import withLoading from "../hoc/withSkeleton";
 import Parser from "html-react-parser";
+import { addIndexDB, deleteIndexDB, getIndexDB } from "../utills/indexDB";
 
-const ImagePart = memo(({ Liked, onClickLike, images }) => {
+const ImagePart = memo(({ liked, onClickLike, images }) => {
   return (
     <CardImageContainer>
       <CardImageIconWrap>
-        <Heart color={Liked ? "#FF4842" : "#f2f2f2"} onClcik={onClickLike} />
+        <Heart color={liked ? "#FF4842" : "#f2f2f2"} onClcik={onClickLike} />
       </CardImageIconWrap>
       <ImageBox images={images} />
     </CardImageContainer>
@@ -232,17 +233,34 @@ const MapPart = ({ addr }) => {
   );
 };
 
-const CardDetail = ({ mapOpen, isLoading, stores, notice }) => {
+const CardDetail = ({ mapOpen, isLoading, stores, notice, storeId }) => {
   // like state
-  const [Liked, SetLiked] = useState(false);
+  const [liked, setLiked] = useState(false);
 
-  const onClickLike = () => {
-    SetLiked((prev) => !prev);
-  };
+  const onClickLike = useCallback(
+    (e) => {
+      e.preventDefault();
+      setLiked((prev) => !prev);
+
+      if (!liked) {
+        addIndexDB(storeId);
+      } else {
+        deleteIndexDB(storeId);
+      }
+    },
+    [storeId, liked]
+  );
 
   const WithDetailLoading = withLoading(CardLoader);
 
-  console.log(stores, notice);
+  useEffect(() => {
+    // getIndexDB().then((result) => {
+    //   result.map((item) => item.store === storeId && setLiked(true));
+    // });
+    getIndexDB() //
+      .then((result) => console.log(result)) //
+      .catch((err) => console.log("err는?", err));
+  }, [storeId]);
 
   if (isLoading)
     return (
@@ -258,7 +276,7 @@ const CardDetail = ({ mapOpen, isLoading, stores, notice }) => {
           {/* image */}
           <ImagePart
             onClickLike={onClickLike}
-            Liked={Liked}
+            liked={liked}
             images={stores?.store.store_img}
           />
           {/* title */}

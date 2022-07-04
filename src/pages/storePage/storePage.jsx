@@ -55,6 +55,7 @@ const StorePage = () => {
         isLoading={isLoading}
         stores={stores}
         notice={notice}
+        storeId={storeId}
       />
     </>
   );

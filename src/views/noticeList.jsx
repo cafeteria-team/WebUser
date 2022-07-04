@@ -45,8 +45,8 @@ const NoticeList = ({
   return (
     <NoticeListsWrap to={`${pathName}`} state={list}>
       <NoticeTitleWrap>
-        <WithTitleLoading isLoading={isListsLoading} height={25} width={300} />
-        <WithTimeLoading isLoading={isListsLoading} height={17} width={200} />
+        <WithTitleLoading loading={isListsLoading} height={25} width={300} />
+        <WithTimeLoading loading={isListsLoading} height={17} width={200} />
       </NoticeTitleWrap>
       <ArrowRight color="#E2E6E7" />
     </NoticeListsWrap>
