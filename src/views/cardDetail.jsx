@@ -29,23 +29,21 @@ import {
   Location,
   Happy,
   Coffee,
+  Bread,
+  WifiSquare,
+  Milk,
   Notice,
   RouteSquare,
 } from "../assets/icons";
-import { useParams } from "react-router-dom";
-import axiosInstance from "../utills/axios";
-import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
 import withLoading from "../hoc/withSkeleton";
 import Parser from "html-react-parser";
-import MapPage from "../pages/storePage/mapPage";
 
 const ImagePart = memo(({ Liked, onClickLike, images }) => {
   return (
     <CardImageContainer>
       <CardImageIconWrap>
-        <Heart color={Liked ? "#FF4842" : "#fff"} onClcik={onClickLike} />
+        <Heart color={Liked ? "#FF4842" : "#f2f2f2"} onClcik={onClickLike} />
       </CardImageIconWrap>
       <ImageBox images={images} />
     </CardImageContainer>
@@ -117,6 +115,21 @@ const MenuPart = ({ menu }) => {
 };
 
 const FacilityPart = ({ facility }) => {
+  const SelectedIcon = ({ item }) => {
+    switch (item) {
+      case "빵":
+        return <Bread color="#637381" />;
+      case "커피":
+        return <Coffee color="#637381" />;
+      case "음료수":
+        return <Milk color="#637381" />;
+      case "와이파이":
+        return <WifiSquare color="#637381" />;
+      default:
+        return <Happy color="#637381" />;
+    }
+  };
+
   return (
     <CardWrap
       flexDirection="column"
@@ -134,7 +147,7 @@ const FacilityPart = ({ facility }) => {
         {facility &&
           facility.map((item) => (
             <FacilityIconWrap key={uuidv4()}>
-              <Coffee color="#637381" />
+              <SelectedIcon item={item} />
               <Paragraph margin="6px 0 0 0" color="#637381" fontSize="14px">
                 {item}
               </Paragraph>
@@ -214,57 +227,22 @@ const MapPart = ({ addr }) => {
       </CardWrap>
       <CardWrap>
         <MenuMap height={180} addr={addr} />
-        {/* <CardWrap />
-        <AddressPart /> */}
       </CardWrap>
     </CardWrap>
   );
 };
 
-const CardDetail = ({ mapOpen }) => {
+const CardDetail = ({ mapOpen, isLoading, stores, notice }) => {
   // like state
   const [Liked, SetLiked] = useState(false);
-  const [isLoading, setIsLoading] = useState();
-  const [stores, setStores] = useState(null);
-  const [notice, setNotice] = useState(null);
 
   const onClickLike = () => {
     SetLiked((prev) => !prev);
   };
 
-  const { storeId } = useParams();
-
-  // get stores info
-  const getUserLists = (date) => {
-    setIsLoading(true);
-    try {
-      axios
-        .all([
-          axiosInstance.get(
-            `/api/menu/${storeId}?provide_at=${date}&page=1&page_size=10`
-          ),
-          axiosInstance.get(`/api/notice/${storeId}`),
-        ])
-        .then(
-          axios.spread(({ data: { results } }, { data: { content } }) => {
-            setStores(results[0]);
-            setNotice(content);
-            setIsLoading(false);
-          })
-        );
-    } catch (err) {
-      alert("리스트를 불러올수없습니다. 잠시후 다시 시도해주십시오.");
-      console.log(err);
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const today = moment().format("YYYY-MM-DD");
-    getUserLists(today);
-  }, []);
-
   const WithDetailLoading = withLoading(CardLoader);
+
+  console.log(stores, notice);
 
   if (isLoading)
     return (
@@ -272,29 +250,34 @@ const CardDetail = ({ mapOpen }) => {
         <WithDetailLoading loading={isLoading} height={350} />
       </CardContainer>
     );
+
   return (
-    <CardContainer>
-      {/* image */}
-      <ImagePart
-        onClickLike={onClickLike}
-        Liked={Liked}
-        images={stores?.store.store_img}
-      />
-      {/* title */}
-      <TitlePart name={stores?.store.name} price={stores?.store.price} />
-      {/* address */}
-      <AddressPart mapOpen={mapOpen} addr={stores?.store.addr} />
-      {/* menu */}
-      <MenuPart menu={stores?.menus} />
-      {/* facility */}
-      <FacilityPart facility={stores?.store.facilities} />
-      {/* price */}
-      <PricePart price={stores?.store.price} />
-      {/* notice */}
-      <NoticePart notice={notice} />
-      {/* map */}
-      <MapPart addr={stores?.store.addr} />
-    </CardContainer>
+    <>
+      {stores.length !== 0 && (
+        <CardContainer>
+          {/* image */}
+          <ImagePart
+            onClickLike={onClickLike}
+            Liked={Liked}
+            images={stores?.store.store_img}
+          />
+          {/* title */}
+          <TitlePart name={stores?.store.name} price={stores?.store.price} />
+          {/* address */}
+          <AddressPart mapOpen={mapOpen} addr={stores?.store.addr} />
+          {/* menu */}
+          <MenuPart menu={stores?.menus} />
+          {/* facility */}
+          <FacilityPart facility={stores?.store.facilities} />
+          {/* price */}
+          <PricePart price={stores?.store.price} />
+          {/* notice */}
+          <NoticePart notice={notice} />
+          {/* map */}
+          <MapPart addr={stores?.store.addr} />
+        </CardContainer>
+      )}
+    </>
   );
 };
 

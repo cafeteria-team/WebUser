@@ -20,6 +20,7 @@ import Right from "./right";
 import Home from "./home";
 import LeftArrow from "./leftArrow";
 import Copy from "./copy";
+import Bread from "./bread";
 
 export {
   ArrowRight,
@@ -44,4 +45,5 @@ export {
   Home,
   LeftArrow,
   Copy,
+  Bread,
 };
