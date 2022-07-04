@@ -17,6 +17,10 @@ import {
   CardWrap,
   FacilityIconWrap,
   FaiclityWrap,
+  CardLoader,
+  NoticeBody,
+  PriceWrap,
+  PriceLists,
 } from "../styles/styledElements";
 import { ImageBox, Title, MoreBtn } from "../components";
 import {
@@ -32,6 +36,9 @@ import { useParams } from "react-router-dom";
 import axiosInstance from "../utills/axios";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+import withLoading from "../hoc/withSkeleton";
+import Parser from "html-react-parser";
 
 const ImagePart = memo(({ Liked, onClickLike, images }) => {
   return (
@@ -123,7 +130,7 @@ const FacilityPart = ({ facility }) => {
       <FaiclityWrap>
         {facility &&
           facility.map((item) => (
-            <FacilityIconWrap>
+            <FacilityIconWrap key={uuidv4()}>
               <Coffee color="#637381" />
               <Paragraph margin="6px 0 0 0" color="#637381" fontSize="14px">
                 {item}
@@ -135,7 +142,42 @@ const FacilityPart = ({ facility }) => {
   );
 };
 
-const PricePart = () => {
+const PricePart = ({ price }) => {
+  const count = [1, 5, 10];
+  return (
+    <CardWrap
+      flexDirection="column"
+      margin="26px 0 0"
+      border
+      padding="0 0 26px 0"
+    >
+      <CardWrap align="center" margin="0 0 20px 0">
+        <Notice color="#E2E6E7" />
+        <Paragraph margin="0 0 0 6px" fontSize="14px">
+          매장가격
+        </Paragraph>
+      </CardWrap>
+      <CardWrap>
+        <PriceWrap>
+          {price &&
+            price.map((item, index, arr) => (
+              <PriceLists
+                border={index === arr.length - 1 && true}
+                key={uuidv4()}
+              >
+                <Paragraph fontSize="14px">{count[index]}회 식권</Paragraph>
+                <Paragraph fontWeight="bold" fontSize="14px">
+                  {item[count[index]]}원
+                </Paragraph>
+              </PriceLists>
+            ))}
+        </PriceWrap>
+      </CardWrap>
+    </CardWrap>
+  );
+};
+
+const NoticePart = ({ notice }) => {
   return (
     <CardWrap
       flexDirection="column"
@@ -150,9 +192,9 @@ const PricePart = () => {
         </Paragraph>
       </CardWrap>
       <CardWrap>
-        <Paragraph margin="0 0 0 6px" fontSize="14px">
-          맛있습니다 많이 놀러오세요
-        </Paragraph>
+        <NoticeBody padding="0 0 0 6px" fontSize="14px">
+          {Parser(`${notice}`)}
+        </NoticeBody>
       </CardWrap>
     </CardWrap>
   );
@@ -181,6 +223,7 @@ const CardDetail = ({ mapOpen }) => {
   const [Liked, SetLiked] = useState(false);
   const [isLoading, setIsLoading] = useState();
   const [stores, setStores] = useState(null);
+  const [notice, setNotice] = useState(null);
 
   const onClickLike = () => {
     SetLiked((prev) => !prev);
@@ -189,16 +232,23 @@ const CardDetail = ({ mapOpen }) => {
   const { storeId } = useParams();
 
   // get stores info
-  const getUserLists = async (date) => {
+  const getUserLists = (date) => {
     setIsLoading(true);
-
     try {
-      const {
-        data: { page, results },
-      } = await axiosInstance.get(`/api/menu/${storeId}?provide_at=${date}&page=1&page_size=10
-        `);
-      setStores(results[0]);
-      setIsLoading(false);
+      axios
+        .all([
+          axiosInstance.get(
+            `/api/menu/${storeId}?provide_at=${date}&page=1&page_size=10`
+          ),
+          axiosInstance.get(`/api/notice/${storeId}`),
+        ])
+        .then(
+          axios.spread(({ data: { results } }, { data: { content } }) => {
+            setStores(results[0]);
+            setNotice(content);
+            setIsLoading(false);
+          })
+        );
     } catch (err) {
       alert("리스트를 불러올수없습니다. 잠시후 다시 시도해주십시오.");
       console.log(err);
@@ -211,35 +261,37 @@ const CardDetail = ({ mapOpen }) => {
     getUserLists(today);
   }, []);
 
-  console.log(stores);
+  const WithDetailLoading = withLoading(CardLoader);
 
+  if (isLoading)
+    return (
+      <CardContainer>
+        <WithDetailLoading loading={isLoading} height={350} />
+      </CardContainer>
+    );
   return (
-    <>
-      {isLoading ? (
-        <div>로딩</div>
-      ) : (
-        <CardContainer>
-          {/* image */}
-          <ImagePart
-            onClickLike={onClickLike}
-            Liked={Liked}
-            images={stores?.store.store_img}
-          />
-          {/* title */}
-          <TitlePart name={stores?.store.name} price={stores?.store.price} />
-          {/* address */}
-          <AddressPart mapOpen={mapOpen} addr={stores?.store.addr} />
-          {/* menu */}
-          <MenuPart menu={stores?.menus} />
-          {/* facility */}
-          <FacilityPart facility={stores?.store.facilities} />
-          {/* price */}
-          <PricePart />
-          {/* map */}
-          <MapPart />
-        </CardContainer>
-      )}
-    </>
+    <CardContainer>
+      {/* image */}
+      <ImagePart
+        onClickLike={onClickLike}
+        Liked={Liked}
+        images={stores?.store.store_img}
+      />
+      {/* title */}
+      <TitlePart name={stores?.store.name} price={stores?.store.price} />
+      {/* address */}
+      <AddressPart mapOpen={mapOpen} addr={stores?.store.addr} />
+      {/* menu */}
+      <MenuPart menu={stores?.menus} />
+      {/* facility */}
+      <FacilityPart facility={stores?.store.facilities} />
+      {/* price */}
+      <PricePart price={stores?.store.price} />
+      {/* notice */}
+      <NoticePart notice={notice} />
+      {/* map */}
+      <MapPart />
+    </CardContainer>
   );
 };
 

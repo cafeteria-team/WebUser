@@ -419,6 +419,11 @@ export const CardContainer = styled.div`
   margin-top:${({ theme }) => theme.space.large};
 `;
 
+export const CardLoader = styled.div`
+  width: 100%;
+  hegiht: 100%;
+`;
+
 // imgBox
 export const CardImageContainer = styled.div`
   width: 100%;
@@ -596,6 +601,25 @@ export const FacilityIconWrap = styled.div`
   border-radius: ${({ theme }) => theme.radii.button};
 `;
 
+export const PriceWrap = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${({ theme }) => theme.radii.button};
+  background: #f9fafb;
+  padding: 10px 20px;
+`;
+
+export const PriceLists = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: ${({ border }) => (border ? "unset" : "1px solid #eceff1")};
+  padding: ${({ padding }) => (padding ? padding : "10px 0")};
+`;
+
 /////////map page /////////
 export const MapTitle = styled.div`
   position: absolute;
@@ -666,9 +690,15 @@ export const NoticeContentTitleWrap = styled.div`
 `;
 
 export const NoticeBody = styled.div`
-  font-size: ${({ theme }) => theme.fontSizes.detail};
+  font-size: ${({ fontSize, theme }) =>
+    fontSize ? fontSize : theme.fontSizes.detail};
   line-height: ${({ theme }) => theme.lineHeights.paragraph};
-  padding: ${({ theme }) => `${theme.space.large} 0 ${theme.space.xxlarge}`};
+  padding: ${({ padding, theme }) =>
+    padding ? padding : `${theme.space.large} 0 ${theme.space.xxlarge}`};
+
+  & p {
+    font-size: 14px;
+  }
 `;
 
 /////// service page'////////
