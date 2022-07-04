@@ -22,7 +22,7 @@ import {
   PriceWrap,
   PriceLists,
 } from "../styles/styledElements";
-import { ImageBox, Title, MoreBtn } from "../components";
+import { ImageBox, Title, MoreBtn, MenuMap } from "../components";
 import {
   MenuItem,
   Heart,
@@ -39,6 +39,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import withLoading from "../hoc/withSkeleton";
 import Parser from "html-react-parser";
+import MapPage from "../pages/storePage/mapPage";
 
 const ImagePart = memo(({ Liked, onClickLike, images }) => {
   return (
@@ -76,7 +77,9 @@ const AddressPart = memo(({ mapOpen, addr }) => {
         color="#1A90FF"
         background="unset"
         fontSize="14px"
-        onClick={mapOpen}
+        lineHeight="26px"
+        height="24px"
+        onClick={() => mapOpen(addr, window.innerHeight - 120)}
       >
         지도보기
       </MoreBtn>
@@ -200,7 +203,7 @@ const NoticePart = ({ notice }) => {
   );
 };
 
-const MapPart = () => {
+const MapPart = ({ addr }) => {
   return (
     <CardWrap flexDirection="column" margin="26px 0 0" padding="0 0 26px 0">
       <CardWrap align="center" margin="0 0 20px 0">
@@ -210,9 +213,9 @@ const MapPart = () => {
         </Paragraph>
       </CardWrap>
       <CardWrap>
-        {/* 지도들어갈자리 */}
-        <CardWrap />
-        <AddressPart />
+        <MenuMap height={180} addr={addr} />
+        {/* <CardWrap />
+        <AddressPart /> */}
       </CardWrap>
     </CardWrap>
   );
@@ -290,7 +293,7 @@ const CardDetail = ({ mapOpen }) => {
       {/* notice */}
       <NoticePart notice={notice} />
       {/* map */}
-      <MapPart />
+      <MapPart addr={stores?.store.addr} />
     </CardContainer>
   );
 };

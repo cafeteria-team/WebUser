@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setCurrentLocation } from "../../_modules/location";
-import { MapView } from "../../views";
-import { CardContainer, MapTitle } from "../../styles/styledElements";
-import { Copy } from "../../assets/icons";
+import { setCurrentLocation } from "../_modules/location";
+import { MapView } from "../views";
+import {
+  CardContainer,
+  MenuMapTitle,
+  Paragraph,
+} from "../styles/styledElements";
+import { Copy, Location } from "../assets/icons";
 import "react-notifications/lib/notifications.css";
 import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { useLocation } from "react-router-dom";
 
 const { kakao } = window;
 
-const MapPage = () => {
+const MenuMap = ({ addr, height }) => {
   // set dispatch
   const dispatch = useDispatch();
-
-  const {
-    state: { addr, height },
-  } = useLocation();
 
   const [isMapLoading, setIsMapLoading] = useState(false);
   const [mapOpen, setMapOpen] = useState(false);
@@ -33,9 +32,6 @@ const MapPage = () => {
   });
 
   const [copied, setCopied] = useState(false);
-  const [address, setAddress] = useState(
-    addr ? addr : "서울특별시 서초구 서초2동 1321-1"
-  );
 
   // find region
   const searchAddressFromCode = () => {
@@ -72,21 +68,34 @@ const MapPage = () => {
   }, []);
 
   return (
-    <CardContainer>
+    <CardContainer marginTop="0px" padding="unset" radi="8px" boxShadow="unset">
+      <MapView
+        location={coordinate}
+        height={height}
+        radi="8px"
+        draggable={false}
+      />
       <NotificationContainer />
-      <MapTitle>
+      <MenuMapTitle>
+        <Location color="#1A90FF" />
+        {addr}
         <CopyToClipboard
           options={{ message: "" }}
-          text={address}
+          text={addr}
           onCopy={() => copyToaster()}
         >
-          <Copy />
+          <Paragraph
+            fontSize="14px"
+            color="#1A90FF"
+            margin="0 0 0 12px"
+            cursor="pointer"
+          >
+            주소복사
+          </Paragraph>
         </CopyToClipboard>
-        {address}
-      </MapTitle>
-      <MapView location={coordinate} height={height} />
+      </MenuMapTitle>
     </CardContainer>
   );
 };
 
-export default MapPage;
+export default MenuMap;

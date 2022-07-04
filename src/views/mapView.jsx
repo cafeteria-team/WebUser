@@ -1,7 +1,7 @@
 import React from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
-const MapView = ({ location, height }) => {
+const MapView = ({ location, height, radi, draggable }) => {
   return (
     <Map // 지도를 표시할 Container
       center={location.center}
@@ -9,14 +9,15 @@ const MapView = ({ location, height }) => {
       style={{
         // 지도의 크기
         width: "100%",
-        height: height ? window.innerHeight - 120 : "450px",
-        borderRadius: "20px",
+        height: height ? height : "450px",
+        borderRadius: radi ? radi : "20px",
       }}
       level={4} // 지도의 확대 레벨
+      draggable={!draggable ? draggable : true}
     >
       <MapMarker
         position={location.center}
-        draggable={true} // 마커가 드래그 가능하도록 설정합니다
+        draggable={!draggable ? draggable : true} // 마커가 드래그 가능하도록 설정합니다
         image={{
           src: require("../assets/images/marker.png"), // 마커이미지의 주소입니다
           size: {

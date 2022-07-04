@@ -10,6 +10,7 @@ import ImageLoadingContainer from "./imageLoadingContainer";
 import Input from "./input";
 import AlertModal from "./alertModal";
 import Pagenation from "./pagenation";
+import MenuMap from "./menuMap";
 
 export {
   Title,
@@ -24,4 +25,5 @@ export {
   Input,
   AlertModal,
   Pagenation,
+  MenuMap,
 };

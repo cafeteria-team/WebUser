@@ -246,6 +246,7 @@ export const Paragraph = styled.p`
   font-weight: ${(props) => props.fontWeight || "regular"};
   color: ${(props) => props.color || props.theme.colors.title};
   font-size: ${(props) => props.fontSize || "16px"};
+  cursor: ${({ cursor }) => cursor || "unset"};
 `;
 
 export const ChangwonTitle = styled.h1`
@@ -413,10 +414,12 @@ export const CardContainer = styled.div`
   max-width: 600px;
   width: 100%;
   background: #fff;
-  box-shadow: ${({ theme }) => theme.shadow.content}};
-  border-radius:${({ theme }) => theme.radii.rounded};
-  padding:${({ theme }) => theme.space.large};
-  margin-top:${({ theme }) => theme.space.large};
+  box-shadow: ${({ theme, boxShadow }) =>
+    boxShadow ? boxShadow : theme.shadow.content}};
+  border-radius:${({ theme, radi }) => (radi ? radi : theme.radii.rounded)};
+  padding:${({ theme, padding }) => (padding ? padding : theme.space.large)};
+  margin-top:${({ marginTop, theme }) =>
+    marginTop ? marginTop : theme.space.large};
 `;
 
 export const CardLoader = styled.div`
@@ -634,6 +637,15 @@ export const MapTitle = styled.div`
   width: max-content;
   justify-content: center;
   border-radius: ${({ theme }) => theme.radii.rounded};
+`;
+
+export const MenuMapTitle = styled.div`
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  width: 100%;
+  justify-content: flex-end;
 `;
 
 ///////// notice page /////////

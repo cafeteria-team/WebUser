@@ -11,6 +11,8 @@ const StyledMoreBtn = styled.button`
   font-size: ${({ theme }) => theme.fontSizes.detail};
   margin: ${(props) => props.margin || ""};
   padding: ${(props) => props.padding || ""};
+  line-height: ${({ lineHeight }) => lineHeight};
+  height: ${({ height }) => height};
 `;
 
 const MoreBtn = ({ children, onClick, ...props }) => {
