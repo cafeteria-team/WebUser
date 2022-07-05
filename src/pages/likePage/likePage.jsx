@@ -78,28 +78,36 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
 
   const containerRef = useRef();
 
-  const getLikedStore = async (storeId) => {
-    setIsLoading(true);
-    try {
-      const {
-        data: { page, results },
-      } = await axiosInstance.get(`/api/menu/today?page=${pageNum}&page_size=10
+  const getLikedStore = useCallback(
+    async (storesId) => {
+      setIsLoading(true);
+      try {
+        const {
+          data: { page, results },
+        } = await axiosInstance.get(`/api/menu/today?page=${pageNum}&page_size=10
         `);
-      results.filter((item) => item.store.id !== storeId);
 
-      console.log(storeId);
-      setStores(results);
-      if (1 < Math.ceil(page.total_count / 10)) {
-        setHasNextPage(true);
+        results.filter((item, index) => {
+          const { store } = storesId[index];
+          if (store) {
+            return item.store.id !== store;
+          }
+        });
+
+        setStores(results);
+        if (1 < Math.ceil(page.total_count / 10)) {
+          setHasNextPage(true);
+        }
+        setIsLoading(false);
+        setTotal(Math.ceil(page.total_count / 10));
+      } catch (err) {
+        alert("리스트를 불러올수없습니다. 잠시후 다시 시도해주십시오.");
+        console.log(err);
+        setIsLoading(false);
       }
-      setIsLoading(false);
-      setTotal(Math.ceil(page.total_count / 10));
-    } catch (err) {
-      alert("리스트를 불러올수없습니다. 잠시후 다시 시도해주십시오.");
-      console.log(err);
-      setIsLoading(false);
-    }
-  };
+    },
+    [storesId]
+  );
 
   const addMoreUserLists = useCallback(
     async (pagePros) => {
@@ -125,10 +133,11 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
     getIndexDB().then((result) => {
       console.log(result);
       result.map((item) => {
+        console.log(item.store);
         return setStoresId((prev) => [...prev, item.store]);
       });
+      getLikedStore(result);
     });
-    getLikedStore(storesId);
   }, []);
 
   const renderer = ({ index }) => <Elem i={index} {...stores[index]} />;
