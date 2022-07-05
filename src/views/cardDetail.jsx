@@ -41,7 +41,6 @@ import Parser from "html-react-parser";
 import { addIndexDB, deleteIndexDB, getIndexDB } from "../utills/indexDB";
 
 const ImagePart = memo(({ liked, onClickLike, images }) => {
-  console.log(liked);
   return (
     <CardImageContainer>
       <CardImageIconWrap>
@@ -87,7 +86,7 @@ const AddressPart = memo(({ mapOpen, addr }) => {
   );
 });
 
-const MenuPart = ({ menu }) => {
+const MenuPart = memo(({ menu }) => {
   return (
     <CardMenuContainer height="100%">
       <CardMenuTitleContainer>
@@ -114,9 +113,9 @@ const MenuPart = ({ menu }) => {
       </CardMenuListsWrap>
     </CardMenuContainer>
   );
-};
+});
 
-const FacilityPart = ({ facility }) => {
+const FacilityPart = memo(({ facility }) => {
   const SelectedIcon = ({ item }) => {
     switch (item) {
       case "빵":
@@ -158,9 +157,9 @@ const FacilityPart = ({ facility }) => {
       </FaiclityWrap>
     </CardWrap>
   );
-};
+});
 
-const PricePart = ({ price }) => {
+const PricePart = memo(({ price }) => {
   const count = [1, 5, 10];
   return (
     <CardWrap
@@ -193,9 +192,9 @@ const PricePart = ({ price }) => {
       </CardWrap>
     </CardWrap>
   );
-};
+});
 
-const NoticePart = ({ notice }) => {
+const NoticePart = memo(({ notice }) => {
   return (
     <CardWrap
       flexDirection="column"
@@ -216,9 +215,9 @@ const NoticePart = ({ notice }) => {
       </CardWrap>
     </CardWrap>
   );
-};
+});
 
-const MapPart = ({ addr }) => {
+const MapPart = memo(({ addr }) => {
   return (
     <CardWrap flexDirection="column" margin="26px 0 0" padding="0 0 26px 0">
       <CardWrap align="center" margin="0 0 20px 0">
@@ -232,7 +231,7 @@ const MapPart = ({ addr }) => {
       </CardWrap>
     </CardWrap>
   );
-};
+});
 
 const CardDetail = ({ mapOpen, isLoading, stores, notice, storeId }) => {
   // like state

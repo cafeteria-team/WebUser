@@ -5,7 +5,6 @@ import axiosInstance from "../../utills/axios";
 import axios from "axios";
 import moment from "moment";
 import { useParams } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 
 const StorePage = () => {
   const navigate = useNavigate();

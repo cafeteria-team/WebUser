@@ -71,7 +71,6 @@ export const getIndexDB = () => {
       const objStore = transaction.objectStore("liked");
       const objstoreRequest = objStore.getAll();
       objstoreRequest.onsuccess = (e) => {
-        console.log(e.target.result);
         const result = e.target.result;
         resolve(result);
       };
@@ -103,8 +102,6 @@ export const deleteIndexDB = (storeId) => {
     .transaction("liked", "readwrite")
     .objectStore("liked")
     .delete(Number(storeId));
-
-  console.log(request);
 
   request.onerror = (e) => {
     console.log(e.target.error);
