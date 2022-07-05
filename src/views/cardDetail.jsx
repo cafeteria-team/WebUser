@@ -41,6 +41,7 @@ import Parser from "html-react-parser";
 import { addIndexDB, deleteIndexDB, getIndexDB } from "../utills/indexDB";
 
 const ImagePart = memo(({ liked, onClickLike, images }) => {
+  console.log(liked);
   return (
     <CardImageContainer>
       <CardImageIconWrap>
@@ -254,12 +255,11 @@ const CardDetail = ({ mapOpen, isLoading, stores, notice, storeId }) => {
   const WithDetailLoading = withLoading(CardLoader);
 
   useEffect(() => {
-    // getIndexDB().then((result) => {
-    //   result.map((item) => item.store === storeId && setLiked(true));
-    // });
-    getIndexDB() //
-      .then((result) => console.log(result)) //
-      .catch((err) => console.log("err는?", err));
+    getIndexDB().then((result) => {
+      result.map((item) => {
+        return item.store === Number(storeId) && setLiked(true);
+      });
+    });
   }, [storeId]);
 
   if (isLoading)

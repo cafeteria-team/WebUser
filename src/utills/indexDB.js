@@ -4,9 +4,9 @@ if (!idxedDB) {
   window.alert("해당 브라우저에서는 indexedDB를 지원하지 않습니다.");
 }
 
-const dbReq = indexedDB.open("likedStore", 1);
-
 let db;
+
+const dbReq = indexedDB.open("likedStore", 1);
 
 dbReq.onsuccess = (e) => {
   db = e.target.result;
@@ -27,12 +27,12 @@ dbReq.onupgradeneeded = (e) => {
       autoIncrement: true,
     });
   }
-  if (oldVersion < 2) {
-    db.createObjectStore("liked", {
-      keyPath: "store",
-      autoIncrement: true,
-    });
-  }
+  // if (oldVersion < 2) {
+  //   db.createObjectStore("likedv2", {
+  //     keyPath: "store",
+  //     autoIncrement: true,
+  //   });
+  // }
 };
 
 export const addIndexDB = (storeId) => {
@@ -40,7 +40,7 @@ export const addIndexDB = (storeId) => {
     .transaction("liked", "readwrite")
     .objectStore("liked")
     .add({
-      store: storeId,
+      store: Number(storeId),
     });
 
   request.onerror = (e) => {
@@ -54,21 +54,47 @@ export const addIndexDB = (storeId) => {
 
 export const getIndexDB = () => {
   return new Promise((resolve, reject) => {
-    let request = db //
-      .transaction("liked", "readonly")
-      .objectStore("liked")
-      .getAll();
-    // //   .openCursor();
-
+    const request = window.indexedDB.open("likedStore", 1);
     request.onerror = (e) => {
       console.log(e.target.error);
-      reject(new Error(e.target.error));
     };
 
     request.onsuccess = (e) => {
-      let cursor = e.target.result;
-      resolve(cursor);
+      const db = request.result;
+      const transaction = db.transaction("liked");
+
+      transaction.onerror = (e) => {
+        console.log(e.target.error);
+      };
+      transaction.oncomplete = (e) => {};
+
+      const objStore = transaction.objectStore("liked");
+      const objstoreRequest = objStore.getAll();
+      objstoreRequest.onsuccess = (e) => {
+        console.log(e.target.result);
+        const result = e.target.result;
+        resolve(result);
+      };
+      objstoreRequest.onerror = (e) => {
+        reject(e.target.error);
+      };
     };
+
+    // let request = db //
+    //   .transaction("liked", "readonly")
+    //   .objectStore("liked")
+    //   .getAll();
+    // // //   .openCursor();
+
+    // request.onerror = (e) => {
+    //   console.log(e.target.error);
+    //   reject(new Error(e.target.error));
+    // };
+
+    // request.onsuccess = (e) => {
+    //   let cursor = e.target.result;
+    //   resolve(cursor);
+    // };
   });
 };
 
@@ -76,7 +102,9 @@ export const deleteIndexDB = (storeId) => {
   let request = db
     .transaction("liked", "readwrite")
     .objectStore("liked")
-    .delete(storeId);
+    .delete(Number(storeId));
+
+  console.log(request);
 
   request.onerror = (e) => {
     console.log(e.target.error);
