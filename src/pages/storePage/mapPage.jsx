@@ -19,18 +19,26 @@ const MapPage = () => {
   const dispatch = useDispatch();
 
   const {
-    state: { addr, height },
+    state: { addr, height, latitude, longitude },
   } = useLocation();
 
   const [isMapLoading, setIsMapLoading] = useState(false);
   const [mapOpen, setMapOpen] = useState(false);
 
-  const [coordinate, setCoordinate] = useState({
-    // 지도의 초기 위치
-    center: { lat: 37.49676871972202, lng: 127.02474726969814 },
-    // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
-    isPanto: true,
-  });
+  const [coordinate, setCoordinate] = useState(
+    latitude
+      ? {
+          center: { lat: latitude, lng: longitude },
+          // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
+          isPanto: true,
+        }
+      : {
+          // 지도의 초기 위치
+          center: { lat: 37.49676871972202, lng: 127.02474726969814 },
+          // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
+          isPanto: true,
+        }
+  );
 
   const [copied, setCopied] = useState(false);
   const [address, setAddress] = useState(

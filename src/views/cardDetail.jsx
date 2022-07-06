@@ -63,7 +63,7 @@ const TitlePart = memo(({ name, price }) => {
   );
 });
 
-const AddressPart = memo(({ mapOpen, addr }) => {
+const AddressPart = memo(({ mapOpen, addr, location }) => {
   return (
     <CardAddressWrap margin="0 0 20px 0">
       <CardAddressWrap margin="0 12px 0 0">
@@ -78,7 +78,7 @@ const AddressPart = memo(({ mapOpen, addr }) => {
         fontSize="14px"
         lineHeight="26px"
         height="24px"
-        onClick={() => mapOpen(addr, window.innerHeight - 120)}
+        onClick={() => mapOpen(addr, window.innerHeight - 120, location)}
       >
         지도보기
       </MoreBtn>
@@ -281,7 +281,11 @@ const CardDetail = ({ mapOpen, isLoading, stores, notice, storeId }) => {
           {/* title */}
           <TitlePart name={stores?.store.name} price={stores?.store.price} />
           {/* address */}
-          <AddressPart mapOpen={mapOpen} addr={stores?.store.addr} />
+          <AddressPart
+            mapOpen={mapOpen}
+            addr={stores?.store.addr}
+            location={stores?.store.location}
+          />
           {/* menu */}
           <MenuPart menu={stores?.menus} />
           {/* facility */}
@@ -291,7 +295,10 @@ const CardDetail = ({ mapOpen, isLoading, stores, notice, storeId }) => {
           {/* notice */}
           <NoticePart notice={notice} />
           {/* map */}
-          <MapPart addr={stores?.store.addr} />
+          <MapPart
+            addr={stores?.store.addr}
+            location={stores?.store.location}
+          />
         </CardContainer>
       )}
     </>

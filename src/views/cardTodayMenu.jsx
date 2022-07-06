@@ -66,19 +66,19 @@ const CardTodayMenu = ({
   // const scrollToBottom = () => {
   //   console.log(scrollRef);
 
-  //   // scrollRef.current.scrollIntoView({
-  //   //   behavior: "smooth",
-  //   //   block: "center",
-  //   //   inline: "nearest",
-  //   // });
-  //   scrollRef.current.scrollTo({
-  //     // behavior: "smooth",
-  //     // block: "center",
-  //     // inline: "nearest",
-  //     left: 0,
-  //     top: scrollOffset,
-  //     behavior: 'smooth',
+  //   scrollRef.current.scrollIntoView({
+  //     behavior: "smooth",
+  //     block: "center",
+  //     inline: "nearest",
   //   });
+  //   // scrollRef.current.scrollTo({
+  //   //   // behavior: "smooth",
+  //   //   // block: "center",
+  //   //   // inline: "nearest",
+  //   //   left: 0,
+  //   //   top: scrollOffset,
+  //   //   behavior: 'smooth',
+  //   // });
   // };
 
   // menu lists state
@@ -86,6 +86,7 @@ const CardTodayMenu = ({
 
   const onClickMenu = useCallback((e) => {
     e.preventDefault();
+    // scrollToBottom();
     setOnMenu((prev) => !prev);
     setMenuOpen((prev) => !prev);
     setSelectedIndex(index);

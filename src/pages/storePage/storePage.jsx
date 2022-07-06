@@ -14,8 +14,20 @@ const StorePage = () => {
 
   const { storeId } = useParams();
 
-  const goMapPage = (addr, height) => {
-    navigate("address", { state: { addr: addr, height: height } });
+  const goMapPage = (addr, height, location) => {
+    const regex = /[^0-9\.]/g;
+    let coordinate = location.split(" ");
+    const latitude = coordinate[1].replace(regex, "");
+    const longitude = coordinate[2].replace(regex, "");
+
+    navigate("address", {
+      state: {
+        addr: addr,
+        height: height,
+        latitude: latitude,
+        longitude: longitude,
+      },
+    });
   };
 
   const getStoresData = (date) => {
