@@ -207,13 +207,13 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
 
   const _list = useRef();
 
-  // useEffect(() => {
-  //   // clear saved cache of selceted row
-  //   _cache.clear(selectedIndex, 0);
-  //   if (_list.current) {
-  //     _list.current.recomputeRowHeights(selectedIndex);
-  //   }
-  // }, [menuOpen]);
+  useEffect(() => {
+    // clear saved cache of selceted row
+    _cache.clear(selectedIndex, 0);
+    if (_list.current) {
+      _list.current.recomputeRowHeights(selectedIndex);
+    }
+  }, [menuOpen]);
 
   if (isLoading) return <FirstLoader />;
 
