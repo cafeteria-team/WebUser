@@ -7,7 +7,7 @@ import {
   MenuMapTitle,
   Paragraph,
 } from "../styles/styledElements";
-import { Copy, Location } from "../assets/icons";
+import { Location } from "../assets/icons";
 import "react-notifications/lib/notifications.css";
 import {
   NotificationContainer,
@@ -17,21 +17,24 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const { kakao } = window;
 
-const MenuMap = ({ addr, height }) => {
+const MenuMap = ({ addr, height, latitude, longitude }) => {
   // set dispatch
   const dispatch = useDispatch();
 
-  const [isMapLoading, setIsMapLoading] = useState(false);
-  const [mapOpen, setMapOpen] = useState(false);
-
-  const [coordinate, setCoordinate] = useState({
-    // 지도의 초기 위치
-    center: { lat: 37.49676871972202, lng: 127.02474726969814 },
-    // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
-    isPanto: true,
-  });
-
-  const [copied, setCopied] = useState(false);
+  const [coordinate, setCoordinate] = useState(
+    latitude
+      ? {
+          center: { lat: latitude, lng: longitude },
+          // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
+          isPanto: true,
+        }
+      : {
+          // 지도의 초기 위치
+          center: { lat: 37.49676871972202, lng: 127.02474726969814 },
+          // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
+          isPanto: true,
+        }
+  );
 
   // find region
   const searchAddressFromCode = () => {

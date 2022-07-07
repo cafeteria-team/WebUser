@@ -26,6 +26,7 @@ const Elem = ({
   setSelectedIndex,
   setMenuOpen,
   setToIndex,
+  list,
 }) => {
   return (
     <CardMenu
@@ -38,6 +39,7 @@ const Elem = ({
       index={i}
       setMenuOpen={setMenuOpen}
       setToIndex={setToIndex}
+      list={list}
     />
   );
 };
@@ -128,13 +130,14 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     getUserLists();
   }, []);
 
-  const renderer = ({ index }) => (
+  const renderer = ({ index }, _list) => (
     <Elem
       i={index}
       {...stores[index]}
       setSelectedIndex={setSelectedIndex}
       setMenuOpen={setMenuOpen}
       menuOpen={menuOpen}
+      list={_list}
     />
   );
 
@@ -173,7 +176,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     } else if (index >= stores.length && !hasNextPage) {
       content = "";
     } else {
-      content = renderer({ index });
+      content = renderer({ index }, _list);
     }
 
     throttleScrollListener(parent.state.scrollTop, parent.props.height);
@@ -204,13 +207,13 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
 
   const _list = useRef();
 
-  useEffect(() => {
-    // clear saved cache of selceted row
-    _cache.clear(selectedIndex, 0);
-    if (_list.current) {
-      _list.current.recomputeRowHeights(selectedIndex);
-    }
-  }, [menuOpen]);
+  // useEffect(() => {
+  //   // clear saved cache of selceted row
+  //   _cache.clear(selectedIndex, 0);
+  //   if (_list.current) {
+  //     _list.current.recomputeRowHeights(selectedIndex);
+  //   }
+  // }, [menuOpen]);
 
   if (isLoading) return <FirstLoader />;
 
