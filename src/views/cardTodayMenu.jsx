@@ -62,6 +62,7 @@ const CardTodayMenu = ({
   setMenuOpen,
   menuOpen,
   list,
+  cache,
 }) => {
   const scrollRef = useRef(null);
   // const scrollToBottom = () => {
@@ -92,8 +93,10 @@ const CardTodayMenu = ({
     setMenuOpen((prev) => !prev);
     setSelectedIndex(index);
 
-    // list.current.recomputeRowHeights(index);
-    // list.current.forceUpdate();
+    cache.clear(index, 0);
+    if (list.current) {
+      list.current.recomputeRowHeights(index);
+    }
   }, []);
 
   const WIthMenuLoading = withLoading(MenuPart);

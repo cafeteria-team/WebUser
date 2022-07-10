@@ -47,7 +47,7 @@ const MenuMap = ({ addr, height, latitude, longitude }) => {
           `${newSearch.region_2depth_name} ${newSearch.region_3depth_name}`
         );
       } else {
-        alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
+        alert("잘못됫 주소입니다.");
       }
     };
     geocoder.coord2RegionCode(

@@ -84,7 +84,7 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
       try {
         const {
           data: { page, results },
-        } = await axiosInstance.get(`/api/menu/today?page=${pageNum}&page_size=10
+        } = await axiosInstance.get(`/api/menu/today?store_id=${storesId}&page=${pageNum}&page_size=10
         `);
 
         results.filter((item, index) => {

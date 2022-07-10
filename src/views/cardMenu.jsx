@@ -31,6 +31,7 @@ const CardMenu = ({
   setMenuOpen,
   menuOpen,
   list,
+  cache,
 }) => {
   // console.log("카드메뉴 호출");
   return (
@@ -53,6 +54,7 @@ const CardMenu = ({
         setMenuOpen={setMenuOpen}
         menuOpen={menuOpen}
         list={list}
+        cache={cache}
       />
     </CardContainer>
   );
