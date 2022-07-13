@@ -80,6 +80,7 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
 
   const getLikedStore = useCallback(
     async (storesId) => {
+      console.log(storesId);
       setIsLoading(true);
       try {
         const {
@@ -87,12 +88,14 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
         } = await axiosInstance.get(`/api/menu/today?store_id=${storesId}&page=${pageNum}&page_size=10
         `);
 
-        results.filter((item, index) => {
-          const { store } = storesId[index];
-          if (store) {
-            return item.store.id !== store;
-          }
-        });
+        // results.filter((item, index) => {
+        //   console.log(item);
+        //   const { store } = storesId[index];
+
+        //   if (store) {
+        //     return item.store.id !== store;
+        //   }
+        // });
 
         setStores(results);
         if (1 < Math.ceil(page.total_count / 10)) {
@@ -131,12 +134,23 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
 
   useEffect(() => {
     getIndexDB().then((result) => {
-      console.log(result);
-      result.map((item) => {
-        console.log(item.store);
-        return setStoresId((prev) => [...prev, item.store]);
-      });
-      getLikedStore(result);
+      const decunstructureArray = async () => {
+        const _result = await Promise.all(
+          result.map((item) => {
+            setStoresId((prev) => [...prev, item.store]);
+            return item.store;
+          })
+        );
+        getLikedStore(_result);
+      };
+      decunstructureArray();
+
+      // result.map((item) => {
+      //   console.log(item.store);
+      //   return setStoresId((prev) => [...prev, item.store]);
+      // });
+      // console.log(storesId);
+      // getLikedStore(result);
     });
   }, []);
 

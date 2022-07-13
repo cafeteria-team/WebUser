@@ -94,6 +94,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
       } = await axiosInstance.get(`/api/nearby/today/menus?page=${pageNum}&page_size=10&lat=37.49676871972202&lon=127.02474726969814
         `);
       setStores(results);
+      console.log(results);
       if (1 < Math.ceil(page.total_count / 10)) {
         setHasNextPage(true);
       }
@@ -210,13 +211,13 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
 
   const _list = useRef();
 
-  // useEffect(() => {
-  //   // clear saved cache of selceted row
-  //   _cache.clear(selectedIndex, 0);
-  //   if (_list.current) {
-  //     _list.current.recomputeRowHeights(selectedIndex);
-  //   }
-  // }, [menuOpen]);
+  useEffect(() => {
+    // clear saved cache of selceted row
+    _cache.clear(selectedIndex, 0);
+    if (_list.current) {
+      _list.current.recomputeRowHeights(selectedIndex);
+    }
+  }, [menuOpen]);
 
   if (isLoading) return <FirstLoader />;
 

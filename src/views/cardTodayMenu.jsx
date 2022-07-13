@@ -93,10 +93,10 @@ const CardTodayMenu = ({
     setMenuOpen((prev) => !prev);
     setSelectedIndex(index);
 
-    cache.clear(index, 0);
-    if (list.current) {
-      list.current.recomputeRowHeights(index);
-    }
+    // cache.clear(index, 0);
+    // if (list.current) {
+    //   list.current.recomputeRowHeights(index);
+    // }
   }, []);
 
   const WIthMenuLoading = withLoading(MenuPart);
