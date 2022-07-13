@@ -5,9 +5,8 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { CardMenu } from "../../views";
+import { CardMenu, CardLoader } from "../../views";
 import axiosInstance from "../../utills/axios";
-import { v4 as uuidv4 } from "uuid";
 import { CardNoneLists } from "../../styles/styledElements";
 import {
   AutoSizer,
@@ -17,6 +16,7 @@ import {
   WindowScroller,
 } from "react-virtualized";
 import throttle from "lodash/throttle";
+import { useSelector, useDispatch } from "react-redux";
 
 // cardmenus
 const Elem = ({
@@ -49,31 +49,19 @@ const Elem = ({
 // loader for new items
 const Loader = () => <CardMenu loading="true" />;
 
-// 아이템 로딩시
-const FirstLoader = () => {
-  const loadingArray = [
-    {
-      name: "loading",
-    },
-    {
-      name: "loading",
-    },
-    {
-      name: "loading",
-    },
-  ];
-
-  return loadingArray.map((item) => (
-    <CardMenu loading="true" name={item.name} key={uuidv4()} />
-  ));
-};
-
 const MainPage = ({ onScroll, minHeight = 1 }) => {
   //data states
   const [stores, setStores] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [total, setTotal] = useState(null);
+  const [location, setLocation] = useState({
+    lat: 37.49676871972202,
+    lon: 127.02474726969814,
+  });
+
+  const _location = useSelector((state) => state.setLocation.location);
+  console.log(_location);
 
   //loading states
   const [isLoading, setIsLoading] = useState(false);
@@ -91,10 +79,9 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     try {
       const {
         data: { page, results },
-      } = await axiosInstance.get(`/api/nearby/today/menus?page=${pageNum}&page_size=10&lat=37.49676871972202&lon=127.02474726969814
+      } = await axiosInstance.get(`/api/nearby/today/menus?page=${pageNum}&page_size=10&lat=${location.lat}&lon=${location.lon}
         `);
       setStores(results);
-      console.log(results);
       if (1 < Math.ceil(page.total_count / 10)) {
         setHasNextPage(true);
       }
@@ -219,7 +206,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     }
   }, [menuOpen]);
 
-  if (isLoading) return <FirstLoader />;
+  if (isLoading) return <CardLoader />;
 
   return (
     <div ref={containerRef}>

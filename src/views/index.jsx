@@ -11,6 +11,7 @@ import CardImage from "./cardImage";
 import CardTodayMenu from "./cardTodayMenu";
 import MapView from "./mapView";
 import MapLoading from "./mapLoading";
+import CardLoader from "./cardLoader";
 
 export {
   Header,
@@ -26,4 +27,5 @@ export {
   CardTitle,
   CardImage,
   CardTodayMenu,
+  CardLoader,
 };

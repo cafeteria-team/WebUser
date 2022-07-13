@@ -144,13 +144,6 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
         getLikedStore(_result);
       };
       decunstructureArray();
-
-      // result.map((item) => {
-      //   console.log(item.store);
-      //   return setStoresId((prev) => [...prev, item.store]);
-      // });
-      // console.log(storesId);
-      // getLikedStore(result);
     });
   }, []);
 
