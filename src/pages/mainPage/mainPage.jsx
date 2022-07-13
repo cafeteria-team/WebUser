@@ -91,7 +91,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     try {
       const {
         data: { page, results },
-      } = await axiosInstance.get(`/api/menu/today?page=${pageNum}&page_size=10
+      } = await axiosInstance.get(`/api/nearby/today/menus?page=${pageNum}&page_size=10&lat=37.49676871972202&lon=127.02474726969814
         `);
       setStores(results);
       if (1 < Math.ceil(page.total_count / 10)) {
