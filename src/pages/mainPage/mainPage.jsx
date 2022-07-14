@@ -56,12 +56,8 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
   const [pageNum, setPageNum] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [total, setTotal] = useState(null);
-  const [location, setLocation] = useState({
-    lat: 37.49676871972202,
-    lon: 127.02474726969814,
-  });
 
-  const _location = useSelector((state) => state.setLocation.location);
+  const _location = useSelector((state) => state.setLocation);
 
   //loading states
   const [isLoading, setIsLoading] = useState(false);
@@ -79,7 +75,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     try {
       const {
         data: { page, results },
-      } = await axiosInstance.get(`/api/nearby/today/menus?page=${pageNum}&page_size=10&lat=${location.lat}&lon=${location.lon}
+      } = await axiosInstance.get(`/api/nearby/today/menus?page=${pageNum}&page_size=10&lat=${_location.lat}&lon=${_location.lon}
         `);
       setStores(results);
       if (1 < Math.ceil(page.total_count / 10)) {

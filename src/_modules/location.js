@@ -12,8 +12,8 @@ export const setCurrentLocation = (location, lat, lon) => ({
 // set initial state
 const initialState = {
   location: "",
-  lat: "",
-  lon: "",
+  lat: 37.49676871972202,
+  lon: 127.02474726969814,
 };
 
 // reducer
