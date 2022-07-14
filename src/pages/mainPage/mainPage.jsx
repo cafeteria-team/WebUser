@@ -19,32 +19,33 @@ import throttle from "lodash/throttle";
 import { useSelector, useDispatch } from "react-redux";
 
 // cardmenus
-const Elem = ({
-  i,
-  menus,
-  store,
-  setSelectedIndex,
-  setMenuOpen,
-  setToIndex,
-  list,
-  cache,
-}) => {
-  return (
-    <CardMenu
-      key={i}
-      menu={menus}
-      name={store.name}
-      storeId={store.id}
-      images={store.store_img}
-      setSelectedIndex={setSelectedIndex}
-      index={i}
-      setMenuOpen={setMenuOpen}
-      setToIndex={setToIndex}
-      list={list}
-      cache={cache}
-    />
-  );
-};
+// const Elem = ({
+//   i,
+//   menus,
+//   store,
+//   setSelectedIndex,
+//   setMenuOpen,
+//   setToIndex,
+//   list,
+//   cache,
+// }) => {
+//   console.log(menus);
+//   return (
+//     <CardMenu
+//       key={i}
+//       menu={menus}
+//       name={store.name}
+//       storeId={store.id}
+//       images={store.store_img}
+//       setSelectedIndex={setSelectedIndex}
+//       index={i}
+//       setMenuOpen={setMenuOpen}
+//       setToIndex={setToIndex}
+//       list={list}
+//       cache={cache}
+//     />
+//   );
+// };
 
 // loader for new items
 const Loader = () => <CardMenu loading="true" />;
@@ -61,7 +62,6 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
   });
 
   const _location = useSelector((state) => state.setLocation.location);
-  console.log(_location);
 
   //loading states
   const [isLoading, setIsLoading] = useState(false);
@@ -121,14 +121,24 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
   }, []);
 
   const renderer = ({ index }, _list, _cache) => (
-    <Elem
-      i={index}
-      {...stores[index]}
+    // <Elem
+    //   i={index}
+    //   {...stores[index]}
+    //   setSelectedIndex={setSelectedIndex}
+    //   setMenuOpen={setMenuOpen}
+    //   menuOpen={menuOpen}
+    //   list={_list}
+    //   cache={_cache}
+    // />
+
+    <CardMenu
+      key={index}
+      name={stores.name}
+      storeId={stores.id}
+      images={stores.store_img}
       setSelectedIndex={setSelectedIndex}
+      index={index}
       setMenuOpen={setMenuOpen}
-      menuOpen={menuOpen}
-      list={_list}
-      cache={_cache}
     />
   );
 
@@ -138,11 +148,11 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     triggered.current = false;
   }, [stores.length]);
 
-  const props = useRef({
-    addMoreUserLists,
-    hasNextPage,
-    onScroll,
-  });
+  // const props = useRef({
+  //   addMoreUserLists,
+  //   hasNextPage,
+  //   onScroll,
+  // });
 
   const scrollListener = (scrollTop, clientHeight) => {
     if (triggered.current) {

@@ -18,6 +18,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.1.0",
     "react-easy-virtualized": "^0.0.3",
+    "react-geocode": "^0.2.3",
     "react-kakao-maps-sdk": "^1.0.7",
     "react-loading-skeleton": "^3.1.0",
     "react-lottie": "^1.2.3",
