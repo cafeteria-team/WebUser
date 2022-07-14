@@ -93,7 +93,9 @@ const MapContainer = ({ onClickFindLocation }) => {
       if (status === kakao.maps.services.Status.OK) {
         const newSearch = result[0];
         _setLocation(
-          `${newSearch.region_2depth_name} ${newSearch.region_3depth_name}`
+          `${newSearch.region_2depth_name} ${newSearch.region_3depth_name}`,
+          coordinate.center.lat,
+          coordinate.center.lng
         );
         onClickFindLocation();
       } else {
@@ -109,8 +111,8 @@ const MapContainer = ({ onClickFindLocation }) => {
   };
 
   // save region to session storage
-  const _setLocation = (region) => {
-    dispatch(setCurrentLocation(region));
+  const _setLocation = (region, lat, lon) => {
+    dispatch(setCurrentLocation(region, lat, lon));
   };
 
   return (
