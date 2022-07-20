@@ -96,11 +96,11 @@ const CardTodayMenu = ({
 
     // list.current.recomputeRowHeights();
     // list.current.forceUpdate();
-    cache.clearAll();
-    if (list) {
-      list.recomputeRowHeights();
-      // list.forceUpdate();
-    }
+    cache.clear(index);
+    // if (list) {
+    //   list.recomputeRowHeights();
+    //   // list.forceUpdate();
+    // }
 
     // cache.clear(index, 0);
     // if (list.current) {
