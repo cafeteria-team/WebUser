@@ -192,9 +192,11 @@ body{
     -ms-overflow-style: none; 
     scrollbar-width: none;
   }
+
   .ReactVirtualized__Grid::-webkit-scrollbar {
     display: none; 
   }
+
 `;
 
 ///////////// common /////////////

@@ -30,20 +30,29 @@ const CardMenu = ({
   cache,
 }) => {
   return (
-    <CardContainer to={`${storeId}`} loading={loading}>
-      {/* image */}
-      <CardImage loading={loading} images={images} storeId={storeId} />
-      {/* title */}
-      <CardTitle loading={loading} name={name} />
-      {/* menu */}
-      <CardTodayMenu
-        loading={loading}
-        menu={menu}
-        index={index}
-        setMenuOpen={setMenuOpen}
-        cache={cache}
-      />
-    </CardContainer>
+    <>
+      <CardContainer to={`${storeId}`} loading={loading}>
+        {/* image */}
+        <CardImage loading={loading} images={images} storeId={storeId} />
+        {/* title */}
+        <CardTitle loading={loading} name={name} />
+        {/* menu */}
+        <CardTodayMenu
+          loading={loading}
+          menu={menu}
+          index={index}
+          setMenuOpen={setMenuOpen}
+          cache={cache}
+        />
+      </CardContainer>
+      <div
+        style={{
+          height: "1px",
+          width: "100%",
+          padding: "5px 0",
+        }}
+      ></div>
+    </>
   );
 };
 
