@@ -18,38 +18,6 @@ import {
 import throttle from "lodash/throttle";
 import { useSelector, useDispatch } from "react-redux";
 
-// cardmenus
-// const Elem = ({
-//   i,
-//   menus,
-//   store,
-//   setSelectedIndex,
-//   setMenuOpen,
-//   setToIndex,
-//   list,
-//   cache,
-// }) => {
-//   console.log(menus);
-//   return (
-//     <CardMenu
-//       key={i}
-//       menu={menus}
-//       name={store.name}
-//       storeId={store.id}
-//       images={store.store_img}
-//       setSelectedIndex={setSelectedIndex}
-//       index={i}
-//       setMenuOpen={setMenuOpen}
-//       setToIndex={setToIndex}
-//       list={list}
-//       cache={cache}
-//     />
-//   );
-// };
-
-// loader for new items
-const Loader = () => <CardMenu loading="true" />;
-
 const MainPage = ({ onScroll, minHeight = 1 }) => {
   //data states
   const [stores, setStores] = useState([]);
@@ -96,8 +64,9 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
       try {
         const {
           data: { page, results },
-        } = await axiosInstance.get(`/api/menu/today?page=${pagePros}&page_size=10
+        } = await axiosInstance.get(`/api/nearby/today/menus?page=${pagePros}&page_size=10&lat=${_location.lat}&lon=${_location.lon}
           `);
+
         if (pagePros === Math.ceil(page.total_count / 10)) {
           setHasNextPage(false);
         }
@@ -115,28 +84,6 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
   useEffect(() => {
     getUserLists();
   }, []);
-
-  const renderer = ({ index }, _list, _cache) => (
-    // <Elem
-    //   i={index}
-    //   {...stores[index]}
-    //   setSelectedIndex={setSelectedIndex}
-    //   setMenuOpen={setMenuOpen}
-    //   menuOpen={menuOpen}
-    //   list={_list}
-    //   cache={_cache}
-    // />
-
-    <CardMenu
-      key={index}
-      name={stores.name}
-      storeId={stores.id}
-      images={stores.store_img}
-      setSelectedIndex={setSelectedIndex}
-      index={index}
-      setMenuOpen={setMenuOpen}
-    />
-  );
 
   let triggered = useRef(false);
 
@@ -166,14 +113,33 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
 
   const throttleScrollListener = throttle(scrollListener, 150);
 
-  const rowRenderer = ({ index, key, parent, style }) => {
+  //render row, call this fnc will be called by the number of lists' length
+  const rowRenderer = ({ index, key, parent, style, isScrolling }) => {
     let content;
+
     if (index >= stores.length && hasNextPage) {
-      content = <Loader />;
+      // render next page if there are more pages
+      content = <CardMenu loading="true" />;
     } else if (index >= stores.length && !hasNextPage) {
+      // if no more pages no next page
       content = "";
     } else {
-      content = renderer({ index }, _list, _cache);
+      // render page
+
+      content = (
+        <CardMenu
+          key={index}
+          name={stores[index].store.name}
+          storeId={stores[index].store.id}
+          images={stores[index].store.store_img}
+          menu={stores[index].menus}
+          setSelectedIndex={selectedIndex}
+          index={index}
+          setMenuOpen={setMenuOpen}
+          list={_list}
+          cache={_cache}
+        />
+      );
     }
 
     throttleScrollListener(parent.state.scrollTop, parent.props.height);
@@ -202,15 +168,19 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
     [minHeight]
   );
 
-  const _list = useRef();
+  // const _list = useRef();
+  let _list;
+  const setRef = (ref) => {
+    _list = ref;
+  };
 
-  useEffect(() => {
-    // clear saved cache of selceted row
-    _cache.clear(selectedIndex, 0);
-    if (_list.current) {
-      _list.current.recomputeRowHeights(selectedIndex);
-    }
-  }, [menuOpen]);
+  // useEffect(() => {
+  //   // clear saved cache of selceted row
+  //   _cache.clear(selectedIndex, 0);
+  //   if (_list.current) {
+  //     _list.current.recomputeRowHeights(selectedIndex);
+  //   }
+  // }, [menuOpen]);
 
   if (isLoading) return <CardLoader />;
 
@@ -237,7 +207,7 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
                       rowRenderer={rowRenderer}
                       deferredMeasurementCache={_cache}
                       overscanRowCount={3}
-                      ref={_list}
+                      ref={setRef}
                     />
                   );
                 }}

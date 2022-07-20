@@ -33,7 +33,6 @@ const CardMenu = ({
   list,
   cache,
 }) => {
-  // console.log("카드메뉴 호출");
   return (
     <CardContainer to={`${storeId}`} loading={loading}>
       {/* image */}

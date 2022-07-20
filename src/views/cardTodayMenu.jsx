@@ -88,10 +88,19 @@ const CardTodayMenu = ({
 
   const onClickMenu = useCallback((e) => {
     e.preventDefault();
+    e.stopPropagation();
     // scrollToBottom();
     setOnMenu((prev) => !prev);
     setMenuOpen((prev) => !prev);
-    setSelectedIndex(index);
+    // setSelectedIndex(index);
+
+    // list.current.recomputeRowHeights();
+    // list.current.forceUpdate();
+    cache.clearAll();
+    if (list) {
+      list.recomputeRowHeights();
+      // list.forceUpdate();
+    }
 
     // cache.clear(index, 0);
     // if (list.current) {
