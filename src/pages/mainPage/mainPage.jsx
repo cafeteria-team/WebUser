@@ -32,7 +32,6 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
 
   //menu states
   const [selectedIndex, setSelectedIndex] = useState(null);
-  // const [onMenu, setOnMenu] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const containerRef = useRef();
@@ -173,14 +172,6 @@ const MainPage = ({ onScroll, minHeight = 1 }) => {
   const setRef = (ref) => {
     _list = ref;
   };
-
-  // useEffect(() => {
-  //   // clear saved cache of selceted row
-  //   _cache.clear(selectedIndex, 0);
-  //   if (_list.current) {
-  //     _list.current.recomputeRowHeights(selectedIndex);
-  //   }
-  // }, [menuOpen]);
 
   if (isLoading) return <CardLoader />;
 

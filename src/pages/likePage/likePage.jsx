@@ -5,10 +5,9 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { CardLike } from "../../views";
+import { CardLike, CardLoader } from "../../views";
 import axiosInstance from "../../utills/axios";
-import { addIndexDB, deleteIndexDB, getIndexDB } from "../../utills/indexDB";
-import { CardMenu } from "../../views";
+import { getIndexDB } from "../../utills/indexDB";
 import { CardNoneLists } from "../../styles/styledElements";
 import {
   AutoSizer,
@@ -18,52 +17,6 @@ import {
   WindowScroller,
 } from "react-virtualized";
 import throttle from "lodash/throttle";
-import { v4 as uuidv4 } from "uuid";
-// cardmenus
-const Elem = ({
-  i,
-  menus,
-  store,
-  setSelectedIndex,
-  setMenuOpen,
-  setToIndex,
-}) => {
-  return (
-    <CardMenu
-      key={i}
-      menu={menus}
-      name={store.name}
-      storeId={store.id}
-      images={store.store_img}
-      setSelectedIndex={setSelectedIndex}
-      index={i}
-      setMenuOpen={setMenuOpen}
-      setToIndex={setToIndex}
-    />
-  );
-};
-
-// loader for new items
-const Loader = () => <CardMenu loading="true" />;
-
-// 아이템 로딩시
-const FirstLoader = () => {
-  const loadingArray = [
-    {
-      name: "loading",
-    },
-    {
-      name: "loading",
-    },
-    {
-      name: "loading",
-    },
-  ];
-
-  return loadingArray.map((item) => (
-    <CardMenu loading="true" name={item.name} key={uuidv4()} />
-  ));
-};
 
 const LikePage = ({ onScroll, minHeight = 1 }) => {
   //data states
@@ -82,20 +35,14 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
     async (storesId) => {
       console.log(storesId);
       setIsLoading(true);
+      if (storesId.length === 0) {
+        return setIsLoading(false);
+      }
       try {
         const {
           data: { page, results },
         } = await axiosInstance.get(`/api/menu/today?store_id=${storesId}&page=${pageNum}&page_size=10
         `);
-
-        // results.filter((item, index) => {
-        //   console.log(item);
-        //   const { store } = storesId[index];
-
-        //   if (store) {
-        //     return item.store.id !== store;
-        //   }
-        // });
 
         setStores(results);
         if (1 < Math.ceil(page.total_count / 10)) {
@@ -147,18 +94,17 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
     });
   }, []);
 
-  const renderer = ({ index }) => <Elem i={index} {...stores[index]} />;
   let triggered = useRef(false);
 
   useEffect(() => {
     triggered.current = false;
   }, [stores.length]);
 
-  const props = useRef({
-    addMoreUserLists,
-    hasNextPage,
-    onScroll,
-  });
+  // const props = useRef({
+  //   addMoreUserLists,
+  //   hasNextPage,
+  //   onScroll,
+  // });
 
   const scrollListener = (scrollTop, clientHeight) => {
     if (triggered.current) {
@@ -176,14 +122,28 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
 
   const throttleScrollListener = throttle(scrollListener, 150);
 
-  const rowRenderer = ({ index, key, parent, style }) => {
+  //render row, call this fnc will be called by the number of lists' length
+  const rowRenderer = ({ index, key, parent, style, isScrolling }) => {
     let content;
+
     if (index >= stores.length && hasNextPage) {
-      content = <Loader />;
+      // render next page if there are more pages
+      content = <CardLike loading="true" />;
     } else if (index >= stores.length && !hasNextPage) {
+      // if no more pages no next page
       content = "";
     } else {
-      content = renderer({ index });
+      // render page
+
+      content = (
+        <CardLike
+          key={index}
+          name={stores[index].store.name}
+          storeId={stores[index].store.id}
+          images={stores[index].store.store_img}
+          index={index}
+        />
+      );
     }
 
     throttleScrollListener(parent.state.scrollTop, parent.props.height);
@@ -212,20 +172,12 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
 
   const _list = useRef();
 
-  // useEffect(() => {
-  //   // clear saved cache of selceted row
-  //   _cache.clear(selectedIndex, 0);
-  //   if (_list.current) {
-  //     _list.current.recomputeRowHeights(selectedIndex);
-  //   }
-  // }, [menuOpen]);
-
-  if (isLoading) return <FirstLoader />;
+  if (isLoading) return <CardLoader />;
 
   return (
     <div ref={containerRef}>
       {stores && stores.length === 0 ? (
-        <CardNoneLists>등록된 리스트가 없습니다.</CardNoneLists>
+        <CardNoneLists>찜한 구내식당이 없습니다.</CardNoneLists>
       ) : (
         <WindowScroller>
           {({ height, scrollTop, isScrolling, onChildScroll }) => {

@@ -25,34 +25,22 @@ const CardMenu = ({
   images,
   storeId,
   loading,
-  onLoad,
-  setSelectedIndex,
   index,
   setMenuOpen,
-  menuOpen,
-  list,
   cache,
 }) => {
   return (
     <CardContainer to={`${storeId}`} loading={loading}>
       {/* image */}
-      <CardImage
-        loading={loading}
-        images={images}
-        onLoad={onLoad}
-        storeId={storeId}
-      />
+      <CardImage loading={loading} images={images} storeId={storeId} />
       {/* title */}
       <CardTitle loading={loading} name={name} />
       {/* menu */}
       <CardTodayMenu
         loading={loading}
         menu={menu}
-        setSelectedIndex={setSelectedIndex}
         index={index}
         setMenuOpen={setMenuOpen}
-        menuOpen={menuOpen}
-        list={list}
         cache={cache}
       />
     </CardContainer>

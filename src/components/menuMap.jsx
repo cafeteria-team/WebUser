@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setCurrentLocation } from "../_modules/location";
 import { MapView } from "../views";
 import {
   CardContainer,
@@ -18,9 +16,6 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 const { kakao } = window;
 
 const MenuMap = ({ addr, height, latitude, longitude }) => {
-  // set dispatch
-  const dispatch = useDispatch();
-
   const [coordinate, setCoordinate] = useState(
     latitude
       ? {
@@ -43,9 +38,6 @@ const MenuMap = ({ addr, height, latitude, longitude }) => {
     let callback = function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
         const newSearch = result[0];
-        _setLocation(
-          `${newSearch.region_2depth_name} ${newSearch.region_3depth_name}`
-        );
       } else {
         alert("잘못됫 주소입니다.");
       }
@@ -55,11 +47,6 @@ const MenuMap = ({ addr, height, latitude, longitude }) => {
       coordinate.center.lat,
       callback
     );
-  };
-
-  // save region to session storage
-  const _setLocation = (region) => {
-    dispatch(setCurrentLocation(region));
   };
 
   const copyToaster = () => {

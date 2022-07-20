@@ -54,34 +54,8 @@ const MenuPart = memo(({ onMenu, onClickMenu, menu, scrollRef }) => {
   );
 });
 
-const CardTodayMenu = ({
-  menu,
-  loading,
-  setSelectedIndex,
-  index,
-  setMenuOpen,
-  menuOpen,
-  list,
-  cache,
-}) => {
+const CardTodayMenu = ({ menu, loading, index, setMenuOpen, cache }) => {
   const scrollRef = useRef(null);
-  // const scrollToBottom = () => {
-  //   console.log(scrollRef);
-
-  //   scrollRef.current.scrollIntoView({
-  //     behavior: "smooth",
-  //     block: "center",
-  //     inline: "nearest",
-  //   });
-  //   // scrollRef.current.scrollTo({
-  //   //   // behavior: "smooth",
-  //   //   // block: "center",
-  //   //   // inline: "nearest",
-  //   //   left: 0,
-  //   //   top: scrollOffset,
-  //   //   behavior: 'smooth',
-  //   // });
-  // };
 
   // menu lists state
   const [onMenu, setOnMenu] = useState(false);
@@ -89,23 +63,11 @@ const CardTodayMenu = ({
   const onClickMenu = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-    // scrollToBottom();
+
     setOnMenu((prev) => !prev);
     setMenuOpen((prev) => !prev);
-    // setSelectedIndex(index);
 
-    // list.current.recomputeRowHeights();
-    // list.current.forceUpdate();
     cache.clear(index);
-    // if (list) {
-    //   list.recomputeRowHeights();
-    //   // list.forceUpdate();
-    // }
-
-    // cache.clear(index, 0);
-    // if (list.current) {
-    //   list.current.recomputeRowHeights(index);
-    // }
   }, []);
 
   const WIthMenuLoading = withLoading(MenuPart);

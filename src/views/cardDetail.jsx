@@ -219,9 +219,11 @@ const NoticePart = memo(({ notice }) => {
 
 const MapPart = memo(({ addr, location }) => {
   const regex = /[^0-9\.]/g;
+
   let coordinate = location.split(" ");
   const latitude = coordinate[1].replace(regex, "");
   const longitude = coordinate[2].replace(regex, "");
+
   return (
     <CardWrap flexDirection="column" margin="26px 0 0" padding="0 0 26px 0">
       <CardWrap align="center" margin="0 0 20px 0">
