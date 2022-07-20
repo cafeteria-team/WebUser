@@ -108,6 +108,6 @@ export const deleteIndexDB = (storeId) => {
   };
 
   request.onsuccess = (e) => {
-    console.log(e.target.result);
+    return;
   };
 };

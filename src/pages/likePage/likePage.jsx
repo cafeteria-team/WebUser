@@ -15,6 +15,7 @@ import {
   CellMeasurer,
   CellMeasurerCache,
   WindowScroller,
+  InfiniteLoader,
 } from "react-virtualized";
 import throttle from "lodash/throttle";
 
@@ -31,33 +32,29 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
 
   const containerRef = useRef();
 
-  const getLikedStore = useCallback(
-    async (storesId) => {
-      console.log(storesId);
-      setIsLoading(true);
-      if (storesId.length === 0) {
-        return setIsLoading(false);
-      }
-      try {
-        const {
-          data: { page, results },
-        } = await axiosInstance.get(`/api/menu/today?store_id=${storesId}&page=${pageNum}&page_size=10
+  const getLikedStore = async (storesId) => {
+    setIsLoading(true);
+    // if (storesId.length === 0) {
+    //   return setIsLoading(false);
+    // }
+    try {
+      const {
+        data: { page, results },
+      } = await axiosInstance.get(`/api/menu/today?store_id=${storesId}&page=${pageNum}&page_size=10
         `);
 
-        setStores(results);
-        if (1 < Math.ceil(page.total_count / 10)) {
-          setHasNextPage(true);
-        }
-        setIsLoading(false);
-        setTotal(Math.ceil(page.total_count / 10));
-      } catch (err) {
-        alert("리스트를 불러올수없습니다. 잠시후 다시 시도해주십시오.");
-        console.log(err);
-        setIsLoading(false);
+      setStores(results);
+      if (1 < Math.ceil(page.total_count / 10)) {
+        setHasNextPage(true);
       }
-    },
-    [storesId]
-  );
+      setIsLoading(false);
+      setTotal(Math.ceil(page.total_count / 10));
+    } catch (err) {
+      alert("리스트를 불러올수없습니다. 잠시후 다시 시도해주십시오.");
+      console.log(err);
+      setIsLoading(false);
+    }
+  };
 
   const addMoreUserLists = useCallback(
     async (pagePros) => {
@@ -98,13 +95,8 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
 
   useEffect(() => {
     triggered.current = false;
+    // _cache.clearAll();
   }, [stores.length]);
-
-  // const props = useRef({
-  //   addMoreUserLists,
-  //   hasNextPage,
-  //   onScroll,
-  // });
 
   const scrollListener = (scrollTop, clientHeight) => {
     if (triggered.current) {
@@ -131,7 +123,8 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
       content = <CardLike loading="true" />;
     } else if (index >= stores.length && !hasNextPage) {
       // if no more pages no next page
-      content = "";
+      // content = "";
+      return;
     } else {
       // render page
 
@@ -193,11 +186,11 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
                       scrollTop={scrollTop}
                       onScroll={onChildScroll}
                       isScrolling={isScrolling}
-                      rowCount={stores.length + 1}
+                      // rowCount={stores.length + (hasNextPage ? 1 : 0)}
+                      rowCount={stores.length}
                       rowRenderer={rowRenderer}
                       deferredMeasurementCache={_cache}
                       overscanRowCount={3}
-                      ref={_list}
                     />
                   );
                 }}
