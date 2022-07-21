@@ -281,7 +281,7 @@ const CardDetail = ({ mapOpen, isLoading, stores, notice, storeId }) => {
 
   return (
     <>
-      {stores.length !== 0 && (
+      {stores && stores.length !== 0 && (
         <CardContainer>
           {/* image */}
           <ImagePart

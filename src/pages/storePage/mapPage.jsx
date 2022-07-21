@@ -28,7 +28,7 @@ const MapPage = () => {
   const [coordinate, setCoordinate] = useState(
     latitude
       ? {
-          center: { lat: latitude, lng: longitude },
+          center: { lat: longitude, lng: latitude },
           // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
           isPanto: true,
         }
@@ -52,9 +52,9 @@ const MapPage = () => {
     let callback = function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
         const newSearch = result[0];
-        _setLocation(
-          `${newSearch.region_2depth_name} ${newSearch.region_3depth_name}`
-        );
+        // _setLocation(
+        //   `${newSearch.region_2depth_name} ${newSearch.region_3depth_name}`
+        // );
       } else {
         alert("정확한 주소를 입력해주세요. 예)강남구, 은평구, 갈현동");
       }

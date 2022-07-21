@@ -19,7 +19,7 @@ const MenuMap = ({ addr, height, latitude, longitude }) => {
   const [coordinate, setCoordinate] = useState(
     latitude
       ? {
-          center: { lat: latitude, lng: longitude },
+          center: { lat: longitude, lng: latitude },
           // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
           isPanto: true,
         }

@@ -37,12 +37,6 @@ const CardLike = ({ name, images, storeId, loading, index }) => {
   };
 
   return (
-    // <CardContainer to={`${storeId}`} like="true">
-    //   {/* image */}
-    //   <CardImage loading={loading} images={images} storeId={storeId} />
-    //   {/* title */}
-    //   <CardTitle loading={loading} name={name} />
-    // </CardContainer>
     <>
       <CardContainer to={`${storeId}`} like="true">
         {/* image */}

@@ -36,7 +36,9 @@ const StorePage = () => {
       axios
         .all([
           axiosInstance.get(
-            `/api/menu/${storeId}?provide_at=${date}&page=1&page_size=10`
+            // 현재 date제거
+            // `/api/menu/${storeId}?provide_at=${date}&page=1&page_size=10`
+            `/api/menu/${storeId}?page=1&page_size=10`
           ),
           axiosInstance.get(`/api/notice/${storeId}`),
         ])
