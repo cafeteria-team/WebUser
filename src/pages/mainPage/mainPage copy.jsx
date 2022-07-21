@@ -16,16 +16,14 @@ import {
   WindowScroller,
 } from "react-virtualized";
 import throttle from "lodash/throttle";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
-const MainPage = ({ minHeight = 1 }) => {
+const MainPage = ({ onScroll, minHeight = 1 }) => {
   //data states
   const [stores, setStores] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [total, setTotal] = useState(null);
-
-  let _list = useRef(null);
 
   const _location = useSelector((state) => state.setLocation);
 
@@ -92,6 +90,12 @@ const MainPage = ({ minHeight = 1 }) => {
     triggered.current = false;
   }, [stores.length]);
 
+  // const props = useRef({
+  //   addMoreUserLists,
+  //   hasNextPage,
+  //   onScroll,
+  // });
+
   const scrollListener = (scrollTop, clientHeight) => {
     if (triggered.current) {
       return;
@@ -110,7 +114,47 @@ const MainPage = ({ minHeight = 1 }) => {
 
   //render row, call this fnc will be called by the number of lists' length
   const rowRenderer = ({ index, key, parent, style, isScrolling }) => {
+    // let content;
+
+    // if (index >= stores.length && hasNextPage) {
+    //   // render next page if there are more pages
+    //   content = <CardMenu loading="true" />;
+    // } else if (index >= stores.length && !hasNextPage) {
+    //   // if no more pages no next page
+    //   // content = "";
+    //   return;
+    // } else {
+    //   // render page
+
+    //   content = (
+    //     <CardMenu
+    //       key={index}
+    //       name={stores[index].store.name}
+    //       storeId={stores[index].store.id}
+    //       images={stores[index].store.store_img}
+    //       menu={stores[index].menus}
+    //       setSelectedIndex={selectedIndex}
+    //       index={index}
+    //       setMenuOpen={setMenuOpen}
+    //       list={_list}
+    //       cache={_cache}
+    //       // measure={_measure}
+    //     />
+    //   );
+    // }
+
     throttleScrollListener(parent.state.scrollTop, parent.props.height);
+    // return (
+    //   <CellMeasurer
+    //     cache={_cache}
+    //     columnIndex={0}
+    //     key={key}
+    //     parent={parent}
+    //     rowIndex={index}
+    //   >
+    //     <div style={style}>{content}</div>
+    //   </CellMeasurer>
+    // );
 
     return (
       <CellMeasurer
@@ -123,6 +167,7 @@ const MainPage = ({ minHeight = 1 }) => {
         {({ measure, registerChild }) => {
           return (
             <div style={style} ref={registerChild}>
+              {/* {content} */}
               {(() => {
                 if (index >= stores.length && hasNextPage) {
                   return <CardMenu loading="true" />;
@@ -152,6 +197,8 @@ const MainPage = ({ minHeight = 1 }) => {
     );
   };
 
+  // next() 호출 시 스크롤이 너무 많이 넘어가는 문제: 컴포넌트가 rerender되면서 _cache또한 재정의됨
+  // _cache는 minHeight이 유동적일 때에만 새로 생성해줘야 함
   let _cache = useMemo(
     () =>
       new CellMeasurerCache({
@@ -160,42 +207,63 @@ const MainPage = ({ minHeight = 1 }) => {
       }),
     [minHeight]
   );
+  // let _cache = new CellMeasurerCache({
+  //   minHeight: minHeight,
+  //   fixedWidth: true,
+  // });
+  // console.log(_cache);
 
-  //loading...
+  // const _list = useRef();
+  // let _mostRecentHeight = 0;
+  // let _resizeAllFlag = false;
+
+  // const _resizeAll = () => {
+  //   _resizeAllFlag = false;
+  //   _cache.clearAll();
+  //   if (_list) {
+  //     _list.recomputeRowHeights();
+  //   }
+  // };
+
+  let _list;
+  const setRef = (ref) => {
+    _list = ref;
+  };
+
   if (isLoading) return <CardLoader />;
-
-  //if no data
-  if (stores && stores.length === 0)
-    return <CardNoneLists>등록된 리스트가 없습니다.</CardNoneLists>;
 
   return (
     <div ref={containerRef}>
-      <WindowScroller>
-        {({ height, scrollTop, isScrolling, onChildScroll }) => {
-          return (
-            <AutoSizer disableHeight>
-              {({ width }) => {
-                return (
-                  <List
-                    autoHeight
-                    width={width}
-                    height={height}
-                    rowHeight={_cache.rowHeight}
-                    scrollTop={scrollTop}
-                    onScroll={onChildScroll}
-                    isScrolling={isScrolling}
-                    rowCount={stores.length}
-                    rowRenderer={rowRenderer}
-                    deferredMeasurementCache={_cache}
-                    overscanRowCount={10}
-                    ref={_list}
-                  />
-                );
-              }}
-            </AutoSizer>
-          );
-        }}
-      </WindowScroller>
+      {stores && stores.length === 0 ? (
+        <CardNoneLists>등록된 리스트가 없습니다.</CardNoneLists>
+      ) : (
+        <WindowScroller>
+          {({ height, scrollTop, isScrolling, onChildScroll }) => {
+            return (
+              <AutoSizer disableHeight>
+                {({ width }) => {
+                  return (
+                    <List
+                      autoHeight
+                      width={width}
+                      height={height}
+                      rowHeight={_cache.rowHeight}
+                      scrollTop={scrollTop}
+                      onScroll={onChildScroll}
+                      isScrolling={isScrolling}
+                      rowCount={stores.length}
+                      rowRenderer={rowRenderer}
+                      deferredMeasurementCache={_cache}
+                      overscanRowCount={10}
+                      ref={setRef}
+                    />
+                  );
+                }}
+              </AutoSizer>
+            );
+          }}
+        </WindowScroller>
+      )}
     </div>
   );
 };

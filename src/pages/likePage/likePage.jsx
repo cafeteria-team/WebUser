@@ -95,7 +95,6 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
 
   useEffect(() => {
     triggered.current = false;
-    // _cache.clearAll();
   }, [stores.length]);
 
   const scrollListener = (scrollTop, clientHeight) => {

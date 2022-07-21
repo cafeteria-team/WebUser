@@ -54,7 +54,7 @@ const MenuPart = memo(({ onMenu, onClickMenu, menu, scrollRef }) => {
   );
 });
 
-const CardTodayMenu = ({ menu, loading, index, setMenuOpen, cache }) => {
+const CardTodayMenu = ({ menu, loading, index, setMenuOpen, cache, list }) => {
   const scrollRef = useRef(null);
 
   // menu lists state
@@ -68,6 +68,10 @@ const CardTodayMenu = ({ menu, loading, index, setMenuOpen, cache }) => {
     setMenuOpen((prev) => !prev);
 
     cache.clear(index);
+    // list.recomputeRowHeights();
+    // console.log(list);
+    list.recomputeRowHeights();
+    list.forceUpdate();
   }, []);
 
   const WIthMenuLoading = withLoading(MenuPart);

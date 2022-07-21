@@ -10,7 +10,7 @@ import withLoading from "../hoc/withSkeleton";
 // import { setLikeStore } from "../_modules/like";
 import { addIndexDB, deleteIndexDB, getIndexDB } from "../utills/indexDB";
 
-const ImagePart = memo(({ liked, onClickLike, images, storeId }) => {
+const ImagePart = memo(({ liked, onClickLike, images, storeId, measure }) => {
   // console.log("1. 이미지파트 렌더링");
   return (
     <CardImageContainer>
@@ -20,12 +20,12 @@ const ImagePart = memo(({ liked, onClickLike, images, storeId }) => {
           onClcik={(e) => onClickLike(e)}
         />
       </CardImageIconWrap>
-      <ImageBox images={images} />
+      <ImageBox images={images} measure={measure} />
     </CardImageContainer>
   );
 });
 
-const CardImage = ({ loading, images, storeId }) => {
+const CardImage = ({ loading, images, storeId, measure }) => {
   // const _like = useSelector((state) => state.setLikedStore);
   // const dispatch = useDispatch();
 
@@ -64,6 +64,7 @@ const CardImage = ({ loading, images, storeId }) => {
         height={350}
         width="100%"
         storeId={storeId}
+        measure={measure}
       />
     </>
   );

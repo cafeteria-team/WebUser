@@ -17,7 +17,7 @@ export const CardSlideWrap = styled(Flicking)`
   border-radius: 5px;
 `;
 
-const ImageBox = ({ images }) => {
+const ImageBox = ({ images, measure }) => {
   const plugins = [new Pagination({ type: "bullet" })];
 
   return (
@@ -29,12 +29,13 @@ const ImageBox = ({ images }) => {
     >
       {images && images?.length !== 0 ? (
         images.map((item, index) => (
-          <Panel index={index} src={item} key={uuidv4()} />
+          <Panel index={index} src={item} key={uuidv4()} measure={measure} />
         ))
       ) : (
         <Panel
           alt="default img"
           src={require("../assets/images/default_img.png")}
+          measure={measure}
         />
       )}
       <ViewportSlot>

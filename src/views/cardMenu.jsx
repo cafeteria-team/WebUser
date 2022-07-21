@@ -28,12 +28,19 @@ const CardMenu = ({
   index,
   setMenuOpen,
   cache,
+  list,
+  measure,
 }) => {
   return (
     <>
       <CardContainer to={`${storeId}`} loading={loading}>
         {/* image */}
-        <CardImage loading={loading} images={images} storeId={storeId} />
+        <CardImage
+          loading={loading}
+          images={images}
+          storeId={storeId}
+          measure={measure}
+        />
         {/* title */}
         <CardTitle loading={loading} name={name} />
         {/* menu */}
@@ -43,6 +50,7 @@ const CardMenu = ({
           index={index}
           setMenuOpen={setMenuOpen}
           cache={cache}
+          list={list}
         />
       </CardContainer>
       <div
