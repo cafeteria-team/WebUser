@@ -37,12 +37,12 @@ const MainPage = ({ minHeight = 1 }) => {
   const containerRef = useRef();
 
   // get stores info
-  const getUserLists = async () => {
+  const getUserLists = async (_page) => {
     setIsLoading(true);
     try {
       const {
         data: { page, results },
-      } = await axiosInstance.get(`/api/nearby/today/menus?page=${pageNum}&page_size=10&lat=${_location.lat}&lon=${_location.lon}
+      } = await axiosInstance.get(`/api/nearby/today/menus?page=${_page}&page_size=10&lat=${_location.lat}&lon=${_location.lon}
         `);
       setStores(results);
       if (1 < Math.ceil(page.total_count / 10)) {
@@ -81,8 +81,8 @@ const MainPage = ({ minHeight = 1 }) => {
 
   // call stores data when mainpage rendering
   useEffect(() => {
-    getUserLists();
-  }, []);
+    getUserLists(1);
+  }, [_location]);
 
   let triggered = useRef(false);
 
