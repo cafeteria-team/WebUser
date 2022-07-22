@@ -34,9 +34,9 @@ const LikePage = ({ onScroll, minHeight = 1 }) => {
 
   const getLikedStore = async (storesId) => {
     setIsLoading(true);
-    // if (storesId.length === 0) {
-    //   return setIsLoading(false);
-    // }
+    if (storesId.length === 0) {
+      return setIsLoading(false);
+    }
     try {
       const {
         data: { page, results },
