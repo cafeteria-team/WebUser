@@ -22,6 +22,7 @@ const Router = () => {
         { path: ":storeId/address", element: <MapPage /> },
         { path: "like", element: <LikePage /> },
         { path: "like/:storeId", element: <StorePage /> },
+        { path: "like/:storeId/address", element: <MapPage /> },
         { path: "notice", element: <NoticeListPage /> },
         { path: "notice/:id", element: <NoticeDetail /> },
         { path: "service", element: <ServicePage /> },
