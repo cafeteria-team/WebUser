@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
 const StyledButton = styled.button`
@@ -26,4 +26,4 @@ const Button = ({ onClick, children, ...props }) => {
   );
 };
 
-export default Button;
+export default memo(Button);

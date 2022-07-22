@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
@@ -26,10 +26,10 @@ const CardMenu = ({
   storeId,
   loading,
   index,
-  setMenuOpen,
   cache,
-  list,
   measure,
+  onMenu,
+  setOnMenu,
 }) => {
   return (
     <>
@@ -48,9 +48,9 @@ const CardMenu = ({
           loading={loading}
           menu={menu}
           index={index}
-          setMenuOpen={setMenuOpen}
           cache={cache}
-          list={list}
+          setOnMenu={setOnMenu}
+          onMenu={onMenu}
         />
       </CardContainer>
       <div

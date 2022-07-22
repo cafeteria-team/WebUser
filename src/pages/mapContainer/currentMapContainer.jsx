@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { Title, AlertModal } from "../../components";
 import { setCurrentLocation } from "../../_modules/location";
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MapLoading } from "../../views";
 
 const { kakao } = window;
@@ -29,10 +29,11 @@ const ModalContainer = styled.div`
 const CurrentMapContainer = ({ onClickCurrentLocation }) => {
   // useDispatch : call dispatch in store
   const dispatch = useDispatch();
+  const _location = useSelector((state) => state.setLocation);
 
   const [coordinate, setCoordinate] = useState({
     // 지도의 초기 위치
-    center: { lat: 37.49676871972202, lng: 127.02474726969814 },
+    center: { lat: _location.lat, lng: _location.lng },
     // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
     isPanto: true,
   });

@@ -760,14 +760,14 @@ export const StyledMapWrap = styled.form`
   display: flex;
 `;
 
-export const StyledButtonMapWrap = styled.div`
+export const StyledButtonMapWrap = memo(styled.div`
   position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
   display: flex;
-`;
+`);
 
 export const LoadingContainer = styled.div`
   width: 100%;

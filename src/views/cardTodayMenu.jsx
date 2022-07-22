@@ -12,9 +12,9 @@ import { MenuItem } from "../assets/icons";
 import { v4 as uuidv4 } from "uuid";
 import withLoading from "../hoc/withSkeleton";
 
-const MenuPart = memo(({ onMenu, onClickMenu, menu, scrollRef }) => {
+const MenuPart = ({ onMenu, onClickMenu, menu, index }) => {
   return (
-    <CardMenuContainer height="100%" ref={scrollRef}>
+    <CardMenuContainer height="100%">
       <CardMenuTitleContainer>
         <CardMenuTitleWrap>
           <MenuItem color="#637381" />
@@ -25,13 +25,13 @@ const MenuPart = memo(({ onMenu, onClickMenu, menu, scrollRef }) => {
         <MoreBtn
           background="unset"
           color="#637381"
-          onClick={(e) => onClickMenu(e)}
+          onClick={(e) => onClickMenu(e, index)}
           padding="10px 0"
         >
-          {onMenu ? "간략히 보기" : "더보기"}
+          {onMenu?.includes(index) ? "간략히 보기" : "더보기"}
         </MoreBtn>
       </CardMenuTitleContainer>
-      <CardMenuListsWrap maxHeight={onMenu ? "1000px" : null}>
+      <CardMenuListsWrap maxHeight={onMenu?.includes(index) ? "1000px" : null}>
         {menu.map((item, index, arr) => {
           if (index === 0) {
             return (
@@ -52,27 +52,23 @@ const MenuPart = memo(({ onMenu, onClickMenu, menu, scrollRef }) => {
       </CardMenuListsWrap>
     </CardMenuContainer>
   );
-});
+};
 
-const CardTodayMenu = ({ menu, loading, index, setMenuOpen, cache, list }) => {
+const CardTodayMenu = ({ menu, loading, index, cache, onMenu, setOnMenu }) => {
   const scrollRef = useRef(null);
 
-  // menu lists state
-  const [onMenu, setOnMenu] = useState(false);
-
-  const onClickMenu = useCallback((e) => {
+  const onClickMenu = (e, index) => {
     e.preventDefault();
     e.stopPropagation();
 
-    setOnMenu((prev) => !prev);
-    setMenuOpen((prev) => !prev);
-
+    if (onMenu.includes(index)) {
+      const newIndex = onMenu.filter((menu) => menu !== index);
+      setOnMenu(newIndex);
+    } else {
+      setOnMenu((prev) => [...prev, index]);
+    }
     cache.clear(index);
-    // list.recomputeRowHeights();
-    // console.log(list);
-    list.recomputeRowHeights();
-    list.forceUpdate();
-  }, []);
+  };
 
   const WIthMenuLoading = withLoading(MenuPart);
 
@@ -86,6 +82,7 @@ const CardTodayMenu = ({ menu, loading, index, setMenuOpen, cache, list }) => {
         menu={menu}
         height={80}
         width="100%"
+        index={index}
       />
     </>
   );

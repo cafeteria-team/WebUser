@@ -25,16 +25,14 @@ const MainPage = ({ minHeight = 1 }) => {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [total, setTotal] = useState(null);
 
+  const [onMenu, setOnMenu] = useState([]);
+
   let _list = useRef(null);
 
   const _location = useSelector((state) => state.setLocation);
 
   //loading states
   const [isLoading, setIsLoading] = useState(false);
-
-  //menu states
-  const [selectedIndex, setSelectedIndex] = useState(null);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const containerRef = useRef();
 
@@ -135,12 +133,11 @@ const MainPage = ({ minHeight = 1 }) => {
                       storeId={stores[index].store.id}
                       images={stores[index].store.store_img}
                       menu={stores[index].menus}
-                      setSelectedIndex={selectedIndex}
                       index={index}
-                      setMenuOpen={setMenuOpen}
-                      list={_list}
                       cache={_cache}
                       measure={measure}
+                      setOnMenu={setOnMenu}
+                      onMenu={onMenu}
                     />
                   );
                 }

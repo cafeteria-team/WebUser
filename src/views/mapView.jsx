@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 const MapView = ({ location, height, radi, draggable }) => {
@@ -36,4 +36,4 @@ const MapView = ({ location, height, radi, draggable }) => {
   );
 };
 
-export default MapView;
+export default memo(MapView);

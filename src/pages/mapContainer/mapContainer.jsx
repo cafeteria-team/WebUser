@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { Input, Button } from "../../components";
 import {
   StyledMapContainer,
@@ -11,7 +11,7 @@ import { CloseCircle } from "../../assets/icons";
 import styled from "styled-components";
 import { Title, AlertModal } from "../../components";
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentLocation } from "../../_modules/location";
 import { MapLoading } from "../../views";
 
@@ -30,11 +30,12 @@ const ModalContainer = styled.div`
 const MapContainer = ({ onClickFindLocation }) => {
   // set dispatch
   const dispatch = useDispatch();
+  const _location = useSelector((state) => state.setLocation);
 
   const [inputText, setInputText] = useState("");
   const [coordinate, setCoordinate] = useState({
     // 지도의 초기 위치
-    center: { lat: 37.49676871972202, lng: 127.02474726969814 },
+    center: { lat: _location.lat, lng: _location.lon },
     // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
     isPanto: true,
   });
@@ -184,4 +185,4 @@ const MapContainer = ({ onClickFindLocation }) => {
   );
 };
 
-export default MapContainer;
+export default memo(MapContainer);
