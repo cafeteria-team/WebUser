@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { NoticeContainer, NoticeTitle } from "../../styles/styledElements";
+import {
+  NoticeContainer,
+  NoticeTitle,
+  CardNoneLists,
+} from "../../styles/styledElements";
 import { NoticeList } from "../../views";
 import { Pagenation } from "../../components";
 import axiosInstance from "../../utills/axios";
@@ -36,35 +40,41 @@ const NoticeListPage = () => {
     getNotice();
   }, [page]);
 
+  // loading...
+  if (isListsLoading)
+    return loadingLists.map((lists) => {
+      return (
+        <NoticeList
+          list={lists}
+          title={lists.subject}
+          time={lists.updated}
+          key={uuidv4()}
+          pathName={lists.id}
+          isListsLoading={true}
+        />
+      );
+    });
+
+  //if no data
+  if (notice && notice.length === 0)
+    return <CardNoneLists>등록된 공지사항이 없습니다.</CardNoneLists>;
+
   return (
     <>
       <NoticeTitle>공지사항</NoticeTitle>
       <NoticeContainer>
-        {notice.length !== 0
-          ? notice.map((lists) => {
-              return (
-                <NoticeList
-                  list={lists}
-                  title={lists.subject}
-                  time={lists.updated}
-                  key={uuidv4()}
-                  pathName={lists.id}
-                  isListsLoading={isListsLoading}
-                />
-              );
-            })
-          : loadingLists.map((lists) => {
-              return (
-                <NoticeList
-                  list={lists}
-                  title={lists.subject}
-                  time={lists.updated}
-                  key={uuidv4()}
-                  pathName={lists.id}
-                  isListsLoading={true}
-                />
-              );
-            })}
+        {notice.map((lists) => {
+          return (
+            <NoticeList
+              list={lists}
+              title={lists.subject}
+              time={lists.updated}
+              key={uuidv4()}
+              pathName={lists.id}
+              isListsLoading={isListsLoading}
+            />
+          );
+        })}
       </NoticeContainer>
       <Pagenation total={total} limit={LIMIT} page={page} setPage={setPage} />
     </>
