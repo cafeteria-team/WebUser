@@ -294,7 +294,7 @@ export const MenuWrap = styled.div`
 export const LocationContentWrap = styled.div`
   width: 100%;
   height: 120px;
-  background: #fff;
+  background: #fb9131;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   transition: all 0.4s linear;
   overflow: hidden;
@@ -319,6 +319,7 @@ export const MyLocationWrap = styled.div`
   align-items: center;
 `;
 export const MyLocation = styled.div`
+  color: ${({ color }) => color || "unset"};
   font-weight: bold;
   margin-right: ${({ theme }) => theme.space.large};
 `;
