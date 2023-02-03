@@ -39,6 +39,7 @@ you can check this link
     ├── utils    
     └── views
 ```
+<br/>
 
 ## Key Features
 
@@ -47,7 +48,9 @@ you can check this link
 - Customizable address: Users can set their own address, making it easier to find nearby cafes.
 - Favorite cafes: Users can save their favorite cafes in an indexeddb, making it easy to access their preferred options in the future.
 - Notice page: A notice page allows the admin to inform users of important and useful information, keeping them up-to-date.
-
+    
+<br/>
+    
 ## Technical Skills
   
 Main Library : React
@@ -56,7 +59,9 @@ State Managemen : Redux
 Server : the server for this project is currently down.
 UI Library : Styled-components, React-lottie
 Others : git, Babel, eslint, prettier, Kakao API
-  
+ 
+<br/>    
+    
 ## Preview
 
 - Main UI 
@@ -77,6 +82,12 @@ Others : git, Babel, eslint, prettier, Kakao API
 ![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/69961780/216701848-c205d5e9-a9ea-462c-b960-6e81ee696de8.gif)
 
   
+## See also
+
+My Github link : https://github.com/jinpark0625
+My Portfolio link : https://www.parkjin.dev/    
+  
+
   
   
 
